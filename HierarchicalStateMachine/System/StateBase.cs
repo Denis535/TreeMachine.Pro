@@ -24,6 +24,7 @@ public abstract class StateBase : IDisposable {
     public StateBase Root => IsRoot ? this : Parent.Root;
     // Parent
     public StateBase? Parent { get; private set; }
+    // Ancestors
     public IEnumerable<StateBase> Ancestors {
         get {
             if (Parent != null) {
@@ -36,6 +37,7 @@ public abstract class StateBase : IDisposable {
     // Children
     public IReadOnlyList<StateBase> Children => Children_;
     private List<StateBase> Children_ { get; } = new List<StateBase>();
+    // Descendants
     public IEnumerable<StateBase> Descendants {
         get {
             foreach (var child in Children) {
@@ -146,7 +148,7 @@ public abstract class StateBase : IDisposable {
     protected abstract void OnAfterDescendantDeactivate(StateBase descendant, object? argument);
 
     // AddChild
-    public virtual void AddChild(StateBase child, object? argument = null) {
+    protected virtual void AddChild(StateBase child, object? argument = null) {
         Assert.Argument.Message( $"Argument 'child' must be non-null" ).NotNull( child != null );
         Assert.Argument.Message( $"Argument 'child' ({child}) must be non-disposed" ).Valid( !child.IsDisposed );
         Assert.Argument.Message( $"Argument 'child' ({child}) must be inactive" ).Valid( child.State is State_.Inactive );
@@ -162,7 +164,7 @@ public abstract class StateBase : IDisposable {
             child.Parent = this;
         }
     }
-    public virtual void RemoveChild(StateBase child, object? argument = null) {
+    protected virtual void RemoveChild(StateBase child, object? argument = null) {
         Assert.Argument.Message( $"Argument 'child' must be non-null" ).NotNull( child != null );
         Assert.Argument.Message( $"Argument 'child' ({child}) must be non-disposed" ).Valid( !child.IsDisposed );
         Assert.Argument.Message( $"Argument 'child' ({child}) must be active" ).Valid( child.State is State_.Active );
@@ -178,7 +180,7 @@ public abstract class StateBase : IDisposable {
             Children_.Remove( child );
         }
     }
-    public bool RemoveChild(Func<StateBase, bool> predicate, object? argument = null) {
+    protected bool RemoveChild(Func<StateBase, bool> predicate, object? argument = null) {
         Assert.Operation.Message( $"State {this} must be non-disposed" ).NotDisposed( !IsDisposed );
         var child = Children.LastOrDefault( predicate );
         if (child != null) {
@@ -187,13 +189,13 @@ public abstract class StateBase : IDisposable {
         }
         return false;
     }
-    public void RemoveChildren(IEnumerable<StateBase> children, object? argument = null) {
+    protected void RemoveChildren(IEnumerable<StateBase> children, object? argument = null) {
         Assert.Operation.Message( $"State {this} must be non-disposed" ).NotDisposed( !IsDisposed );
         foreach (var child in children) {
             RemoveChild( child, argument );
         }
     }
-    public int RemoveChildren(Func<StateBase, bool> predicate, object? argument = null) {
+    protected int RemoveChildren(Func<StateBase, bool> predicate, object? argument = null) {
         Assert.Operation.Message( $"State {this} must be non-disposed" ).NotDisposed( !IsDisposed );
         var children = Children.Where( predicate ).Reverse().ToList();
         if (children.Any()) {
@@ -202,7 +204,7 @@ public abstract class StateBase : IDisposable {
         }
         return 0;
     }
-    public void RemoveSelf(object? argument = null) {
+    protected void RemoveSelf(object? argument = null) {
         Assert.Operation.Message( $"State {this} must be non-disposed" ).NotDisposed( !IsDisposed );
         Assert.Operation.Message( $"State {this} must have parent or state-machine" ).Valid( Parent != null || StateMachine != null );
         if (Parent != null) {

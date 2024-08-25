@@ -3,6 +3,8 @@
 
 # Visual Studio
 .vs/
+Bin/
+Obj/
 *.sln
 *.csproj
 .vsconfig
