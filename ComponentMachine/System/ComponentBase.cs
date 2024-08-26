@@ -14,15 +14,15 @@ public abstract class ComponentBase {
     }
 
     // State
-    public State_ State { get; internal set; } = State_.Inactive;
+    public State_ State { get; private set; } = State_.Inactive;
+
     // Owner
     internal object? Owner { get; set; }
-
-    // System
-    public ComponentSystemBase? System => Owner as ComponentSystemBase;
-
-    // Parent
-    public ComponentBase? Parent => Owner as ComponentBase;
+    // Machine
+    public ComponentMachineBase? Machine => Owner as ComponentMachineBase;
+    // Root
+    [MemberNotNullWhen( false, "Parent" )] public bool IsRoot => Parent == null;
+    public ComponentBase Root => IsRoot ? this : Parent.Root;
     // Ancestors
     public IEnumerable<ComponentBase> Ancestors {
         get {
@@ -33,9 +33,8 @@ public abstract class ComponentBase {
         }
     }
     public IEnumerable<ComponentBase> AncestorsAndSelf => Ancestors.Prepend( this );
-    // Root
-    [MemberNotNullWhen( false, "Parent" )] public bool IsRoot => Parent == null;
-    public ComponentBase Root => IsRoot ? this : Parent.Root;
+    // Parent
+    public ComponentBase? Parent => Owner as ComponentBase;
 
     // Children
     private List<ComponentBase> Children_ { get; } = new List<ComponentBase>( 0 );
@@ -187,7 +186,7 @@ public abstract class ComponentBase {
         if (Owner is ComponentBase parent) {
             parent.RemoveChild( this, argument );
         } else {
-            ((ComponentSystemBase) Owner).RemoveRootComponent( this, argument );
+            ((ComponentMachineBase) Owner).RemoveRootComponent( this, argument );
         }
     }
 

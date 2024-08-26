@@ -3,13 +3,13 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-public abstract class ComponentSystemBase {
+public abstract class ComponentMachineBase {
 
     // RootComponent
     protected ComponentBase? RootComponent { get; private set; }
 
     // Constructor
-    public ComponentSystemBase() {
+    public ComponentMachineBase() {
     }
 
     // SetRootComponent
