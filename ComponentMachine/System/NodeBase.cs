@@ -5,7 +5,7 @@ using System.Text;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-public abstract class ComponentBase {
+public abstract class NodeBase {
     public enum State_ {
         Inactive,
         Activating,
@@ -18,15 +18,15 @@ public abstract class ComponentBase {
 
     // Owner
     private object? Owner { get; set; }
-    // Machine
-    public ComponentMachineBase? Machine => Owner as ComponentMachineBase;
+    // Hierarchy
+    public HierarchyBase? Hierarchy => Owner as HierarchyBase;
     // Parent
-    public ComponentBase? Parent => Owner as ComponentBase;
+    public NodeBase? Parent => Owner as NodeBase;
     // Root
     [MemberNotNullWhen( false, "Parent" )] public bool IsRoot => Parent == null;
-    public ComponentBase Root => IsRoot ? this : Parent.Root;
+    public NodeBase Root => IsRoot ? this : Parent.Root;
     // Ancestors
-    public IEnumerable<ComponentBase> Ancestors {
+    public IEnumerable<NodeBase> Ancestors {
         get {
             if (Parent != null) {
                 yield return Parent;
@@ -34,13 +34,13 @@ public abstract class ComponentBase {
             }
         }
     }
-    public IEnumerable<ComponentBase> AncestorsAndSelf => Ancestors.Prepend( this );
+    public IEnumerable<NodeBase> AncestorsAndSelf => Ancestors.Prepend( this );
 
     // Children
-    private List<ComponentBase> Children_ { get; } = new List<ComponentBase>( 0 );
-    public IReadOnlyList<ComponentBase> Children => Children_;
+    private List<NodeBase> Children_ { get; } = new List<NodeBase>( 0 );
+    public IReadOnlyList<NodeBase> Children => Children_;
     // Descendants
-    public IEnumerable<ComponentBase> Descendants {
+    public IEnumerable<NodeBase> Descendants {
         get {
             foreach (var child in Children) {
                 yield return child;
@@ -48,7 +48,7 @@ public abstract class ComponentBase {
             }
         }
     }
-    public IEnumerable<ComponentBase> DescendantsAndSelf => Descendants.Prepend( this );
+    public IEnumerable<NodeBase> DescendantsAndSelf => Descendants.Prepend( this );
 
     // OnActivate
     public Action<object?>? OnBeforeActivateEvent;
@@ -56,28 +56,31 @@ public abstract class ComponentBase {
     public Action<object?>? OnBeforeDeactivateEvent;
     public Action<object?>? OnAfterDeactivateEvent;
     // OnDescendantActivate
-    public event Action<ComponentBase, object?>? OnBeforeDescendantActivateEvent;
-    public event Action<ComponentBase, object?>? OnAfterDescendantActivateEvent;
-    public event Action<ComponentBase, object?>? OnBeforeDescendantDeactivateEvent;
-    public event Action<ComponentBase, object?>? OnAfterDescendantDeactivateEvent;
+    public event Action<NodeBase, object?>? OnBeforeDescendantActivateEvent;
+    public event Action<NodeBase, object?>? OnAfterDescendantActivateEvent;
+    public event Action<NodeBase, object?>? OnBeforeDescendantDeactivateEvent;
+    public event Action<NodeBase, object?>? OnAfterDescendantDeactivateEvent;
 
     // Constructor
-    public ComponentBase() {
+    public NodeBase() {
     }
 
     // Activate
-    internal void Activate(ComponentMachineBase owner, object? argument) {
+    internal void Activate(HierarchyBase owner, object? argument) {
+        Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( State is State_.Inactive );
         Owner = owner;
         Activate( argument );
     }
-    internal void Deactivate(ComponentMachineBase owner, object? argument) {
+    internal void Deactivate(HierarchyBase owner, object? argument) {
         Assert.Argument.Message( $"Argument 'owner' ({owner}) must be valid" ).Valid( owner == Owner );
+        Assert.Operation.Message( $"Node {this} must be active" ).Valid( State is State_.Active );
         Deactivate( argument );
         Owner = null;
     }
 
     // Activate
-    internal void Activate(ComponentBase owner, object? argument) {
+    internal void Activate(NodeBase owner, object? argument) {
+        Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( State is State_.Inactive );
         Owner = owner;
         if (owner.State is State_.Active) {
             Activate( argument );
@@ -85,8 +88,9 @@ public abstract class ComponentBase {
             Assert.Argument.Message( $"Argument 'argument' ({argument}) must be null" ).Valid( argument == null );
         }
     }
-    internal void Deactivate(ComponentBase owner, object? argument) {
+    internal void Deactivate(NodeBase owner, object? argument) {
         Assert.Argument.Message( $"Argument 'owner' ({owner}) must be valid" ).Valid( owner == Owner );
+        Assert.Operation.Message( $"Node {this} must be active" ).Valid( State is State_.Active );
         if (owner.State is State_.Active) {
             Deactivate( argument );
         } else {
@@ -97,7 +101,7 @@ public abstract class ComponentBase {
 
     // Activate
     private void Activate(object? argument) {
-        Assert.Operation.Message( $"Component {this} must be inactive" ).Valid( State is State_.Inactive );
+        Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( State is State_.Inactive );
         foreach (var ancestor in Ancestors.Reverse()) {
             ancestor.OnBeforeDescendantActivateEvent?.Invoke( this, argument );
             ancestor.OnBeforeDescendantActivate( this, argument );
@@ -120,7 +124,7 @@ public abstract class ComponentBase {
         }
     }
     private void Deactivate(object? argument) {
-        Assert.Operation.Message( $"Component {this} must be active" ).Valid( State is State_.Active );
+        Assert.Operation.Message( $"Node {this} must be active" ).Valid( State is State_.Active );
         foreach (var ancestor in Ancestors.Reverse()) {
             ancestor.OnBeforeDescendantDeactivateEvent?.Invoke( this, argument );
             ancestor.OnBeforeDescendantDeactivate( this, argument );
@@ -156,27 +160,27 @@ public abstract class ComponentBase {
     }
 
     // OnDescendantActivate
-    protected abstract void OnBeforeDescendantActivate(ComponentBase descendant, object? argument);
-    protected abstract void OnAfterDescendantActivate(ComponentBase descendant, object? argument);
-    protected abstract void OnBeforeDescendantDeactivate(ComponentBase descendant, object? argument);
-    protected abstract void OnAfterDescendantDeactivate(ComponentBase descendant, object? argument);
+    protected abstract void OnBeforeDescendantActivate(NodeBase descendant, object? argument);
+    protected abstract void OnAfterDescendantActivate(NodeBase descendant, object? argument);
+    protected abstract void OnBeforeDescendantDeactivate(NodeBase descendant, object? argument);
+    protected abstract void OnAfterDescendantDeactivate(NodeBase descendant, object? argument);
 
     // AddChild
-    protected virtual void AddChild(ComponentBase child, object? argument = null) {
+    protected virtual void AddChild(NodeBase child, object? argument = null) {
         Assert.Argument.Message( $"Argument 'child' must be non-null" ).NotNull( child != null );
         Assert.Argument.Message( $"Argument 'child' ({child}) must be inactive" ).Valid( child.State is State_.Inactive );
-        Assert.Operation.Message( $"Component {this} must have no child {child} component" ).Valid( !Children.Contains( child ) );
+        Assert.Operation.Message( $"Node {this} must have no child {child} node" ).Valid( !Children.Contains( child ) );
         Children_.Add( child );
         child.Activate( this, argument );
     }
-    protected virtual void RemoveChild(ComponentBase child, object? argument = null) {
+    protected virtual void RemoveChild(NodeBase child, object? argument = null) {
         Assert.Argument.Message( $"Argument 'child' must be non-null" ).NotNull( child != null );
         Assert.Argument.Message( $"Argument 'child' ({child}) must be active" ).Valid( child.State is State_.Active );
-        Assert.Operation.Message( $"Component {this} must have child {child} component" ).Valid( Children.Contains( child ) );
+        Assert.Operation.Message( $"Node {this} must have child {child} node" ).Valid( Children.Contains( child ) );
         child.Deactivate( this, argument );
         Children_.Remove( child );
     }
-    protected bool RemoveChild(Func<ComponentBase, bool> predicate, object? argument = null) {
+    protected bool RemoveChild(Func<NodeBase, bool> predicate, object? argument = null) {
         var child = Children.LastOrDefault( predicate );
         if (child != null) {
             RemoveChild( child, argument );
@@ -184,12 +188,12 @@ public abstract class ComponentBase {
         }
         return false;
     }
-    protected void RemoveChildren(IEnumerable<ComponentBase> children, object? argument = null) {
+    protected void RemoveChildren(IEnumerable<NodeBase> children, object? argument = null) {
         foreach (var child in children) {
             RemoveChild( child, argument );
         }
     }
-    protected int RemoveChildren(Func<ComponentBase, bool> predicate, object? argument = null) {
+    protected int RemoveChildren(Func<NodeBase, bool> predicate, object? argument = null) {
         var children = Children.Where( predicate ).Reverse().ToList();
         if (children.Any()) {
             RemoveChildren( children, argument );
@@ -198,11 +202,11 @@ public abstract class ComponentBase {
         return 0;
     }
     protected void RemoveSelf(object? argument = null) {
-        Assert.Operation.Message( $"Component {this} must have owner" ).Valid( Owner != null );
-        if (Owner is ComponentBase parent) {
+        Assert.Operation.Message( $"Node {this} must have owner" ).Valid( Owner != null );
+        if (Owner is NodeBase parent) {
             parent.RemoveChild( this, argument );
         } else {
-            ((ComponentMachineBase) Owner).RemoveRootComponent( this, argument );
+            ((HierarchyBase) Owner).RemoveRoot( this, argument );
         }
     }
 
