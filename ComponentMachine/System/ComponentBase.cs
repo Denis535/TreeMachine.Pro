@@ -20,6 +20,8 @@ public abstract class ComponentBase {
     internal object? Owner { get; set; }
     // Machine
     public ComponentMachineBase? Machine => Owner as ComponentMachineBase;
+    // Parent
+    public ComponentBase? Parent => Owner as ComponentBase;
     // Root
     [MemberNotNullWhen( false, "Parent" )] public bool IsRoot => Parent == null;
     public ComponentBase Root => IsRoot ? this : Parent.Root;
@@ -33,8 +35,6 @@ public abstract class ComponentBase {
         }
     }
     public IEnumerable<ComponentBase> AncestorsAndSelf => Ancestors.Prepend( this );
-    // Parent
-    public ComponentBase? Parent => Owner as ComponentBase;
 
     // Children
     private List<ComponentBase> Children_ { get; } = new List<ComponentBase>( 0 );
