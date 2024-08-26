@@ -17,11 +17,8 @@ public abstract class ComponentMachineBase {
         Assert.Argument.Message( $"Argument 'component' must be non-null" ).NotNull( component != null );
         Assert.Argument.Message( $"Argument 'component' ({component}) must be inactive" ).Valid( component.State is ComponentBase.State_.Inactive );
         Assert.Operation.Message( $"ComponentMachine {this} must have no root component" ).Valid( RootComponent == null );
-        {
-            RootComponent = component;
-            RootComponent.Owner = this;
-        }
-        RootComponent.Activate( argument );
+        RootComponent = component;
+        RootComponent.Activate( this, argument );
     }
     protected internal virtual void RemoveRootComponent(ComponentBase component, object? argument = null) {
         Assert.Argument.Message( $"Argument 'component' must be non-null" ).NotNull( component != null );
@@ -30,11 +27,8 @@ public abstract class ComponentMachineBase {
     }
     protected virtual void RemoveRootComponent(object? argument = null) {
         Assert.Operation.Message( $"ComponentMachine {this} must have root component" ).Valid( RootComponent != null );
-        RootComponent.Deactivate( argument );
-        {
-            RootComponent.Owner = null;
-            RootComponent = null;
-        }
+        RootComponent.Deactivate( this, argument );
+        RootComponent = null;
     }
 
 }

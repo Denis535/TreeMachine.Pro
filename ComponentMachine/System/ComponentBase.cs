@@ -17,7 +17,7 @@ public abstract class ComponentBase {
     public State_ State { get; private set; } = State_.Inactive;
 
     // Owner
-    internal object? Owner { get; set; }
+    private object? Owner { get; set; }
     // Machine
     public ComponentMachineBase? Machine => Owner as ComponentMachineBase;
     // Parent
@@ -66,7 +66,37 @@ public abstract class ComponentBase {
     }
 
     // Activate
-    internal void Activate(object? argument) {
+    internal void Activate(ComponentMachineBase owner, object? argument) {
+        Owner = owner;
+        Activate( argument );
+    }
+    internal void Deactivate(ComponentMachineBase owner, object? argument) {
+        Assert.Argument.Message( $"Argument 'owner' ({owner}) must be valid" ).Valid( owner == Owner );
+        Deactivate( argument );
+        Owner = null;
+    }
+
+    // Activate
+    internal void Activate(ComponentBase owner, object? argument) {
+        Owner = owner;
+        if (owner.State is State_.Active) {
+            Activate( argument );
+        } else {
+            Assert.Argument.Message( $"Argument 'argument' ({argument}) must be null" ).Valid( argument == null );
+        }
+    }
+    internal void Deactivate(ComponentBase owner, object? argument) {
+        Assert.Argument.Message( $"Argument 'owner' ({owner}) must be valid" ).Valid( owner == Owner );
+        if (owner.State is State_.Active) {
+            Deactivate( argument );
+        } else {
+            Assert.Argument.Message( $"Argument 'argument' ({argument}) must be null" ).Valid( argument == null );
+        }
+        Owner = null;
+    }
+
+    // Activate
+    private void Activate(object? argument) {
         Assert.Operation.Message( $"Component {this} must be inactive" ).Valid( State is State_.Inactive );
         foreach (var ancestor in Ancestors.Reverse()) {
             ancestor.OnBeforeDescendantActivateEvent?.Invoke( this, argument );
@@ -89,7 +119,7 @@ public abstract class ComponentBase {
             ancestor.OnAfterDescendantActivateEvent?.Invoke( this, argument );
         }
     }
-    internal void Deactivate(object? argument) {
+    private void Deactivate(object? argument) {
         Assert.Operation.Message( $"Component {this} must be active" ).Valid( State is State_.Active );
         foreach (var ancestor in Ancestors.Reverse()) {
             ancestor.OnBeforeDescendantDeactivateEvent?.Invoke( this, argument );
@@ -136,29 +166,15 @@ public abstract class ComponentBase {
         Assert.Argument.Message( $"Argument 'child' must be non-null" ).NotNull( child != null );
         Assert.Argument.Message( $"Argument 'child' ({child}) must be inactive" ).Valid( child.State is State_.Inactive );
         Assert.Operation.Message( $"Component {this} must have no child {child} component" ).Valid( !Children.Contains( child ) );
-        {
-            Children_.Add( child );
-            child.Owner = this;
-        }
-        if (State is State_.Active) {
-            child.Activate( argument );
-        } else {
-            Assert.Argument.Message( $"Argument 'argument' ({argument}) must be null" ).Valid( argument == null );
-        }
+        Children_.Add( child );
+        child.Activate( this, argument );
     }
     protected virtual void RemoveChild(ComponentBase child, object? argument = null) {
         Assert.Argument.Message( $"Argument 'child' must be non-null" ).NotNull( child != null );
         Assert.Argument.Message( $"Argument 'child' ({child}) must be active" ).Valid( child.State is State_.Active );
         Assert.Operation.Message( $"Component {this} must have child {child} component" ).Valid( Children.Contains( child ) );
-        if (State is State_.Active) {
-            child.Deactivate( argument );
-        } else {
-            Assert.Argument.Message( $"Argument 'argument' ({argument}) must be null" ).Valid( argument == null );
-        }
-        {
-            child.Owner = null;
-            Children_.Remove( child );
-        }
+        child.Deactivate( this, argument );
+        Children_.Remove( child );
     }
     protected bool RemoveChild(Func<ComponentBase, bool> predicate, object? argument = null) {
         var child = Children.LastOrDefault( predicate );
