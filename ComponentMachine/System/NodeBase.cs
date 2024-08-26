@@ -67,36 +67,34 @@ public abstract class NodeBase {
 
     // Activate
     internal void Activate(HierarchyBase owner, object? argument) {
-        Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( State is State_.Inactive );
         Owner = owner;
         Activate( argument );
     }
     internal void Deactivate(HierarchyBase owner, object? argument) {
         Assert.Argument.Message( $"Argument 'owner' ({owner}) must be valid" ).Valid( owner == Owner );
-        Assert.Operation.Message( $"Node {this} must be active" ).Valid( State is State_.Active );
         Deactivate( argument );
         Owner = null;
     }
 
     // Activate
     internal void Activate(NodeBase owner, object? argument) {
-        Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( State is State_.Inactive );
-        Owner = owner;
         if (owner.State is State_.Active) {
+            Owner = owner;
             Activate( argument );
         } else {
             Assert.Argument.Message( $"Argument 'argument' ({argument}) must be null" ).Valid( argument == null );
+            Owner = owner;
         }
     }
     internal void Deactivate(NodeBase owner, object? argument) {
         Assert.Argument.Message( $"Argument 'owner' ({owner}) must be valid" ).Valid( owner == Owner );
-        Assert.Operation.Message( $"Node {this} must be active" ).Valid( State is State_.Active );
         if (owner.State is State_.Active) {
             Deactivate( argument );
+            Owner = null;
         } else {
             Assert.Argument.Message( $"Argument 'argument' ({argument}) must be null" ).Valid( argument == null );
+            Owner = null;
         }
-        Owner = null;
     }
 
     // Activate
@@ -168,14 +166,12 @@ public abstract class NodeBase {
     // AddChild
     protected virtual void AddChild(NodeBase child, object? argument = null) {
         Assert.Argument.Message( $"Argument 'child' must be non-null" ).NotNull( child != null );
-        Assert.Argument.Message( $"Argument 'child' ({child}) must be inactive" ).Valid( child.State is State_.Inactive );
         Assert.Operation.Message( $"Node {this} must have no child {child} node" ).Valid( !Children.Contains( child ) );
         Children_.Add( child );
         child.Activate( this, argument );
     }
     protected virtual void RemoveChild(NodeBase child, object? argument = null) {
         Assert.Argument.Message( $"Argument 'child' must be non-null" ).NotNull( child != null );
-        Assert.Argument.Message( $"Argument 'child' ({child}) must be active" ).Valid( child.State is State_.Active );
         Assert.Operation.Message( $"Node {this} must have child {child} node" ).Valid( Children.Contains( child ) );
         child.Deactivate( this, argument );
         Children_.Remove( child );
