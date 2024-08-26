@@ -16,14 +16,17 @@ public abstract class StateBase : IDisposable {
     // System
     public bool IsDisposed { get; private set; }
     protected virtual bool DisposeWhenDeactivate => true;
+    // Owner
+    internal object? Owner { get; set; }
     // State
     public State_ State { get; private set; } = State_.Inactive;
-    protected StateMachineBase? StateMachine { get; private set; }
+    // StateMachine
+    protected StateMachineBase? StateMachine => Owner as StateMachineBase;
     // Root
     [MemberNotNullWhen( false, "Parent" )] public bool IsRoot => Parent == null;
     public StateBase Root => IsRoot ? this : Parent.Root;
     // Parent
-    public StateBase? Parent { get; private set; }
+    public StateBase? Parent => Owner as StateBase;
     // Ancestors
     public IEnumerable<StateBase> Ancestors {
         get {
@@ -71,7 +74,7 @@ public abstract class StateBase : IDisposable {
     }
 
     // Activate
-    internal void Activate(StateMachineBase stateMachine, object? argument) {
+    internal void Activate(object? argument) {
         Assert.Operation.Message( $"State {this} must be non-disposed" ).NotDisposed( !IsDisposed );
         Assert.Operation.Message( $"State {this} must be inactive" ).Valid( State is State_.Inactive );
         foreach (var ancestor in Ancestors.Reverse()) {
@@ -83,10 +86,9 @@ public abstract class StateBase : IDisposable {
             OnBeforeActivate( argument );
             {
                 State = State_.Activating;
-                StateMachine = stateMachine;
                 OnActivate( argument );
                 foreach (var child in Children) {
-                    child.Activate( stateMachine, argument );
+                    child.Activate( argument );
                 }
                 State = State_.Active;
             }
@@ -98,7 +100,7 @@ public abstract class StateBase : IDisposable {
             ancestor.OnAfterDescendantActivateEvent?.Invoke( this, argument );
         }
     }
-    internal void Deactivate(StateMachineBase stateMachine, object? argument) {
+    internal void Deactivate(object? argument) {
         Assert.Operation.Message( $"State {this} must be non-disposed" ).NotDisposed( !IsDisposed );
         Assert.Operation.Message( $"State {this} must be active" ).Valid( State is State_.Active );
         foreach (var ancestor in Ancestors.Reverse()) {
@@ -111,10 +113,9 @@ public abstract class StateBase : IDisposable {
             {
                 State = State_.Deactivating;
                 foreach (var child in Children.Reverse()) {
-                    child.Deactivate( stateMachine, argument );
+                    child.Deactivate( argument );
                 }
                 OnDeactivate( argument );
-                StateMachine = null;
                 State = State_.Inactive;
             }
             OnAfterDeactivate( argument );
@@ -154,14 +155,14 @@ public abstract class StateBase : IDisposable {
         Assert.Argument.Message( $"Argument 'child' ({child}) must be inactive" ).Valid( child.State is State_.Inactive );
         Assert.Operation.Message( $"State {this} must be non-disposed" ).NotDisposed( !IsDisposed );
         Assert.Operation.Message( $"State {this} must have no child {child} state" ).Valid( !Children.Contains( child ) );
-        if (State is State_.Active) {
+        {
             Children_.Add( child );
-            child.Parent = this;
-            child.Activate( StateMachine!, argument );
+            child.Owner = this;
+        }
+        if (State is State_.Active) {
+            child.Activate( argument );
         } else {
             Assert.Argument.Message( $"Argument 'argument' ({argument}) must be null" ).Valid( argument == null );
-            Children_.Add( child );
-            child.Parent = this;
         }
     }
     protected virtual void RemoveChild(StateBase child, object? argument = null) {
@@ -171,12 +172,12 @@ public abstract class StateBase : IDisposable {
         Assert.Operation.Message( $"State {this} must be non-disposed" ).NotDisposed( !IsDisposed );
         Assert.Operation.Message( $"State {this} must have child {child} state" ).Valid( Children.Contains( child ) );
         if (State is State_.Active) {
-            child.Deactivate( StateMachine!, argument );
-            child.Parent = null;
-            Children_.Remove( child );
+            child.Deactivate( argument );
         } else {
             Assert.Argument.Message( $"Argument 'argument' ({argument}) must be null" ).Valid( argument == null );
-            child.Parent = null;
+        }
+        {
+            child.Owner = null;
             Children_.Remove( child );
         }
     }

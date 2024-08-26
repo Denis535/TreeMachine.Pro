@@ -26,8 +26,11 @@ public abstract class StateMachineBase : IDisposable {
         Assert.Argument.Message( $"Argument 'state' ({state}) must be inactive" ).Valid( state.State is StateBase.State_.Inactive );
         Assert.Operation.Message( $"StateMachine {this} must be non-disposed" ).NotDisposed( !IsDisposed );
         Assert.Operation.Message( $"StateMachine {this} must have no state" ).Valid( State == null );
-        State = state;
-        state.Activate( this, argument );
+        {
+            State = state;
+            State.Owner = this;
+        }
+        State.Activate( argument );
     }
     protected internal virtual void RemoveState(StateBase state, object? argument = null) {
         Assert.Argument.Message( $"Argument 'state' must be non-null" ).NotNull( state != null );
@@ -35,8 +38,11 @@ public abstract class StateMachineBase : IDisposable {
         Assert.Argument.Message( $"Argument 'state' ({state}) must be active" ).Valid( state.State is StateBase.State_.Active );
         Assert.Operation.Message( $"StateMachine {this} must be non-disposed" ).NotDisposed( !IsDisposed );
         Assert.Operation.Message( $"StateMachine {this} must have {state} state" ).Valid( State == state );
-        State.Deactivate( this, argument );
-        State = null;
+        State.Deactivate( argument );
+        {
+            State.Owner = null;
+            State = null;
+        }
     }
 
 }
