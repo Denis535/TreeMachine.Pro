@@ -5,7 +5,7 @@ using System.Text;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-public abstract class StateBase : IDisposable {
+public abstract class HierarchicalStateBase : IDisposable {
     public enum State_ {
         Inactive,
         Activating,
@@ -21,14 +21,14 @@ public abstract class StateBase : IDisposable {
     // State
     public State_ State { get; private set; } = State_.Inactive;
     // StateMachine
-    protected StateMachineBase? StateMachine => Owner as StateMachineBase;
+    protected HierarchicalStateMachineBase? StateMachine => Owner as HierarchicalStateMachineBase;
     // Root
     [MemberNotNullWhen( false, "Parent" )] public bool IsRoot => Parent == null;
-    public StateBase Root => IsRoot ? this : Parent.Root;
+    public HierarchicalStateBase Root => IsRoot ? this : Parent.Root;
     // Parent
-    public StateBase? Parent => Owner as StateBase;
+    public HierarchicalStateBase? Parent => Owner as HierarchicalStateBase;
     // Ancestors
-    public IEnumerable<StateBase> Ancestors {
+    public IEnumerable<HierarchicalStateBase> Ancestors {
         get {
             if (Parent != null) {
                 yield return Parent;
@@ -36,12 +36,12 @@ public abstract class StateBase : IDisposable {
             }
         }
     }
-    public IEnumerable<StateBase> AncestorsAndSelf => Ancestors.Prepend( this );
+    public IEnumerable<HierarchicalStateBase> AncestorsAndSelf => Ancestors.Prepend( this );
     // Children
-    public IReadOnlyList<StateBase> Children => Children_;
-    private List<StateBase> Children_ { get; } = new List<StateBase>();
+    public IReadOnlyList<HierarchicalStateBase> Children => Children_;
+    private List<HierarchicalStateBase> Children_ { get; } = new List<HierarchicalStateBase>( 0 );
     // Descendants
-    public IEnumerable<StateBase> Descendants {
+    public IEnumerable<HierarchicalStateBase> Descendants {
         get {
             foreach (var child in Children) {
                 yield return child;
@@ -49,20 +49,20 @@ public abstract class StateBase : IDisposable {
             }
         }
     }
-    public IEnumerable<StateBase> DescendantsAndSelf => Descendants.Prepend( this );
+    public IEnumerable<HierarchicalStateBase> DescendantsAndSelf => Descendants.Prepend( this );
     // OnActivate
     public event Action<object?>? OnBeforeActivateEvent;
     public event Action<object?>? OnAfterActivateEvent;
     public event Action<object?>? OnBeforeDeactivateEvent;
     public event Action<object?>? OnAfterDeactivateEvent;
     // OnDescendantActivate
-    public event Action<StateBase, object?>? OnBeforeDescendantActivateEvent;
-    public event Action<StateBase, object?>? OnAfterDescendantActivateEvent;
-    public event Action<StateBase, object?>? OnBeforeDescendantDeactivateEvent;
-    public event Action<StateBase, object?>? OnAfterDescendantDeactivateEvent;
+    public event Action<HierarchicalStateBase, object?>? OnBeforeDescendantActivateEvent;
+    public event Action<HierarchicalStateBase, object?>? OnAfterDescendantActivateEvent;
+    public event Action<HierarchicalStateBase, object?>? OnBeforeDescendantDeactivateEvent;
+    public event Action<HierarchicalStateBase, object?>? OnAfterDescendantDeactivateEvent;
 
     // Constructor
-    public StateBase() {
+    public HierarchicalStateBase() {
     }
     public virtual void Dispose() {
         Assert.Operation.Message( $"State {this} must be non-disposed" ).NotDisposed( !IsDisposed );
@@ -143,13 +143,13 @@ public abstract class StateBase : IDisposable {
     }
 
     // OnDescendantActivate
-    protected abstract void OnBeforeDescendantActivate(StateBase descendant, object? argument);
-    protected abstract void OnAfterDescendantActivate(StateBase descendant, object? argument);
-    protected abstract void OnBeforeDescendantDeactivate(StateBase descendant, object? argument);
-    protected abstract void OnAfterDescendantDeactivate(StateBase descendant, object? argument);
+    protected abstract void OnBeforeDescendantActivate(HierarchicalStateBase descendant, object? argument);
+    protected abstract void OnAfterDescendantActivate(HierarchicalStateBase descendant, object? argument);
+    protected abstract void OnBeforeDescendantDeactivate(HierarchicalStateBase descendant, object? argument);
+    protected abstract void OnAfterDescendantDeactivate(HierarchicalStateBase descendant, object? argument);
 
     // AddChild
-    protected virtual void AddChild(StateBase child, object? argument = null) {
+    protected virtual void AddChild(HierarchicalStateBase child, object? argument = null) {
         Assert.Argument.Message( $"Argument 'child' must be non-null" ).NotNull( child != null );
         Assert.Argument.Message( $"Argument 'child' ({child}) must be non-disposed" ).Valid( !child.IsDisposed );
         Assert.Argument.Message( $"Argument 'child' ({child}) must be inactive" ).Valid( child.State is State_.Inactive );
@@ -165,7 +165,7 @@ public abstract class StateBase : IDisposable {
             Assert.Argument.Message( $"Argument 'argument' ({argument}) must be null" ).Valid( argument == null );
         }
     }
-    protected virtual void RemoveChild(StateBase child, object? argument = null) {
+    protected virtual void RemoveChild(HierarchicalStateBase child, object? argument = null) {
         Assert.Argument.Message( $"Argument 'child' must be non-null" ).NotNull( child != null );
         Assert.Argument.Message( $"Argument 'child' ({child}) must be non-disposed" ).Valid( !child.IsDisposed );
         Assert.Argument.Message( $"Argument 'child' ({child}) must be active" ).Valid( child.State is State_.Active );
@@ -181,7 +181,7 @@ public abstract class StateBase : IDisposable {
             Children_.Remove( child );
         }
     }
-    protected bool RemoveChild(Func<StateBase, bool> predicate, object? argument = null) {
+    protected bool RemoveChild(Func<HierarchicalStateBase, bool> predicate, object? argument = null) {
         Assert.Operation.Message( $"State {this} must be non-disposed" ).NotDisposed( !IsDisposed );
         var child = Children.LastOrDefault( predicate );
         if (child != null) {
@@ -190,13 +190,13 @@ public abstract class StateBase : IDisposable {
         }
         return false;
     }
-    protected void RemoveChildren(IEnumerable<StateBase> children, object? argument = null) {
+    protected void RemoveChildren(IEnumerable<HierarchicalStateBase> children, object? argument = null) {
         Assert.Operation.Message( $"State {this} must be non-disposed" ).NotDisposed( !IsDisposed );
         foreach (var child in children) {
             RemoveChild( child, argument );
         }
     }
-    protected int RemoveChildren(Func<StateBase, bool> predicate, object? argument = null) {
+    protected int RemoveChildren(Func<HierarchicalStateBase, bool> predicate, object? argument = null) {
         Assert.Operation.Message( $"State {this} must be non-disposed" ).NotDisposed( !IsDisposed );
         var children = Children.Where( predicate ).Reverse().ToList();
         if (children.Any()) {
