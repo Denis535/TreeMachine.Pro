@@ -15,7 +15,6 @@ public abstract class NodeBase {
 
     // State
     public State_ State { get; private set; } = State_.Inactive;
-
     // Owner
     private object? Owner { get; set; }
     // Hierarchy
@@ -35,7 +34,6 @@ public abstract class NodeBase {
         }
     }
     public IEnumerable<NodeBase> AncestorsAndSelf => Ancestors.Prepend( this );
-
     // Children
     private List<NodeBase> Children_ { get; } = new List<NodeBase>( 0 );
     public IReadOnlyList<NodeBase> Children => Children_;
@@ -49,7 +47,6 @@ public abstract class NodeBase {
         }
     }
     public IEnumerable<NodeBase> DescendantsAndSelf => Descendants.Prepend( this );
-
     // OnActivate
     public Action<object?>? OnBeforeActivateEvent;
     public Action<object?>? OnAfterActivateEvent;
@@ -106,14 +103,14 @@ public abstract class NodeBase {
         }
         OnBeforeActivateEvent?.Invoke( argument );
         OnBeforeActivate( argument );
+        State = State_.Activating;
         {
-            State = State_.Activating;
             OnActivate( argument );
             foreach (var child in Children) {
                 child.Activate( argument );
             }
-            State = State_.Active;
         }
+        State = State_.Active;
         OnAfterActivate( argument );
         OnAfterActivateEvent?.Invoke( argument );
         foreach (var ancestor in Ancestors) {
@@ -129,14 +126,14 @@ public abstract class NodeBase {
         }
         OnBeforeDeactivateEvent?.Invoke( argument );
         OnBeforeDeactivate( argument );
+        State = State_.Deactivating;
         {
-            State = State_.Deactivating;
             foreach (var child in Children.Reverse()) {
                 child.Deactivate( argument );
             }
             OnDeactivate( argument );
-            State = State_.Inactive;
         }
+        State = State_.Inactive;
         OnAfterDeactivate( argument );
         OnAfterDeactivateEvent?.Invoke( argument );
         foreach (var ancestor in Ancestors) {

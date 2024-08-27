@@ -12,8 +12,8 @@ public abstract class HierarchyBase {
     public HierarchyBase() {
     }
 
-    // SetRoot
-    protected virtual void SetRoot(NodeBase root, object? argument = null) {
+    // AddRoot
+    protected virtual void AddRoot(NodeBase root, object? argument = null) {
         Assert.Argument.Message( $"Argument 'root' must be non-null" ).NotNull( root != null );
         Assert.Operation.Message( $"Hierarchy {this} must have no root" ).Valid( Root == null );
         Root = root;
