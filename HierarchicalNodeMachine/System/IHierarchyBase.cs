@@ -3,14 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-public abstract class HierarchyBase {
+public interface IHierarchyBase {
 
     // Root
-    protected NodeBase? Root { get; private set; }
-
-    // Constructor
-    public HierarchyBase() {
-    }
+    protected NodeBase? Root { get; set; }
 
     // AddRoot
     protected virtual void AddRoot(NodeBase root, object? argument = null) {

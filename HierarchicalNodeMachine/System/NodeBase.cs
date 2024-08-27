@@ -18,7 +18,7 @@ public abstract class NodeBase {
     // Owner
     private object? Owner { get; set; }
     // Hierarchy
-    public HierarchyBase? Hierarchy => Owner as HierarchyBase;
+    public IHierarchyBase? Hierarchy => Owner as IHierarchyBase;
     // Parent
     public NodeBase? Parent => Owner as NodeBase;
     // Root
@@ -63,11 +63,11 @@ public abstract class NodeBase {
     }
 
     // Activate
-    internal void Activate(HierarchyBase owner, object? argument) {
+    internal void Activate(IHierarchyBase owner, object? argument) {
         Owner = owner;
         Activate( argument );
     }
-    internal void Deactivate(HierarchyBase owner, object? argument) {
+    internal void Deactivate(IHierarchyBase owner, object? argument) {
         Assert.Argument.Message( $"Argument 'owner' ({owner}) must be valid" ).Valid( owner == Owner );
         Deactivate( argument );
         Owner = null;
@@ -199,7 +199,7 @@ public abstract class NodeBase {
         if (Owner is NodeBase parent) {
             parent.RemoveChild( this, argument );
         } else {
-            ((HierarchyBase) Owner).RemoveRoot( this, argument );
+            ((IHierarchyBase) Owner).RemoveRoot( this, argument );
         }
     }
 
