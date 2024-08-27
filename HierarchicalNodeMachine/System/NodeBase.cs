@@ -5,13 +5,20 @@ using System.Text;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-public abstract class NodeBase<T> where T : NodeBase<T> {
+public abstract class NodeBase {
     public enum State_ {
         Inactive,
         Activating,
         Active,
         Deactivating,
     }
+
+    // Constructor
+    public NodeBase() {
+    }
+
+}
+public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
 
     // State
     public State_ State { get; private set; } = State_.Inactive;
@@ -63,11 +70,11 @@ public abstract class NodeBase<T> where T : NodeBase<T> {
     }
 
     // Activate
-    internal void Activate(IHierarchyBase owner, object? argument) {
+    internal void Activate(IHierarchyBase<T> owner, object? argument) {
         Owner = owner;
         Activate( argument );
     }
-    internal void Deactivate(IHierarchyBase owner, object? argument) {
+    internal void Deactivate(IHierarchyBase<T> owner, object? argument) {
         Assert.Argument.Message( $"Argument 'owner' ({owner}) must be valid" ).Valid( owner == Owner );
         Deactivate( argument );
         Owner = null;
@@ -103,14 +110,14 @@ public abstract class NodeBase<T> where T : NodeBase<T> {
         }
         OnBeforeActivateEvent?.Invoke( argument );
         OnBeforeActivate( argument );
-        State = State_.Activating;
         {
+            State = State_.Activating;
             OnActivate( argument );
             foreach (var child in Children) {
                 child.Activate( argument );
             }
+            State = State_.Active;
         }
-        State = State_.Active;
         OnAfterActivate( argument );
         OnAfterActivateEvent?.Invoke( argument );
         foreach (var ancestor in Ancestors) {
@@ -126,14 +133,14 @@ public abstract class NodeBase<T> where T : NodeBase<T> {
         }
         OnBeforeDeactivateEvent?.Invoke( argument );
         OnBeforeDeactivate( argument );
-        State = State_.Deactivating;
         {
+            State = State_.Deactivating;
             foreach (var child in Children.Reverse()) {
                 child.Deactivate( argument );
             }
             OnDeactivate( argument );
+            State = State_.Inactive;
         }
-        State = State_.Inactive;
         OnAfterDeactivate( argument );
         OnAfterDeactivateEvent?.Invoke( argument );
         foreach (var ancestor in Ancestors) {
