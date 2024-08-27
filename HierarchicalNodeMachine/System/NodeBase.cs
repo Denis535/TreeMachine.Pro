@@ -5,7 +5,7 @@ using System.Text;
 using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 
-public abstract class NodeBase {
+public abstract class NodeBase<T> where T : NodeBase<T> {
     public enum State_ {
         Inactive,
         Activating,
@@ -18,14 +18,14 @@ public abstract class NodeBase {
     // Owner
     private object? Owner { get; set; }
     // Hierarchy
-    public IHierarchyBase? Hierarchy => Owner as IHierarchyBase;
+    public IHierarchyBase<T>? Hierarchy => Owner as IHierarchyBase<T>;
     // Parent
-    public NodeBase? Parent => Owner as NodeBase;
+    public T? Parent => Owner as T;
     // Root
     [MemberNotNullWhen( false, "Parent" )] public bool IsRoot => Parent == null;
-    public NodeBase Root => IsRoot ? this : Parent.Root;
+    public T Root => IsRoot ? (T) this : Parent.Root;
     // Ancestors
-    public IEnumerable<NodeBase> Ancestors {
+    public IEnumerable<T> Ancestors {
         get {
             if (Parent != null) {
                 yield return Parent;
@@ -33,12 +33,12 @@ public abstract class NodeBase {
             }
         }
     }
-    public IEnumerable<NodeBase> AncestorsAndSelf => Ancestors.Prepend( this );
+    public IEnumerable<T> AncestorsAndSelf => Ancestors.Prepend( (T) this );
     // Children
-    private List<NodeBase> Children_ { get; } = new List<NodeBase>( 0 );
-    public IReadOnlyList<NodeBase> Children => Children_;
+    private List<T> Children_ { get; } = new List<T>( 0 );
+    public IReadOnlyList<T> Children => Children_;
     // Descendants
-    public IEnumerable<NodeBase> Descendants {
+    public IEnumerable<T> Descendants {
         get {
             foreach (var child in Children) {
                 yield return child;
@@ -46,17 +46,17 @@ public abstract class NodeBase {
             }
         }
     }
-    public IEnumerable<NodeBase> DescendantsAndSelf => Descendants.Prepend( this );
+    public IEnumerable<T> DescendantsAndSelf => Descendants.Prepend( (T) this );
     // OnActivate
     public Action<object?>? OnBeforeActivateEvent;
     public Action<object?>? OnAfterActivateEvent;
     public Action<object?>? OnBeforeDeactivateEvent;
     public Action<object?>? OnAfterDeactivateEvent;
     // OnDescendantActivate
-    public event Action<NodeBase, object?>? OnBeforeDescendantActivateEvent;
-    public event Action<NodeBase, object?>? OnAfterDescendantActivateEvent;
-    public event Action<NodeBase, object?>? OnBeforeDescendantDeactivateEvent;
-    public event Action<NodeBase, object?>? OnAfterDescendantDeactivateEvent;
+    public event Action<T, object?>? OnBeforeDescendantActivateEvent;
+    public event Action<T, object?>? OnAfterDescendantActivateEvent;
+    public event Action<T, object?>? OnBeforeDescendantDeactivateEvent;
+    public event Action<T, object?>? OnAfterDescendantDeactivateEvent;
 
     // Constructor
     public NodeBase() {
@@ -74,7 +74,7 @@ public abstract class NodeBase {
     }
 
     // Activate
-    internal void Activate(NodeBase owner, object? argument) {
+    internal void Activate(T owner, object? argument) {
         if (owner.State is State_.Active) {
             Owner = owner;
             Activate( argument );
@@ -83,7 +83,7 @@ public abstract class NodeBase {
             Owner = owner;
         }
     }
-    internal void Deactivate(NodeBase owner, object? argument) {
+    internal void Deactivate(T owner, object? argument) {
         Assert.Argument.Message( $"Argument 'owner' ({owner}) must be valid" ).Valid( owner == Owner );
         if (owner.State is State_.Active) {
             Deactivate( argument );
@@ -98,8 +98,8 @@ public abstract class NodeBase {
     private void Activate(object? argument) {
         Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( State is State_.Inactive );
         foreach (var ancestor in Ancestors.Reverse()) {
-            ancestor.OnBeforeDescendantActivateEvent?.Invoke( this, argument );
-            ancestor.OnBeforeDescendantActivate( this, argument );
+            ancestor.OnBeforeDescendantActivateEvent?.Invoke( (T) this, argument );
+            ancestor.OnBeforeDescendantActivate( (T) this, argument );
         }
         OnBeforeActivateEvent?.Invoke( argument );
         OnBeforeActivate( argument );
@@ -114,15 +114,15 @@ public abstract class NodeBase {
         OnAfterActivate( argument );
         OnAfterActivateEvent?.Invoke( argument );
         foreach (var ancestor in Ancestors) {
-            ancestor.OnAfterDescendantActivate( this, argument );
-            ancestor.OnAfterDescendantActivateEvent?.Invoke( this, argument );
+            ancestor.OnAfterDescendantActivate( (T) this, argument );
+            ancestor.OnAfterDescendantActivateEvent?.Invoke( (T) this, argument );
         }
     }
     private void Deactivate(object? argument) {
         Assert.Operation.Message( $"Node {this} must be active" ).Valid( State is State_.Active );
         foreach (var ancestor in Ancestors.Reverse()) {
-            ancestor.OnBeforeDescendantDeactivateEvent?.Invoke( this, argument );
-            ancestor.OnBeforeDescendantDeactivate( this, argument );
+            ancestor.OnBeforeDescendantDeactivateEvent?.Invoke( (T) this, argument );
+            ancestor.OnBeforeDescendantDeactivate( (T) this, argument );
         }
         OnBeforeDeactivateEvent?.Invoke( argument );
         OnBeforeDeactivate( argument );
@@ -137,8 +137,8 @@ public abstract class NodeBase {
         OnAfterDeactivate( argument );
         OnAfterDeactivateEvent?.Invoke( argument );
         foreach (var ancestor in Ancestors) {
-            ancestor.OnAfterDescendantDeactivate( this, argument );
-            ancestor.OnAfterDescendantDeactivateEvent?.Invoke( this, argument );
+            ancestor.OnAfterDescendantDeactivate( (T) this, argument );
+            ancestor.OnAfterDescendantDeactivateEvent?.Invoke( (T) this, argument );
         }
     }
 
@@ -155,25 +155,25 @@ public abstract class NodeBase {
     }
 
     // OnDescendantActivate
-    protected abstract void OnBeforeDescendantActivate(NodeBase descendant, object? argument);
-    protected abstract void OnAfterDescendantActivate(NodeBase descendant, object? argument);
-    protected abstract void OnBeforeDescendantDeactivate(NodeBase descendant, object? argument);
-    protected abstract void OnAfterDescendantDeactivate(NodeBase descendant, object? argument);
+    protected abstract void OnBeforeDescendantActivate(T descendant, object? argument);
+    protected abstract void OnAfterDescendantActivate(T descendant, object? argument);
+    protected abstract void OnBeforeDescendantDeactivate(T descendant, object? argument);
+    protected abstract void OnAfterDescendantDeactivate(T descendant, object? argument);
 
     // AddChild
-    protected virtual void AddChild(NodeBase child, object? argument = null) {
+    protected virtual void AddChild(T child, object? argument = null) {
         Assert.Argument.Message( $"Argument 'child' must be non-null" ).NotNull( child != null );
         Assert.Operation.Message( $"Node {this} must have no child {child} node" ).Valid( !Children.Contains( child ) );
         Children_.Add( child );
-        child.Activate( this, argument );
+        child.Activate( (T) this, argument );
     }
-    protected virtual void RemoveChild(NodeBase child, object? argument = null) {
+    protected virtual void RemoveChild(T child, object? argument = null) {
         Assert.Argument.Message( $"Argument 'child' must be non-null" ).NotNull( child != null );
         Assert.Operation.Message( $"Node {this} must have child {child} node" ).Valid( Children.Contains( child ) );
-        child.Deactivate( this, argument );
+        child.Deactivate( (T) this, argument );
         Children_.Remove( child );
     }
-    protected bool RemoveChild(Func<NodeBase, bool> predicate, object? argument = null) {
+    protected bool RemoveChild(Func<T, bool> predicate, object? argument = null) {
         var child = Children.LastOrDefault( predicate );
         if (child != null) {
             RemoveChild( child, argument );
@@ -181,12 +181,12 @@ public abstract class NodeBase {
         }
         return false;
     }
-    protected void RemoveChildren(IEnumerable<NodeBase> children, object? argument = null) {
+    protected void RemoveChildren(IEnumerable<T> children, object? argument = null) {
         foreach (var child in children) {
             RemoveChild( child, argument );
         }
     }
-    protected int RemoveChildren(Func<NodeBase, bool> predicate, object? argument = null) {
+    protected int RemoveChildren(Func<T, bool> predicate, object? argument = null) {
         var children = Children.Where( predicate ).Reverse().ToList();
         if (children.Any()) {
             RemoveChildren( children, argument );
@@ -196,10 +196,10 @@ public abstract class NodeBase {
     }
     protected void RemoveSelf(object? argument = null) {
         Assert.Operation.Message( $"Node {this} must have owner" ).Valid( Owner != null );
-        if (Owner is NodeBase parent) {
-            parent.RemoveChild( this, argument );
+        if (Owner is T parent) {
+            parent.RemoveChild( (T) this, argument );
         } else {
-            ((IHierarchyBase) Owner).RemoveRoot( this, argument );
+            ((IHierarchyBase<T>) Owner).RemoveRoot( (T) this, argument );
         }
     }
 
