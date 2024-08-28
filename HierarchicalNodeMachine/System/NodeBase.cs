@@ -14,7 +14,7 @@ public abstract class NodeBase {
     }
 
     // Constructor
-    public NodeBase() {
+    internal NodeBase() {
     }
 
 }
@@ -25,11 +25,11 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
     // Owner
     private object? Owner { get; set; }
     // Hierarchy
-    public IHierarchyBase<T>? Hierarchy => Owner as IHierarchyBase<T>;
+    public IHierarchy<T>? Hierarchy => Owner as IHierarchy<T>;
     // Parent
     public T? Parent => Owner as T;
     // Root
-    [MemberNotNullWhen( false, "Parent" )] public bool IsRoot => Parent == null;
+    [MemberNotNullWhen( false, nameof( Parent ) )] public bool IsRoot => Parent == null;
     public T Root => IsRoot ? (T) this : Parent.Root;
     // Ancestors
     public IEnumerable<T> Ancestors {
@@ -70,11 +70,11 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
     }
 
     // Activate
-    internal void Activate(IHierarchyBase<T> owner, object? argument) {
+    internal void Activate(IHierarchy<T> owner, object? argument) {
         Owner = owner;
         Activate( argument );
     }
-    internal void Deactivate(IHierarchyBase<T> owner, object? argument) {
+    internal void Deactivate(IHierarchy<T> owner, object? argument) {
         Assert.Argument.Message( $"Argument 'owner' ({owner}) must be valid" ).Valid( owner == Owner );
         Deactivate( argument );
         Owner = null;
@@ -206,7 +206,7 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
         if (Owner is T parent) {
             parent.RemoveChild( (T) this, argument );
         } else {
-            ((IHierarchyBase<T>) Owner).RemoveRoot( (T) this, argument );
+            ((IHierarchy<T>) Owner).RemoveRoot( (T) this, argument );
         }
     }
 
