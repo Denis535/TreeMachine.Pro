@@ -35,6 +35,8 @@
         <DevelopmentDependency>false</DevelopmentDependency>
 
         <!--Nuget pack options-->
+        <PackRelease>true</PackRelease>
+
         <EnableDefaultItems>true</EnableDefaultItems>
         <EnableDefaultNoneItems>true</EnableDefaultNoneItems>
         <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
