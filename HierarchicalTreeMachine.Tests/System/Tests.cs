@@ -7,18 +7,18 @@ public class Tests {
 
     [Test]
     public void Test_00() {
-        using var hierarchy = new Hierarchy();
+        using var tree = new Tree();
     }
 
 }
-internal class Hierarchy : IHierarchy<Node>, IDisposable {
+internal class Tree : ITree<Node>, IDisposable {
 
     // Root
-    Node? IHierarchy<Node>.Root { get; set; }
-    protected Node? Root => ((IHierarchy<Node>) this).Root;
+    Node? ITree<Node>.Root { get; set; }
+    protected RootNode? Root => (RootNode?) ((ITree<Node>) this).Root;
 
     // Constructor
-    public Hierarchy() {
+    public Tree() {
         AddRoot( new RootNode() );
     }
     public void Dispose() {
@@ -27,13 +27,13 @@ internal class Hierarchy : IHierarchy<Node>, IDisposable {
 
     // AddRoot
     protected void AddRoot(Node root, object? argument = null) {
-        ((IHierarchy<Node>) this).AddRoot( root, argument );
+        ((ITree<Node>) this).AddRoot( root, argument );
     }
     protected void RemoveRoot(Node root, object? argument = null) {
-        ((IHierarchy<Node>) this).RemoveRoot( root, argument );
+        ((ITree<Node>) this).RemoveRoot( root, argument );
     }
     protected void RemoveRoot(object? argument = null) {
-        ((IHierarchy<Node>) this).RemoveRoot( argument );
+        ((ITree<Node>) this).RemoveRoot( argument );
     }
 
 }
@@ -120,6 +120,7 @@ internal class A2_Node : Node {
     }
 
 }
+// Level-2
 internal class B1_Node : Node {
 
     protected override void OnActivate(object? argument) {

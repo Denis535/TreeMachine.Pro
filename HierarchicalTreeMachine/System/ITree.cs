@@ -3,9 +3,9 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-public interface IHierarchy {
+public interface ITree {
 }
-public interface IHierarchy<T> : IHierarchy where T : NodeBase<T> {
+public interface ITree<T> : ITree where T : NodeBase<T> {
 
     // Root
     public T? Root { get; protected set; }
