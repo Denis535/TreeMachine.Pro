@@ -13,18 +13,18 @@
         <Company>Denis535</Company>
         <Product>$(AssemblyName)</Product>
         <Copyright></Copyright>
-        <RepositoryUrl>https://github.com/Denis535/hierarchicalStateMachine</RepositoryUrl>
+        <RepositoryUrl>https://github.com/Denis535/HierarchicalNodeMachine</RepositoryUrl>
 
         <!--Nuget package attributes-->
         <IsPackable>true</IsPackable>
-        <Title>$(AssemblyName)</Title>
+        <Title>Hierarchical Node Machine</Title>
         <PackageId>$(AssemblyName)</PackageId>
         <PackageVersion>$(Version)</PackageVersion>
         <PackageReadmeFile>Readme.md</PackageReadmeFile>
         <PackageIcon>Icon.png</PackageIcon>
         <PackageIconUrl></PackageIconUrl>
         <PackageDescription>$(Description)</PackageDescription>
-        <PackageProjectUrl>https://github.com/Denis535/Assert.Kind.Message.Condition</PackageProjectUrl>
+        <PackageProjectUrl>https://github.com/Denis535/HierarchicalNodeMachine</PackageProjectUrl>
         <PackageTags>node; hierarchy; structure</PackageTags>
 
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
