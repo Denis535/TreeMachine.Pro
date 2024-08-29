@@ -55,10 +55,10 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
     }
     public IEnumerable<T> DescendantsAndSelf => Descendants.Prepend( (T) this );
     // OnActivate
-    public Action<object?>? OnBeforeActivateEvent;
-    public Action<object?>? OnAfterActivateEvent;
-    public Action<object?>? OnBeforeDeactivateEvent;
-    public Action<object?>? OnAfterDeactivateEvent;
+    public event Action<object?>? OnBeforeActivateEvent;
+    public event Action<object?>? OnAfterActivateEvent;
+    public event Action<object?>? OnBeforeDeactivateEvent;
+    public event Action<object?>? OnAfterDeactivateEvent;
     // OnDescendantActivate
     public event Action<T, object?>? OnBeforeDescendantActivateEvent;
     public event Action<T, object?>? OnAfterDescendantActivateEvent;

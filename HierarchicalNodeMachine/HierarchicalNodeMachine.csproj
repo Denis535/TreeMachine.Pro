@@ -5,10 +5,68 @@
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <RootNamespace />
+
+        <!--Assembly attributes-->
+        <Version>1.0.0</Version>
+        <Description>The base classes for advanced node hierarchy implementation</Description>
+        <Authors>Denis535</Authors>
+        <Company>Denis535</Company>
+        <Product>$(AssemblyName)</Product>
+        <Copyright></Copyright>
+        <RepositoryUrl>https://github.com/Denis535/hierarchicalStateMachine</RepositoryUrl>
+
+        <!--Nuget package attributes-->
+        <IsPackable>true</IsPackable>
+        <Title>$(AssemblyName)</Title>
+        <PackageId>$(AssemblyName)</PackageId>
+        <PackageVersion>$(Version)</PackageVersion>
+        <PackageReadmeFile>Readme.md</PackageReadmeFile>
+        <PackageIcon>Icon.png</PackageIcon>
+        <PackageIconUrl></PackageIconUrl>
+        <PackageDescription>$(Description)</PackageDescription>
+        <PackageProjectUrl>https://github.com/Denis535/Assert.Kind.Message.Condition</PackageProjectUrl>
+        <PackageTags>node; hierarchy; structure</PackageTags>
+
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageLicenseUrl></PackageLicenseUrl>
+        <RequireLicenseAcceptance>false</RequireLicenseAcceptance>
+
+        <IsTool>false</IsTool>
+        <DevelopmentDependency>false</DevelopmentDependency>
+
+        <!--Nuget pack options-->
+        <EnableDefaultItems>true</EnableDefaultItems>
+        <EnableDefaultNoneItems>true</EnableDefaultNoneItems>
+        <EnableDefaultCompileItems>true</EnableDefaultCompileItems>
+        <EnableDefaultEmbeddedResourceItems>true</EnableDefaultEmbeddedResourceItems>
+
+        <IncludeBuildOutput>true</IncludeBuildOutput>
+        <IncludeContentInPack>true</IncludeContentInPack>
+        <IncludeSymbols>false</IncludeSymbols>
+        <IncludeSource>false</IncludeSource>
+
+        <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeBuilds</TargetsForTfmSpecificBuildOutput>
+        <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);IncludeContent</TargetsForTfmSpecificContentInPackage>
     </PropertyGroup>
 
     <ItemGroup>
+        <Clean Include="$(PackageOutputPath)\*.nupkg" />
         <PackageReference Include="Assert.Kind.Message.Condition" Version="1.0.6" />
     </ItemGroup>
+
+    <!--Include Builds-->
+    <Target Name="IncludeBuilds">
+        <ItemGroup>
+        </ItemGroup>
+    </Target>
+
+    <!--Include Content-->
+    <Target Name="IncludeContent">
+        <ItemGroup>
+            <TfmSpecificPackageFile Include="../Readme.md" PackagePath="/" />
+            <TfmSpecificPackageFile Include="../Icon.png" PackagePath="/" />
+            <TfmSpecificPackageFile Include="../LICENSE" PackagePath="/" />
+        </ItemGroup>
+    </Target>
 
 </Project>

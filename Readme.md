@@ -1,16 +1,77 @@
-namespace System;
-using System;
-using System.Collections.Generic;
-using System.Text;
+# Overview
+The base classes for advanced hierarchical node structure implementation.
 
-public class Tests {
+# Reference
+```
+public interface IHierarchy {
+}
+public interface IHierarchy<T> : IHierarchy where T : NodeBase<T> {
 
-    [Test]
-    public void Test_00() {
-        using var hierarchy = new Hierarchy();
-    }
+    public T? Root { get; protected set; }
+
+    public sealed void AddRoot(T root, object? argument = null);
+    public sealed void RemoveRoot(T root, object? argument = null);
+    public sealed void RemoveRoot(object? argument = null);
 
 }
+public abstract class NodeBase {
+    public enum State_ {
+        Inactive,
+        Activating,
+        Active,
+        Deactivating,
+    }
+}
+public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
+
+    public State_ State { get; private set; }
+    public IHierarchy<T>? Hierarchy { get; }
+    public T? Parent { get; }
+    public bool IsRoot { get; }
+    public T Root { get; }
+    public IEnumerable<T> Ancestors { get; }
+    public IEnumerable<T> AncestorsAndSelf { get; }
+    public IReadOnlyList<T> Children { get; }
+    public IEnumerable<T> Descendants { get; }
+    public IEnumerable<T> DescendantsAndSelf { get; }
+    public Action<object?>? OnBeforeActivateEvent;
+    public Action<object?>? OnAfterActivateEvent;
+    public Action<object?>? OnBeforeDeactivateEvent;
+    public Action<object?>? OnAfterDeactivateEvent;
+    public Action<T, object?>? OnBeforeDescendantActivateEvent;
+    public Action<T, object?>? OnAfterDescendantActivateEvent;
+    public Action<T, object?>? OnBeforeDescendantDeactivateEvent;
+    public Action<T, object?>? OnAfterDescendantDeactivateEvent;
+
+    public NodeBase() {
+    }
+
+    protected virtual void OnBeforeActivate(object? argument);
+    protected abstract void OnActivate(object? argument);
+    protected virtual void OnAfterActivate(object? argument);
+
+    protected virtual void OnBeforeDeactivate(object? argument);
+    protected abstract void OnDeactivate(object? argument);
+    protected virtual void OnAfterDeactivate(object? argument);
+
+    protected abstract void OnBeforeDescendantActivate(T descendant, object? argument);
+    protected abstract void OnAfterDescendantActivate(T descendant, object? argument);
+
+    protected abstract void OnBeforeDescendantDeactivate(T descendant, object? argument);
+    protected abstract void OnAfterDescendantDeactivate(T descendant, object? argument);
+
+    protected virtual void AddChild(T child, object? argument = null);
+    protected virtual void RemoveChild(T child, object? argument = null);
+    protected bool RemoveChild(Func<T, bool> predicate, object? argument = null);
+    protected void RemoveChildren(IEnumerable<T> children, object? argument = null);
+    protected int RemoveChildren(Func<T, bool> predicate, object? argument = null);
+    protected void RemoveSelf(object? argument = null);
+
+}
+```
+
+# Example
+```
 internal class Hierarchy : IHierarchy<Node>, IDisposable {
 
     // Root
@@ -140,3 +201,4 @@ internal class B2_Node : Node {
     }
 
 }
+```
