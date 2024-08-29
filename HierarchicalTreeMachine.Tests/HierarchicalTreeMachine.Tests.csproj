@@ -19,7 +19,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\HierarchicalNodeMachine\HierarchicalNodeMachine.csproj" />
+      <ProjectReference Include="..\HierarchicalTreeMachine\HierarchicalTreeMachine.csproj" />
     </ItemGroup>
 
     <ItemGroup>

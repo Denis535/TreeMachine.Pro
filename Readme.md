@@ -1,5 +1,5 @@
 # Overview
-The base classes for advanced hierarchical node structure implementation.
+The base classes for advanced hierarchical tree implementation.
 
 # Reference
 ```
