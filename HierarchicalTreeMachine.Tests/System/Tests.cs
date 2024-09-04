@@ -14,8 +14,9 @@ public class Tests {
 internal class Tree : ITree<Node>, IDisposable {
 
     // Root
-    Node? ITree<Node>.Root { get; set; }
-    protected RootNode? Root => (RootNode?) ((ITree<Node>) this).Root;
+    protected RootNode? Root { get; private set; }
+    // Root
+    Node? ITree<Node>.Root { get => Root; set => Root = (RootNode?) value; }
 
     // Constructor
     public Tree() {
@@ -27,13 +28,24 @@ internal class Tree : ITree<Node>, IDisposable {
 
     // AddRoot
     protected void AddRoot(Node root, object? argument = null) {
-        ((ITree<Node>) this).AddRoot( root, argument );
+        ITree<Node>.AddRoot( this, root, argument );
     }
     protected void RemoveRoot(Node root, object? argument = null) {
-        ((ITree<Node>) this).RemoveRoot( root, argument );
+        ITree<Node>.RemoveRoot( this, root, argument );
     }
     protected void RemoveRoot(object? argument = null) {
-        ((ITree<Node>) this).RemoveRoot( argument );
+        ITree<Node>.RemoveRoot( this, argument );
+    }
+
+    // AddRoot
+    void ITree<Node>.AddRoot(Node root, object? argument) {
+        AddRoot( root, argument );
+    }
+    void ITree<Node>.RemoveRoot(Node root, object? argument) {
+        RemoveRoot( root, argument );
+    }
+    void ITree<Node>.RemoveRoot(object? argument) {
+        RemoveRoot( argument );
     }
 
 }

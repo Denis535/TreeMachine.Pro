@@ -1,5 +1,5 @@
 # Overview
-The base classes for advanced hierarchical tree implementation.
+The library for implementation of advanced hierarchical tree structure.
 
 # Reference
 ```
@@ -9,9 +9,9 @@ public interface ITree<T> : ITree where T : NodeBase<T> {
 
     public T? Root { get; protected set; }
 
-    public sealed void AddRoot(T root, object? argument = null);
-    public sealed void RemoveRoot(T root, object? argument = null);
-    public sealed void RemoveRoot(object? argument = null);
+    public void AddRoot(T root, object? argument = null);
+    public void RemoveRoot(T root, object? argument = null);
+    public void RemoveRoot(object? argument = null);
 
 }
 public abstract class NodeBase {
@@ -72,13 +72,11 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
 
 # Example
 ```
-public class Tree : ITree<Node>, IDisposable {
+internal class Tree : ITree<Node>, IDisposable {
 
-    // Root
-    Node? ITree<Node>.Root { get; set; }
-    protected RootNode? Root => (RootNode?) ((ITree<Node>) this).Root;
+    protected RootNode? Root { get; private set; }
+    Node? ITree<Node>.Root { get => Root; set => Root = (RootNode?) value; }
 
-    // Constructor
     public Tree() {
         AddRoot( new RootNode() );
     }
@@ -86,19 +84,28 @@ public class Tree : ITree<Node>, IDisposable {
         RemoveRoot();
     }
 
-    // AddRoot
     protected void AddRoot(Node root, object? argument = null) {
-        ((ITree<Node>) this).AddRoot( root, argument );
+        ITree<Node>.AddRoot( this, root, argument );
     }
     protected void RemoveRoot(Node root, object? argument = null) {
-        ((ITree<Node>) this).RemoveRoot( root, argument );
+        ITree<Node>.RemoveRoot( this, root, argument );
     }
     protected void RemoveRoot(object? argument = null) {
-        ((ITree<Node>) this).RemoveRoot( argument );
+        ITree<Node>.RemoveRoot( this, argument );
+    }
+
+    void ITree<Node>.AddRoot(Node root, object? argument) {
+        AddRoot( root, argument );
+    }
+    void ITree<Node>.RemoveRoot(Node root, object? argument) {
+        RemoveRoot( root, argument );
+    }
+    void ITree<Node>.RemoveRoot(object? argument) {
+        RemoveRoot( argument );
     }
 
 }
-public abstract class Node : NodeBase<Node> {
+internal abstract class Node : NodeBase<Node> {
 
     protected override void OnActivate(object? argument) {
         TestContext.WriteLine( "OnActivate: " + GetType().Name );
@@ -118,7 +125,7 @@ public abstract class Node : NodeBase<Node> {
 
 }
 // Root
-public class RootNode : Node {
+internal class RootNode : Node {
 
     public RootNode() {
         AddChild( new A_Node() );
@@ -134,7 +141,7 @@ public class RootNode : Node {
 
 }
 // Level-1
-public class A_Node : Node {
+internal class A_Node : Node {
 
     protected override void OnActivate(object? argument) {
         base.OnActivate( argument );
@@ -147,7 +154,7 @@ public class A_Node : Node {
     }
 
 }
-public class B_Node : Node {
+internal class B_Node : Node {
 
     protected override void OnActivate(object? argument) {
         base.OnActivate( argument );
@@ -161,7 +168,7 @@ public class B_Node : Node {
 
 }
 // Level-2
-public class A1_Node : Node {
+internal class A1_Node : Node {
 
     protected override void OnActivate(object? argument) {
         base.OnActivate( argument );
@@ -171,7 +178,7 @@ public class A1_Node : Node {
     }
 
 }
-public class A2_Node : Node {
+internal class A2_Node : Node {
 
     protected override void OnActivate(object? argument) {
         base.OnActivate( argument );
@@ -182,7 +189,7 @@ public class A2_Node : Node {
 
 }
 // Level-2
-public class B1_Node : Node {
+internal class B1_Node : Node {
 
     protected override void OnActivate(object? argument) {
         base.OnActivate( argument );
@@ -192,7 +199,7 @@ public class B1_Node : Node {
     }
 
 }
-public class B2_Node : Node {
+internal class B2_Node : Node {
 
     protected override void OnActivate(object? argument) {
         base.OnActivate( argument );
