@@ -15,7 +15,7 @@
         <Copyright></Copyright>
         <RepositoryUrl>https://github.com/Denis535/HierarchicalTreeMachine</RepositoryUrl>
 
-        <!--Nuget package attributes-->
+        <!--Package attributes-->
         <IsPackable>true</IsPackable>
         <Title>Hierarchical Tree Machine</Title>
         <PackageId>$(AssemblyName)</PackageId>
@@ -34,7 +34,7 @@
         <IsTool>false</IsTool>
         <DevelopmentDependency>false</DevelopmentDependency>
 
-        <!--Nuget pack options-->
+        <!--Pack options-->
         <PackRelease>true</PackRelease>
 
         <EnableDefaultItems>true</EnableDefaultItems>
@@ -51,8 +51,13 @@
         <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);IncludeContent</TargetsForTfmSpecificContentInPackage>
     </PropertyGroup>
 
+    <!--Clean-->
     <ItemGroup>
         <Clean Include="$(PackageOutputPath)\*.nupkg" />
+    </ItemGroup>
+
+    <!--PackageReference-->
+    <ItemGroup>
         <PackageReference Include="Assert.Kind.Message.Condition" Version="1.0.6" />
     </ItemGroup>
 
