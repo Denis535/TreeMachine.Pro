@@ -1,5 +1,9 @@
 # Overview
 The library for implementation of advanced hierarchical tree structure.
+To be more precise:
+The tree has a root node.
+Any node can have any number of child nodes.
+So as a result we get a tree-like structure.
 
 # Reference
 ```
@@ -66,6 +70,8 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
     protected void RemoveChildren(IEnumerable<T> children, object? argument = null);
     protected int RemoveChildren(Func<T, bool> predicate, object? argument = null);
     protected void RemoveSelf(object? argument = null);
+
+    protected virtual void Sort(List<T> children);
 
 }
 ```

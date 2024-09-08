@@ -8,7 +8,7 @@
 
         <!--Assembly attributes-->
         <Version>1.0.2</Version>
-        <Description>The library for implementation of hierarchical tree</Description>
+        <Description>The library for implementation of hierarchical tree structure</Description>
         <Authors>Denis535</Authors>
         <Company>Denis535</Company>
         <Product>$(AssemblyName)</Product>
