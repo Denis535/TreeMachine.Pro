@@ -172,6 +172,7 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
         Assert.Argument.Message( $"Argument 'child' must be non-null" ).NotNull( child != null );
         Assert.Operation.Message( $"Node {this} must have no child {child} node" ).Valid( !Children.Contains( child ) );
         Children_.Add( child );
+        Sort( Children_ );
         child.Activate( (T) this, argument );
     }
     protected virtual void RemoveChild(T child, object? argument = null) {
@@ -208,6 +209,10 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
         } else {
             ((ITree<T>) Owner).RemoveRoot( (T) this, argument );
         }
+    }
+
+    // Sort
+    protected virtual void Sort(List<T> children) {
     }
 
 }
