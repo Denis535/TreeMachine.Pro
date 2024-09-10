@@ -39,6 +39,7 @@ public abstract class TreeBase<T> : ITree<T> where T : NodeBase<T> {
 }
 public class Tree<T> : TreeBase<T> where T : NodeBase<T> {
 
+    // Root
     public new T? Root => base.Root;
 
     // Constructor
