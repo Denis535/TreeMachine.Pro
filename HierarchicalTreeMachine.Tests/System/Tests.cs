@@ -11,14 +11,9 @@ public class Tests {
     }
 
 }
-internal class Tree : ITree<Node>, IDisposable {
+// Tree
+internal class Tree : Tree<NodeBase2>, IDisposable {
 
-    // Root
-    protected RootNode? Root { get; private set; }
-    // Root
-    Node? ITree<Node>.Root { get => Root; set => Root = (RootNode?) value; }
-
-    // Constructor
     public Tree() {
         AddRoot( new RootNode() );
     }
@@ -26,30 +21,9 @@ internal class Tree : ITree<Node>, IDisposable {
         RemoveRoot();
     }
 
-    // AddRoot
-    protected void AddRoot(Node root, object? argument = null) {
-        ITree<Node>.AddRoot( this, root, argument );
-    }
-    protected void RemoveRoot(Node root, object? argument = null) {
-        ITree<Node>.RemoveRoot( this, root, argument );
-    }
-    protected void RemoveRoot(object? argument = null) {
-        ITree<Node>.RemoveRoot( this, argument );
-    }
-
-    // AddRoot
-    void ITree<Node>.AddRoot(Node root, object? argument) {
-        AddRoot( root, argument );
-    }
-    void ITree<Node>.RemoveRoot(Node root, object? argument) {
-        RemoveRoot( root, argument );
-    }
-    void ITree<Node>.RemoveRoot(object? argument) {
-        RemoveRoot( argument );
-    }
-
 }
-internal abstract class Node : NodeBase<Node> {
+// NodeBase2
+internal abstract class NodeBase2 : NodeBase<NodeBase2> {
 
     protected override void OnActivate(object? argument) {
         TestContext.WriteLine( "OnActivate: " + GetType().Name );
@@ -58,18 +32,18 @@ internal abstract class Node : NodeBase<Node> {
         TestContext.WriteLine( "OnDeactivate: " + GetType().Name );
     }
 
-    protected override void OnBeforeDescendantActivate(Node descendant, object? argument) {
+    protected override void OnBeforeDescendantActivate(NodeBase2 descendant, object? argument) {
     }
-    protected override void OnAfterDescendantActivate(Node descendant, object? argument) {
+    protected override void OnAfterDescendantActivate(NodeBase2 descendant, object? argument) {
     }
-    protected override void OnBeforeDescendantDeactivate(Node descendant, object? argument) {
+    protected override void OnBeforeDescendantDeactivate(NodeBase2 descendant, object? argument) {
     }
-    protected override void OnAfterDescendantDeactivate(Node descendant, object? argument) {
+    protected override void OnAfterDescendantDeactivate(NodeBase2 descendant, object? argument) {
     }
 
 }
 // Root
-internal class RootNode : Node {
+internal class RootNode : NodeBase2 {
 
     public RootNode() {
         AddChild( new A_Node() );
@@ -85,7 +59,7 @@ internal class RootNode : Node {
 
 }
 // Level-1
-internal class A_Node : Node {
+internal class A_Node : NodeBase2 {
 
     protected override void OnActivate(object? argument) {
         base.OnActivate( argument );
@@ -98,7 +72,7 @@ internal class A_Node : Node {
     }
 
 }
-internal class B_Node : Node {
+internal class B_Node : NodeBase2 {
 
     protected override void OnActivate(object? argument) {
         base.OnActivate( argument );
@@ -112,7 +86,7 @@ internal class B_Node : Node {
 
 }
 // Level-2
-internal class A1_Node : Node {
+internal class A1_Node : NodeBase2 {
 
     protected override void OnActivate(object? argument) {
         base.OnActivate( argument );
@@ -122,7 +96,7 @@ internal class A1_Node : Node {
     }
 
 }
-internal class A2_Node : Node {
+internal class A2_Node : NodeBase2 {
 
     protected override void OnActivate(object? argument) {
         base.OnActivate( argument );
@@ -133,7 +107,7 @@ internal class A2_Node : Node {
 
 }
 // Level-2
-internal class B1_Node : Node {
+internal class B1_Node : NodeBase2 {
 
     protected override void OnActivate(object? argument) {
         base.OnActivate( argument );
@@ -143,7 +117,7 @@ internal class B1_Node : Node {
     }
 
 }
-internal class B2_Node : Node {
+internal class B2_Node : NodeBase2 {
 
     protected override void OnActivate(object? argument) {
         base.OnActivate( argument );

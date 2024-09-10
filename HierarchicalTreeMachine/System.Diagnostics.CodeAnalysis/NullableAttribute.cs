@@ -7,24 +7,24 @@ namespace System.Diagnostics.CodeAnalysis {
 
     // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis
 
-    // Input:  field (set), property (set), argument
-    // Output: field (get), property (get), argument (out), result
+    // AllowNull            - Allows null input
+    // DisallowNull         - Disallows null input
 
-    // AllowNull            - Input allows null
-    // DisallowNull         - Input disallows null
+    // MaybeNull            - Allows null output
+    // MaybeNull/When       - Allows null output (when result == true/false)
 
-    // MaybeNull            - Output may be null
-    // MaybeNull/When       - Output may be null (when result == true/false)
+    // NotNull              - Disallows null output
+    // NotNull/When         - Disallows null output (when result == true/false)
+    // NotNull/If/NotNull   - Disallows null output (if argument != null)
 
-    // NotNull              - Output is non-null
-    // NotNull/When         - Output is non-null (when result == true/false)
-    // NotNull/If/NotNull   - Output is non-null (if argument == non-null)
+    // MemberNotNull        - Checks that member output is not null
+    // MemberNotNull/When   - Checks that member output is not null (when result == true/false)
 
-    // MemberNotNull        - Method/property will ensure that the output is non-null
-    // MemberNotNull/When   - Method/property will ensure that the output is non-null (when result == true/false)
+    // DoesNotReturn        - Throws exception
+    // DoesNotReturn/If     - Throws exception (if argument == true/false)
 
-    // DoesNotReturn        - Method will never return
-    // DoesNotReturn/If     - Method will never return (if argument == true/false)
+    // Input:  field/property/method argument
+    // Output: field/property/method result, method out argument
 
     // Input
     //[AttributeUsage( AttributeTargets.Field | AttributeTargets.Parameter | AttributeTargets.Property, Inherited = false )]
@@ -71,7 +71,7 @@ namespace System.Diagnostics.CodeAnalysis {
     internal sealed class MemberNotNullAttribute : Attribute {
         public string[] Members { get; }
         public MemberNotNullAttribute(string member) {
-            Members = new[] { member };
+            Members = [ member ];
         }
         public MemberNotNullAttribute(params string[] members) {
             Members = members;
@@ -84,7 +84,7 @@ namespace System.Diagnostics.CodeAnalysis {
         public string[] Members { get; }
         public MemberNotNullWhenAttribute(bool returnValue, string member) {
             ReturnValue = returnValue;
-            Members = new[] { member };
+            Members = [ member ];
         }
         public MemberNotNullWhenAttribute(bool returnValue, params string[] members) {
             ReturnValue = returnValue;
