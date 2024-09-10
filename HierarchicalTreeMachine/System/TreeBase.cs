@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-public abstract class Tree<T> : ITree<T> where T : NodeBase<T> {
+public abstract class TreeBase<T> : ITree<T> where T : NodeBase<T> {
 
     // Root
     protected T? Root { get; private set; }
@@ -11,7 +11,7 @@ public abstract class Tree<T> : ITree<T> where T : NodeBase<T> {
     T? ITree<T>.Root => Root;
 
     // Constructor
-    public Tree() {
+    public TreeBase() {
     }
 
     // AddRoot
@@ -35,5 +35,25 @@ public abstract class Tree<T> : ITree<T> where T : NodeBase<T> {
     void ITree<T>.AddRoot(T root, object? argument) => AddRoot( root, argument );
     void ITree<T>.RemoveRoot(T root, object? argument) => RemoveRoot( root, argument );
     void ITree<T>.RemoveRoot(object? argument) => RemoveRoot( argument );
+
+}
+public class Tree<T> : TreeBase<T> where T : NodeBase<T> {
+
+    public new T? Root => base.Root;
+
+    // Constructor
+    public Tree() {
+    }
+
+    // AddRoot
+    public virtual new void AddRoot(T root, object? argument = null) {
+        base.AddRoot( root, argument );
+    }
+    public virtual new void RemoveRoot(T root, object? argument = null) {
+        base.RemoveRoot( root, argument );
+    }
+    public virtual new void RemoveRoot(object? argument = null) {
+        base.RemoveRoot( argument );
+    }
 
 }

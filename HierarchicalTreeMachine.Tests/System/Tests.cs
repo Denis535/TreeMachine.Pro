@@ -12,7 +12,7 @@ public class Tests {
 
 }
 // Tree
-internal class Tree : Tree<NodeBase2>, IDisposable {
+internal class Tree : TreeBase<NodeBase2>, IDisposable {
 
     public Tree() {
         AddRoot( new RootNode() );

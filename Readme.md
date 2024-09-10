@@ -79,7 +79,7 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
 # Example
 ```
 // Tree
-internal class Tree : Tree<NodeBase2>, IDisposable {
+internal class Tree : TreeBase<NodeBase2>, IDisposable {
 
     public Tree() {
         AddRoot( new RootNode() );
