@@ -7,8 +7,6 @@ public class Tree<T> : ITree<T> where T : NodeBase<T> {
 
     // Root
     public T? Root { get; private set; }
-    // Root
-    T? ITree<T>.Root => Root;
 
     // Constructor
     public Tree() {
@@ -27,7 +25,5 @@ public class Tree<T> : ITree<T> where T : NodeBase<T> {
             Root = null;
         }
     }
-    // SetRoot
-    void ITree<T>.SetRoot(T? root, object? argument) => SetRoot( root, argument );
 
 }
