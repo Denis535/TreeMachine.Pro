@@ -6,9 +6,9 @@ using System.Text;
 public class Tree<T> : ITree<T> where T : NodeBase<T> {
 
     // Root
-    public T? Root { get; private set; }
-    // Root
     T? ITree<T>.Root { get => Root; set => Root = value; }
+    // Root
+    public T? Root { get; private set; }
 
     // Constructor
     public Tree() {
