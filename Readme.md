@@ -10,13 +10,8 @@ So as a result we get a tree-like structure.
 public interface ITree {
 }
 public interface ITree<T> : ITree where T : NodeBase<T> {
-
     protected T? Root { get; }
-
-    protected void AddRoot(T root, object? argument = null);
-    protected void RemoveRoot(T root, object? argument = null);
-    protected void RemoveRoot(object? argument = null);
-
+    protected void SetRoot(T? root, object? argument = null);
 }
 public abstract class NodeBase {
     public enum State_ {
@@ -78,18 +73,16 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
 
 # Example
 ```
-// Tree
 internal class Tree : TreeBase<NodeBase2>, IDisposable {
 
     public Tree() {
-        AddRoot( new RootNode() );
+        SetRoot( new RootNode() );
     }
     public void Dispose() {
-        RemoveRoot();
+        SetRoot( null );
     }
 
 }
-// NodeBase2
 internal abstract class NodeBase2 : NodeBase<NodeBase2> {
 
     protected override void OnActivate(object? argument) {
@@ -109,7 +102,6 @@ internal abstract class NodeBase2 : NodeBase<NodeBase2> {
     }
 
 }
-// Root
 internal class RootNode : NodeBase2 {
 
     public RootNode() {
@@ -125,7 +117,6 @@ internal class RootNode : NodeBase2 {
     }
 
 }
-// Level-1
 internal class A_Node : NodeBase2 {
 
     protected override void OnActivate(object? argument) {
@@ -152,7 +143,6 @@ internal class B_Node : NodeBase2 {
     }
 
 }
-// Level-2
 internal class A1_Node : NodeBase2 {
 
     protected override void OnActivate(object? argument) {
@@ -173,7 +163,6 @@ internal class A2_Node : NodeBase2 {
     }
 
 }
-// Level-2
 internal class B1_Node : NodeBase2 {
 
     protected override void OnActivate(object? argument) {

@@ -15,10 +15,10 @@ public class Tests {
 internal class Tree : TreeBase<NodeBase2>, IDisposable {
 
     public Tree() {
-        AddRoot( new RootNode() );
+        SetRoot( new RootNode() );
     }
     public void Dispose() {
-        RemoveRoot();
+        SetRoot( null );
     }
 
 }
@@ -42,7 +42,7 @@ internal abstract class NodeBase2 : NodeBase<NodeBase2> {
     }
 
 }
-// Root
+// RootNode
 internal class RootNode : NodeBase2 {
 
     public RootNode() {

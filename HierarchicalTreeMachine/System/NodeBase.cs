@@ -207,7 +207,7 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
         if (Owner is T parent) {
             parent.RemoveChild( (T) this, argument );
         } else {
-            ((ITree<T>) Owner).RemoveRoot( (T) this, argument );
+            ((ITree<T>) Owner).SetRoot( null, argument );
         }
     }
 
