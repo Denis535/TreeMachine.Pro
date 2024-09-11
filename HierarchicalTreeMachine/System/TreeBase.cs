@@ -6,9 +6,9 @@ using System.Text;
 public abstract class TreeBase<T> : ITree<T> where T : NodeBase<T> {
 
     // Root
-    protected T? Root { get; private set; }
+    protected T? Root { get; set; }
     // Root
-    T? ITree<T>.Root => Root;
+    T? ITree<T>.Root { get => Root; set => Root = value; }
 
     // Constructor
     public TreeBase() {
@@ -16,16 +16,7 @@ public abstract class TreeBase<T> : ITree<T> where T : NodeBase<T> {
 
     // SetRoot
     protected virtual void SetRoot(T? root, object? argument = null) {
-        Assert.Argument.Message( $"Argument 'root' ({root}) must be valid" ).Valid( root != Root );
-        if (root != null) {
-            Assert.Operation.Message( $"Tree {this} must have no root" ).Valid( Root == null );
-            Root = root;
-            Root.Activate( this, argument );
-        } else {
-            Assert.Operation.Message( $"Tree {this} must have root" ).Valid( Root != null );
-            Root.Deactivate( this, argument );
-            Root = null;
-        }
+        ITree<T>.SetRoot( this, root, argument );
     }
     // SetRoot
     void ITree<T>.SetRoot(T? root, object? argument) => SetRoot( root, argument );
