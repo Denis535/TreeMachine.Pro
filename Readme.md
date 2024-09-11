@@ -10,8 +10,11 @@ So as a result we get a tree-like structure.
 public interface ITree {
 }
 public interface ITree<T> : ITree where T : NodeBase<T> {
-    protected T? Root { get; }
+
+    protected T? Root { get; set; }
+
     protected void SetRoot(T? root, object? argument = null);
+
 }
 public abstract class NodeBase {
     public enum State_ {
