@@ -15,7 +15,6 @@ public interface ITree<T> : ITree where T : NodeBase<T> {
 
     // Helpers
     protected static void SetRoot(ITree<T> tree, T? root, object? argument) {
-        Assert.Argument.Message( $"Argument 'root' ({root}) must be valid" ).Valid( root != tree.Root );
         if (root != null) {
             Assert.Operation.Message( $"Tree {tree} must have no root" ).Valid( tree.Root == null );
             tree.Root = root;
