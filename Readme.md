@@ -26,7 +26,7 @@ public abstract class NodeBase {
 }
 public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
 
-    public State_ State { get; private set; }
+    public State_ State { get; }
     public ITree<T>? Tree { get; }
     public T? Parent { get; }
     public bool IsRoot { get; }
