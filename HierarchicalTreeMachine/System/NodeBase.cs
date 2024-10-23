@@ -68,6 +68,8 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
     // Constructor
     public NodeBase() {
     }
+    protected virtual void AutoDispose() {
+    }
 
     // Activate
     internal void Activate(ITree<T> owner, object? argument) {
@@ -147,6 +149,7 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
             ancestor.OnAfterDescendantDeactivate( (T) this, argument );
             ancestor.OnAfterDescendantDeactivateEvent?.Invoke( (T) this, argument );
         }
+        AutoDispose();
     }
 
     // OnActivate

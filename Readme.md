@@ -1,5 +1,5 @@
 # Overview
-The library for implementation of advanced hierarchical tree structure.
+The library that helps you implement the hierarchical tree structure.
 Let's look in more detail.
 The tree has a root node.
 Any node has any number of child nodes.
@@ -45,8 +45,8 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
     public Action<T, object?>? OnBeforeDescendantDeactivateEvent;
     public Action<T, object?>? OnAfterDescendantDeactivateEvent;
 
-    public NodeBase() {
-    }
+    public NodeBase();
+    protected virtual void AutoDispose();
 
     protected virtual void OnBeforeActivate(object? argument);
     protected abstract void OnActivate(object? argument);
