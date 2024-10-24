@@ -68,7 +68,8 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
     // Constructor
     public NodeBase() {
     }
-    protected virtual void AutoDispose() {
+    protected virtual void DisposeWhenDeactivate() {
+        (this as IDisposable)?.Dispose();
     }
 
     // Activate
@@ -149,7 +150,7 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
             ancestor.OnAfterDescendantDeactivate( (T) this, argument );
             ancestor.OnAfterDescendantDeactivateEvent?.Invoke( (T) this, argument );
         }
-        AutoDispose();
+        DisposeWhenDeactivate();
     }
 
     // OnActivate

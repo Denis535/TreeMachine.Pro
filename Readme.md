@@ -46,7 +46,7 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
     public Action<T, object?>? OnAfterDescendantDeactivateEvent;
 
     public NodeBase();
-    protected virtual void AutoDispose();
+    protected virtual void DisposeWhenDeactivate();
 
     protected virtual void OnBeforeActivate(object? argument);
     protected abstract void OnActivate(object? argument);
