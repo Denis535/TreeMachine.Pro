@@ -7,7 +7,7 @@
         <RootNamespace />
 
         <!--Assembly attributes-->
-        <Version>1.0.9</Version>
+        <Version>1.0.10</Version>
         <Description>The library that helps you implement the hierarchical tree structure.</Description>
         <Authors>Denis535</Authors>
         <Company>Denis535</Company>
@@ -17,7 +17,7 @@
 
         <!--Package attributes-->
         <IsPackable>true</IsPackable>
-        <Title>Hierarchical Tree Machine</Title>
+        <Title>$(AssemblyName)</Title>
         <PackageId>$(AssemblyName)</PackageId>
         <PackageVersion>$(Version)</PackageVersion>
         <PackageReadmeFile>Readme.md</PackageReadmeFile>
@@ -58,7 +58,7 @@
 
     <!--PackageReference-->
     <ItemGroup>
-        <PackageReference Include="Assert.Kind.Message.Condition" Version="1.0.6" />
+        <PackageReference Include="Assert.Kind.Message.Condition" Version="1.0.7" />
     </ItemGroup>
 
     <!--Include Builds-->
