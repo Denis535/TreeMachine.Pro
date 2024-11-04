@@ -9,6 +9,7 @@ public class Tests_00 {
     [Test]
     public void Test_00() {
         var tree = new Tree<NodeBase2>();
+        tree.SetRoot( null );
         tree.SetRoot( new Root() );
         tree.SetRoot( null );
     }
@@ -17,7 +18,7 @@ public class Tests_00 {
     internal abstract class NodeBase2 : NodeBase<NodeBase2>, IDisposable {
 
         public NodeBase2() {
-            TestContext.WriteLine( "Constructor: " + GetType().Name );
+            //TestContext.WriteLine( "Constructor: " + GetType().Name );
         }
         public virtual void Dispose() {
             //TestContext.WriteLine( "Dispose: " + GetType().Name );
