@@ -15,6 +15,8 @@ public class Tree<T> : ITree<T> where T : NodeBase<T> {
     }
 
     // SetRoot
+    void ITree<T>.SetRoot(T? root, object? argument) => SetRoot( root, argument );
+    // SetRoot
     public virtual void SetRoot(T? root, object? argument = null) {
         ITree<T>.SetRoot( this, root, argument );
     }

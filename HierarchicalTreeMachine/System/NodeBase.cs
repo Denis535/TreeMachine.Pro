@@ -13,26 +13,19 @@ public abstract class NodeBase {
         Deactivating,
     }
 
-    // Constructor
-    internal NodeBase() {
-    }
-
-}
-public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
-
     // State
-    public State_ State { get; private set; } = State_.Inactive;
+    public State_ State { get; private protected set; } = State_.Inactive;
     // Owner
-    private object? Owner { get; set; }
+    private protected object? Owner { get; set; }
     // Tree
-    public ITree<T>? Tree => Owner as ITree<T>;
-    // Parent
-    public T? Parent => Owner as T;
+    public ITree? Tree => Owner as ITree;
     // Root
     [MemberNotNullWhen( false, nameof( Parent ) )] public bool IsRoot => Parent == null;
-    public T Root => IsRoot ? (T) this : Parent.Root;
+    public NodeBase Root => Parent?.Root ?? this;
+    // Parent
+    public NodeBase? Parent => Owner as NodeBase;
     // Ancestors
-    public IEnumerable<T> Ancestors {
+    public IEnumerable<NodeBase> Ancestors {
         get {
             if (Parent != null) {
                 yield return Parent;
@@ -40,12 +33,12 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
             }
         }
     }
-    public IEnumerable<T> AncestorsAndSelf => Ancestors.Prepend( (T) this );
+    public IEnumerable<NodeBase> AncestorsAndSelf => Ancestors.Prepend( this );
     // Children
-    private List<T> Children_ { get; } = new List<T>( 0 );
-    public IReadOnlyList<T> Children => Children_;
+    private protected List<NodeBase> Children_ { get; } = new List<NodeBase>( 0 );
+    public IReadOnlyList<NodeBase> Children => Children_;
     // Descendants
-    public IEnumerable<T> Descendants {
+    public IEnumerable<NodeBase> Descendants {
         get {
             foreach (var child in Children) {
                 yield return child;
@@ -53,7 +46,30 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
             }
         }
     }
-    public IEnumerable<T> DescendantsAndSelf => Descendants.Prepend( (T) this );
+    public IEnumerable<NodeBase> DescendantsAndSelf => Descendants.Prepend( this );
+
+    // Constructor
+    internal NodeBase() {
+    }
+
+}
+public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
+
+    // Tree
+    public new ITree<T>? Tree => (ITree<T>?) base.Tree;
+    // Root
+    [MemberNotNullWhen( false, nameof( Parent ) )] public new bool IsRoot => base.IsRoot;
+    public new T Root => (T) base.Root;
+    // Parent
+    public new T? Parent => (T?) base.Parent;
+    // Ancestors
+    public new IEnumerable<T> Ancestors => base.Ancestors.Cast<T>();
+    public new IEnumerable<T> AncestorsAndSelf => base.AncestorsAndSelf.Cast<T>();
+    // Children
+    public new IEnumerable<T> Children => base.Children.Cast<T>();
+    // Descendants
+    public new IEnumerable<T> Descendants => base.Descendants.Cast<T>();
+    public new IEnumerable<T> DescendantsAndSelf => base.DescendantsAndSelf.Cast<T>();
     // OnActivate
     public event Action<object?>? OnBeforeActivateEvent;
     public event Action<object?>? OnAfterActivateEvent;
@@ -216,7 +232,8 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
     }
 
     // Sort
-    protected virtual void Sort(List<T> children) {
+    protected virtual void Sort(List<NodeBase> children) {
+        //children.Sort( (a, b) => Comparer<int>.Default.Compare( GetOrderOf( a ), GetOrderOf( b ) ) );
     }
 
 }
