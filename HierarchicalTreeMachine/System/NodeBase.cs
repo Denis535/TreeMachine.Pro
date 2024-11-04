@@ -90,11 +90,14 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
 
     // Activate
     internal void Activate(ITree<T> owner, object? argument) {
+        Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( State is State_.Inactive );
+        Assert.Operation.Message( $"Node {this} must have no owner" ).Valid( Owner == null );
         Owner = owner;
         Activate( argument );
     }
     internal void Deactivate(ITree<T> owner, object? argument) {
-        Assert.Argument.Message( $"Argument 'owner' ({owner}) must be valid" ).Valid( owner == Owner );
+        Assert.Operation.Message( $"Node {this} must be active" ).Valid( State is State_.Active );
+        Assert.Operation.Message( $"Node {this} must have {owner} owner" ).Valid( Owner == owner );
         Deactivate( argument );
         Owner = null;
     }
@@ -102,20 +105,27 @@ public abstract class NodeBase<T> : NodeBase where T : NodeBase<T> {
     // Activate
     internal void Activate(T owner, object? argument) {
         if (owner.State is State_.Active) {
+            Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( State is State_.Inactive );
+            Assert.Operation.Message( $"Node {this} must have no owner" ).Valid( Owner == null );
             Owner = owner;
             Activate( argument );
         } else {
             Assert.Argument.Message( $"Argument 'argument' ({argument}) must be null" ).Valid( argument == null );
+            Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( State is State_.Inactive );
+            Assert.Operation.Message( $"Node {this} must have no owner" ).Valid( Owner == null );
             Owner = owner;
         }
     }
     internal void Deactivate(T owner, object? argument) {
-        Assert.Argument.Message( $"Argument 'owner' ({owner}) must be valid" ).Valid( owner == Owner );
         if (owner.State is State_.Active) {
+            Assert.Operation.Message( $"Node {this} must be active" ).Valid( State is State_.Active );
+            Assert.Operation.Message( $"Node {this} must have {owner} owner" ).Valid( Owner == owner );
             Deactivate( argument );
             Owner = null;
         } else {
             Assert.Argument.Message( $"Argument 'argument' ({argument}) must be null" ).Valid( argument == null );
+            Assert.Operation.Message( $"Node {this} must be active" ).Valid( State is State_.Inactive );
+            Assert.Operation.Message( $"Node {this} must have {owner} owner" ).Valid( Owner == owner );
             Owner = null;
         }
     }
