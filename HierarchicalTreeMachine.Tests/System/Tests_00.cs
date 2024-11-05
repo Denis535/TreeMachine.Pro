@@ -18,17 +18,17 @@ public class Tests_00 {
     internal abstract class NodeBase2 : NodeBase<NodeBase2>, IDisposable {
 
         public NodeBase2() {
-            //TestContext.WriteLine( "Constructor: " + GetType().Name );
+            //TestContext.Out.WriteLine( "Constructor: " + GetType().Name );
         }
         public virtual void Dispose() {
-            //TestContext.WriteLine( "Dispose: " + GetType().Name );
+            //TestContext.Out.WriteLine( "Dispose: " + GetType().Name );
         }
 
         protected override void OnActivate(object? argument) {
-            TestContext.WriteLine( "OnActivate: " + GetType().Name );
+            TestContext.Out.WriteLine( "OnActivate: " + GetType().Name );
         }
         protected override void OnDeactivate(object? argument) {
-            TestContext.WriteLine( "OnDeactivate: " + GetType().Name );
+            TestContext.Out.WriteLine( "OnDeactivate: " + GetType().Name );
         }
 
         protected override void OnBeforeDescendantActivate(NodeBase2 descendant, object? argument) {
