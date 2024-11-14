@@ -17,14 +17,14 @@ public interface ITree<T> : ITree where T : NodeBase<T> {
 
 }
 public abstract class NodeBase {
-    public enum State_ {
+    public enum Activity_ {
         Inactive,
         Activating,
         Active,
         Deactivating,
     }
 
-    public State_ State { get; }
+    public Activity_ Activity { get; }
     public ITree? Tree { get; }
 
     public bool IsRoot { get; }
