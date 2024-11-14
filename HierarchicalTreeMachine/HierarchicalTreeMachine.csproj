@@ -7,7 +7,7 @@
         <RootNamespace />
 
         <!--Assembly attributes-->
-        <Version>1.0.10</Version>
+        <Version>1.0.11</Version>
         <Description>The library that helps you implement the hierarchical tree structure.</Description>
         <Authors>Denis535</Authors>
         <Company>Denis535</Company>
@@ -20,7 +20,7 @@
         <Title>$(AssemblyName)</Title>
         <PackageId>$(AssemblyName)</PackageId>
         <PackageVersion>$(Version)</PackageVersion>
-        <PackageReadmeFile>Readme.md</PackageReadmeFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageIcon>Icon.png</PackageIcon>
         <PackageIconUrl></PackageIconUrl>
         <PackageDescription>$(Description)</PackageDescription>
@@ -70,9 +70,9 @@
     <!--Include Content-->
     <Target Name="IncludeContent">
         <ItemGroup>
-            <TfmSpecificPackageFile Include="../Readme.md" PackagePath="/" />
-            <TfmSpecificPackageFile Include="../Icon.png" PackagePath="/" />
+            <TfmSpecificPackageFile Include="../README.md" PackagePath="/" />
             <TfmSpecificPackageFile Include="../LICENSE" PackagePath="/" />
+            <TfmSpecificPackageFile Include="../Icon.png" PackagePath="/" />
         </ItemGroup>
     </Target>
 
