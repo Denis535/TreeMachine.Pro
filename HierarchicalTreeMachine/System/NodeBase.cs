@@ -222,9 +222,6 @@ public abstract class NodeBase2<TThis> : NodeBase<TThis> where TThis : NodeBase2
     // Constructor
     public NodeBase2() {
     }
-    protected override void DisposeWhenDeactivate() {
-        base.DisposeWhenDeactivate();
-    }
 
     // Activate
     private protected sealed override void BeforeActivate(object? argument) {

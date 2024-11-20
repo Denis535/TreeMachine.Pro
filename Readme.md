@@ -7,16 +7,14 @@ So as a result we get a tree-like structure.
 
 # Reference
 ```
-public interface ITree {
-}
-public interface ITree<T> : ITree where T : NodeBase<T> {
+public interface ITree<T> where T : NodeBase<T> {
 
     protected T? Root { get; set; }
 
     protected void SetRoot(T? root, object? argument = null);
 
 }
-public abstract class NodeBase {
+public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
     public enum Activity_ {
         Inactive,
         Activating,
@@ -25,44 +23,23 @@ public abstract class NodeBase {
     }
 
     public Activity_ Activity { get; }
-    public ITree? Tree { get; }
+    public ITree<TThis>? Tree { get; }
 
     public bool IsRoot { get; }
-    public NodeBase Root { get; }
+    public TThis Root { get; }
 
-    public NodeBase? Parent { get; }
-    public IEnumerable<NodeBase> Ancestors { get; }
-    public IEnumerable<NodeBase> AncestorsAndSelf { get; }
+    public TThis? Parent { get; }
+    public IEnumerable<TThis> Ancestors { get; }
+    public IEnumerable<TThis> AncestorsAndSelf { get; }
 
-    public IReadOnlyList<NodeBase> Children { get; }
-    public IEnumerable<NodeBase> Descendants { get; }
-    public IEnumerable<NodeBase> DescendantsAndSelf { get; }
-
-}
-public abstract class NodeBase<TThis> : NodeBase where TThis : NodeBase<TThis> {
-
-    public new ITree<TThis>? Tree { get; }
-
-    public new bool IsRoot { get; }
-    public new TThis Root { get; }
-    
-    public new TThis? Parent { get; }
-    public new IEnumerable<TThis> Ancestors { get; }
-    public new IEnumerable<TThis> AncestorsAndSelf { get; }
-    
-    public new IEnumerable<TThis> Children { get; }
-    public new IEnumerable<TThis> Descendants { get; }
-    public new IEnumerable<TThis> DescendantsAndSelf { get; }
+    public IReadOnlyList<TThis> Children { get; }
+    public IEnumerable<TThis> Descendants { get; }
+    public IEnumerable<TThis> DescendantsAndSelf { get; }
 
     public event Action<object?>? OnBeforeActivateEvent;
     public event Action<object?>? OnAfterActivateEvent;
     public event Action<object?>? OnBeforeDeactivateEvent;
     public event Action<object?>? OnAfterDeactivateEvent;
-
-    public event Action<TThis, object?>? OnBeforeDescendantActivateEvent;
-    public event Action<TThis, object?>? OnAfterDescendantActivateEvent;
-    public event Action<TThis, object?>? OnBeforeDescendantDeactivateEvent;
-    public event Action<TThis, object?>? OnAfterDescendantDeactivateEvent;
 
     public NodeBase();
     protected virtual void DisposeWhenDeactivate();
@@ -74,11 +51,6 @@ public abstract class NodeBase<TThis> : NodeBase where TThis : NodeBase<TThis> {
     protected abstract void OnDeactivate(object? argument);
     protected virtual void OnAfterDeactivate(object? argument);
 
-    protected abstract void OnBeforeDescendantActivate(TThis descendant, object? argument);
-    protected abstract void OnAfterDescendantActivate(TThis descendant, object? argument);
-    protected abstract void OnBeforeDescendantDeactivate(TThis descendant, object? argument);
-    protected abstract void OnAfterDescendantDeactivate(TThis descendant, object? argument);
-
     protected virtual void AddChild(TThis child, object? argument = null);
     protected virtual void RemoveChild(TThis child, object? argument = null);
     protected bool RemoveChild(Func<TThis, bool> predicate, object? argument = null);
@@ -86,7 +58,22 @@ public abstract class NodeBase<TThis> : NodeBase where TThis : NodeBase<TThis> {
     protected int RemoveChildren(Func<TThis, bool> predicate, object? argument = null);
     protected void RemoveSelf(object? argument = null);
 
-    protected virtual void Sort(List<NodeBase> children);
+    protected virtual void Sort(List<TThis> children);
+
+}
+public abstract class NodeBase2<TThis> : NodeBase<TThis> where TThis : NodeBase2<TThis> {
+    
+    public event Action<TThis, object?>? OnBeforeDescendantActivateEvent;
+    public event Action<TThis, object?>? OnAfterDescendantActivateEvent;
+    public event Action<TThis, object?>? OnBeforeDescendantDeactivateEvent;
+    public event Action<TThis, object?>? OnAfterDescendantDeactivateEvent;
+
+    public NodeBase2();
+
+    protected abstract void OnBeforeDescendantActivate(TThis descendant, object? argument);
+    protected abstract void OnAfterDescendantActivate(TThis descendant, object? argument);
+    protected abstract void OnBeforeDescendantDeactivate(TThis descendant, object? argument);
+    protected abstract void OnAfterDescendantDeactivate(TThis descendant, object? argument);
 
 }
 ```
