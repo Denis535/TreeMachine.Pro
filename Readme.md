@@ -1,5 +1,5 @@
 # Overview
-The library that helps you implement the hierarchical tree structure.
+The library that helps you implement a tree structure.
 Let's look in more detail.
 The tree has a root node.
 Any node has any number of child nodes.
