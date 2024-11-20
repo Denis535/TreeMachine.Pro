@@ -8,16 +8,16 @@ public class Tests_00 {
 
     [Test]
     public void Test_00() {
-        var tree = new Tree<NodeBase2>();
+        var tree = new Tree<Node>();
         tree.SetRoot( null );
         tree.SetRoot( new Root() );
         tree.SetRoot( null );
     }
 
-    // NodeBase
-    internal abstract class NodeBase2 : NodeBase<NodeBase2>, IDisposable {
+    // Node
+    internal abstract class Node : NodeBase2<Node>, IDisposable {
 
-        public NodeBase2() {
+        public Node() {
             //TestContext.Out.WriteLine( "Constructor: " + GetType().Name );
         }
         public virtual void Dispose() {
@@ -31,18 +31,18 @@ public class Tests_00 {
             TestContext.Out.WriteLine( "OnDeactivate: " + GetType().Name );
         }
 
-        protected override void OnBeforeDescendantActivate(NodeBase2 descendant, object? argument) {
+        protected override void OnBeforeDescendantActivate(Node descendant, object? argument) {
         }
-        protected override void OnAfterDescendantActivate(NodeBase2 descendant, object? argument) {
+        protected override void OnAfterDescendantActivate(Node descendant, object? argument) {
         }
-        protected override void OnBeforeDescendantDeactivate(NodeBase2 descendant, object? argument) {
+        protected override void OnBeforeDescendantDeactivate(Node descendant, object? argument) {
         }
-        protected override void OnAfterDescendantDeactivate(NodeBase2 descendant, object? argument) {
+        protected override void OnAfterDescendantDeactivate(Node descendant, object? argument) {
         }
 
     }
     // Root
-    internal class Root : NodeBase2 {
+    internal class Root : Node {
 
         public Root() {
             AddChild( new A() );
@@ -61,7 +61,7 @@ public class Tests_00 {
 
     }
     // A
-    internal class A : NodeBase2 {
+    internal class A : Node {
 
         public A() {
             AddChild( new A1() );
@@ -79,7 +79,7 @@ public class Tests_00 {
         }
 
     }
-    internal class A1 : NodeBase2 {
+    internal class A1 : Node {
 
         public A1() {
         }
@@ -95,7 +95,7 @@ public class Tests_00 {
         }
 
     }
-    internal class A2 : NodeBase2 {
+    internal class A2 : Node {
 
         public A2() {
         }
@@ -112,7 +112,7 @@ public class Tests_00 {
 
     }
     // B
-    internal class B : NodeBase2 {
+    internal class B : Node {
 
         public B() {
             AddChild( new B1() );
@@ -130,7 +130,7 @@ public class Tests_00 {
         }
 
     }
-    internal class B1 : NodeBase2 {
+    internal class B1 : Node {
 
         public B1() {
         }
@@ -146,7 +146,7 @@ public class Tests_00 {
         }
 
     }
-    internal class B2 : NodeBase2 {
+    internal class B2 : Node {
 
         public B2() {
         }
