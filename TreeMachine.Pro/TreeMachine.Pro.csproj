@@ -13,7 +13,7 @@
         <Company>Denis535</Company>
         <Product>$(AssemblyName)</Product>
         <Copyright></Copyright>
-        <RepositoryUrl>https://github.com/Denis535/HierarchicalTreeMachine</RepositoryUrl>
+        <RepositoryUrl>https://github.com/Denis535/TreeMachine.Pro</RepositoryUrl>
 
         <!--Package attributes-->
         <IsPackable>true</IsPackable>
@@ -24,8 +24,8 @@
         <PackageIcon>Icon.png</PackageIcon>
         <PackageIconUrl></PackageIconUrl>
         <PackageDescription>$(Description)</PackageDescription>
-        <PackageProjectUrl>https://github.com/Denis535/HierarchicalTreeMachine</PackageProjectUrl>
-        <PackageTags>node; hierarchy; tree; structure</PackageTags>
+        <PackageProjectUrl>https://github.com/Denis535/TreeMachine.Pro</PackageProjectUrl>
+        <PackageTags>node; tree; hierarchy; structure</PackageTags>
 
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageLicenseUrl></PackageLicenseUrl>

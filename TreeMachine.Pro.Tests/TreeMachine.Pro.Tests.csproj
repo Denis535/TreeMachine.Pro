@@ -25,7 +25,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\HierarchicalTreeMachine\HierarchicalTreeMachine.csproj" />
+      <ProjectReference Include="..\TreeMachine.Pro\TreeMachine.Pro.csproj" />
     </ItemGroup>
 
     <ItemGroup>
