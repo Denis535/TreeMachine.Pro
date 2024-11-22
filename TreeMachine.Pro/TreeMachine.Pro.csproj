@@ -25,7 +25,7 @@
         <PackageIconUrl></PackageIconUrl>
         <PackageDescription>$(Description)</PackageDescription>
         <PackageProjectUrl>https://github.com/Denis535/TreeMachine.Pro</PackageProjectUrl>
-        <PackageTags>node; tree; hierarchy; structure</PackageTags>
+        <PackageTags>node; tree; hierarchy; hierarchical structure</PackageTags>
 
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageLicenseUrl></PackageLicenseUrl>
