@@ -14,12 +14,14 @@ public interface ITree<T> where T : NodeBase<T> {
     // Helpers
     protected static void SetRoot(ITree<T> tree, Action<ITree<T>, T?> rootSetter, T? root, object? argument) {
         if (tree.Root != null) {
-            tree.Root.RemoveOwner( tree, argument );
+            var oldRoot = tree.Root;
+            oldRoot.Detach( tree, argument );
             rootSetter( tree, null );
+            oldRoot.DisposeWhenRemove( argument );
         }
         if (root != null) {
             rootSetter( tree, root );
-            tree.Root!.SetOwner( tree, argument );
+            root.Attach( tree, argument );
         }
     }
 

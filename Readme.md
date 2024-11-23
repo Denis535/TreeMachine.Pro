@@ -18,8 +18,9 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
         Deactivating,
     }
 
-    private object? Owner { get; set; }
+    public object? Owner { get; private set; }
     public Activity_ Activity { get; private set; }
+
     public ITree<TThis>? Tree { get; }
     
     [MemberNotNullWhen( false, nameof( Parent ) )] public bool IsRoot { get; }
@@ -40,21 +41,21 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
     public event Action<object?>? OnAfterDeactivateEvent;
 
     public NodeBase();
-    protected virtual void DisposeWhenDeactivate();
+    protected virtual void DisposeWhenRemove();
 
-    internal void SetOwner(ITree<TThis> owner, object? argument);
-    internal void RemoveOwner(ITree<TThis> owner, object? argument);
+    internal void Attach(ITree<TThis> owner, object? argument);
+    internal void Detach(ITree<TThis> owner, object? argument);
 
-    private void SetOwner(TThis owner, object? argument);
-    private void RemoveOwner(TThis owner, object? argument);
+    private void Attach(TThis owner, object? argument);
+    private void Detach(TThis owner, object? argument);
 
     private void Activate(object? argument);
     private void Deactivate(object? argument);
 
-    private protected virtual void BeforeActivate(object? argument);
-    private protected virtual void AfterActivate(object? argument);
-    private protected virtual void BeforeDeactivate(object? argument);
-    private protected virtual void AfterDeactivate(object? argument);
+    private protected virtual void OnBeforeActivateInternal(object? argument);
+    private protected virtual void OnAfterActivateInternal(object? argument);
+    private protected virtual void OnBeforeDeactivateInternal(object? argument);
+    private protected virtual void OnAfterDeactivateInternal(object? argument);
 
     protected virtual void OnBeforeActivate(object? argument);
     protected abstract void OnActivate(object? argument);
@@ -82,10 +83,10 @@ public abstract class NodeBase2<TThis> : NodeBase<TThis> where TThis : NodeBase2
 
     public NodeBase2();
 
-    private protected sealed override void BeforeActivate(object? argument);
-    private protected sealed override void AfterActivate(object? argument);
-    private protected sealed override void BeforeDeactivate(object? argument);
-    private protected sealed override void AfterDeactivate(object? argument);
+    private protected sealed override void OnBeforeActivateInternal(object? argument);
+    private protected sealed override void OnAfterActivateInternal(object? argument);
+    private protected sealed override void OnBeforeDeactivateInternal(object? argument);
+    private protected sealed override void OnAfterDeactivateInternal(object? argument);
 
     protected abstract void OnBeforeDescendantActivate(TThis descendant, object? argument);
     protected abstract void OnAfterDescendantActivate(TThis descendant, object? argument);

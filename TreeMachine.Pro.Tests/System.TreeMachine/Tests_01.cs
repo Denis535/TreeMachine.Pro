@@ -2,6 +2,7 @@
 namespace System.TreeMachine;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using NUnit.Framework;
 
@@ -10,19 +11,50 @@ public class Tests_01 {
     [Test]
     public void Test_00() {
         var tree = new Tree<Node>();
+        var root = new Root();
+
+        NUnit.Framework.Assert.That( tree.Root, Is.Null );
+        NUnit.Framework.Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 1 ) );
+        foreach (var node in root.DescendantsAndSelf) {
+            NUnit.Framework.Assert.That( node.IsDisposed, Is.False );
+            NUnit.Framework.Assert.That( node.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+            NUnit.Framework.Assert.That( node.Tree, Is.Null );
+        }
+
+        tree.SetRoot( root );
+        NUnit.Framework.Assert.That( tree.Root, Is.EqualTo( root ) );
+        NUnit.Framework.Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 7 ) );
+        foreach (var node in root.DescendantsAndSelf) {
+            NUnit.Framework.Assert.That( node.IsDisposed, Is.False );
+            NUnit.Framework.Assert.That( node.Activity, Is.EqualTo( Node.Activity_.Active ) );
+            NUnit.Framework.Assert.That( node.Tree, Is.EqualTo( tree ) );
+        }
+
         tree.SetRoot( null );
-        tree.SetRoot( new Root() );
-        tree.SetRoot( null );
+        NUnit.Framework.Assert.That( tree.Root, Is.Null );
+        NUnit.Framework.Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 7 ) );
+        foreach (var node in root.DescendantsAndSelf) {
+            NUnit.Framework.Assert.That( node.IsDisposed, Is.True );
+            NUnit.Framework.Assert.That( node.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+            NUnit.Framework.Assert.That( node.Tree, Is.Null );
+        }
     }
 
     // Node
     internal abstract class Node : NodeBase2<Node>, IDisposable {
 
+        public bool IsDisposed { get; private set; }
+
         public Node() {
-            //TestContext.Out.WriteLine( "Constructor: " + GetType().Name );
         }
         public virtual void Dispose() {
-            //TestContext.Out.WriteLine( "Dispose: " + GetType().Name );
+            System.Assert.Operation.Message( $"Node {this} must be non-disposed" ).Valid( !IsDisposed );
+            System.Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( Activity == Activity_.Inactive );
+            System.Assert.Operation.Message( $"Node {this} must have no tree" ).Valid( Tree == null );
+            foreach (var child in Children) {
+                child.Dispose();
+            }
+            IsDisposed = true;
         }
 
         protected override void OnActivate(object? argument) {
@@ -80,38 +112,6 @@ public class Tests_01 {
         }
 
     }
-    internal class A1 : Node {
-
-        public A1() {
-        }
-        public override void Dispose() {
-            base.Dispose();
-        }
-
-        protected override void OnActivate(object? argument) {
-            base.OnActivate( argument );
-        }
-        protected override void OnDeactivate(object? argument) {
-            base.OnDeactivate( argument );
-        }
-
-    }
-    internal class A2 : Node {
-
-        public A2() {
-        }
-        public override void Dispose() {
-            base.Dispose();
-        }
-
-        protected override void OnActivate(object? argument) {
-            base.OnActivate( argument );
-        }
-        protected override void OnDeactivate(object? argument) {
-            base.OnDeactivate( argument );
-        }
-
-    }
     // B
     internal class B : Node {
 
@@ -131,36 +131,13 @@ public class Tests_01 {
         }
 
     }
+    // Misc
+    internal class A1 : Node {
+    }
+    internal class A2 : Node {
+    }
     internal class B1 : Node {
-
-        public B1() {
-        }
-        public override void Dispose() {
-            base.Dispose();
-        }
-
-        protected override void OnActivate(object? argument) {
-            base.OnActivate( argument );
-        }
-        protected override void OnDeactivate(object? argument) {
-            base.OnDeactivate( argument );
-        }
-
     }
     internal class B2 : Node {
-
-        public B2() {
-        }
-        public override void Dispose() {
-            base.Dispose();
-        }
-
-        protected override void OnActivate(object? argument) {
-            base.OnActivate( argument );
-        }
-        protected override void OnDeactivate(object? argument) {
-            base.OnDeactivate( argument );
-        }
-
     }
 }
