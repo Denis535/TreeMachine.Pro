@@ -18,7 +18,7 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
         Deactivating,
     }
 
-    public object? Owner { get; private set; }
+    private object? Owner { get; set; }
     public Activity_ Activity { get; private set; }
 
     public ITree<TThis>? Tree { get; }
