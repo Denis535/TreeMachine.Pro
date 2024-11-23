@@ -14,7 +14,7 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
     }
 
     // Owner
-    public object? Owner { get; private set; } = null;
+    private object? Owner { get; set; } = null;
     // Activity
     public Activity_ Activity { get; private set; } = Activity_.Inactive;
 

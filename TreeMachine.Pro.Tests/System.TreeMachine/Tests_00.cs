@@ -13,6 +13,7 @@ public class Tests_00 {
         var tree = new Tree<Node>();
         var root = new Root();
 
+        tree.SetRoot( null );
         NUnit.Framework.Assert.That( tree.Root, Is.Null );
         NUnit.Framework.Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 7 ) );
         foreach (var node in root.DescendantsAndSelf) {
