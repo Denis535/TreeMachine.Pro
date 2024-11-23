@@ -14,10 +14,10 @@ public interface ITree<T> where T : NodeBase<T> {
     // Helpers
     protected static void SetRoot(ITree<T> tree, Action<ITree<T>, T?> rootSetter, T? root, object? argument) {
         if (tree.Root != null) {
-            var oldRoot = tree.Root;
-            oldRoot.Detach( tree, argument );
+            var prevRoot = tree.Root;
+            prevRoot.Detach( tree, argument );
             rootSetter( tree, null );
-            oldRoot.DisposeWhenRemove( argument );
+            prevRoot.DisposeWhenRemove( argument );
         }
         if (root != null) {
             rootSetter( tree, root );
