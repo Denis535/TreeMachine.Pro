@@ -5,11 +5,9 @@ The library that helps you implement a tree structure.
 ```
 public interface ITree<T> where T : NodeBase<T> {
 
-    protected T? Root { get; set; }
+    protected T? Root { get; }
 
     protected internal void SetRoot(T? root, object? argument = null);
-
-    protected static void SetRoot(ITree<T> tree, T? root, object? argument);
 
 }
 public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {

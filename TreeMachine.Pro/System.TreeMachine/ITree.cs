@@ -6,20 +6,20 @@ using System.Text;
 public interface ITree<T> where T : NodeBase<T> {
 
     // Root
-    protected T? Root { get; set; }
+    protected T? Root { get; }
 
     // SetRoot
     protected internal void SetRoot(T? root, object? argument = null);
 
     // Helpers
-    protected static void SetRoot(ITree<T> tree, T? root, object? argument) {
+    protected static void SetRoot(ITree<T> tree, Action<ITree<T>, T?> rootSetter, T? root, object? argument) {
         if (tree.Root != null) {
             tree.Root.RemoveOwner( tree, argument );
-            tree.Root = null;
+            rootSetter( tree, null );
         }
         if (root != null) {
-            tree.Root = root;
-            tree.Root.SetOwner( tree, argument );
+            rootSetter( tree, root );
+            tree.Root!.SetOwner( tree, argument );
         }
     }
 
