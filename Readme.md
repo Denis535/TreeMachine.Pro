@@ -1,9 +1,5 @@
 # Overview
 The library that helps you implement a tree structure.
-Let's look in more detail.
-The tree has a root node.
-Any node has any number of child nodes.
-So as a result we get a tree-like structure.
 
 # Reference
 ```
@@ -11,7 +7,9 @@ public interface ITree<T> where T : NodeBase<T> {
 
     protected T? Root { get; set; }
 
-    protected void SetRoot(T? root, object? argument = null);
+    protected internal void SetRoot(T? root, object? argument = null);
+
+    protected static void SetRoot(ITree<T> tree, T? root, object? argument);
 
 }
 public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
@@ -22,16 +20,18 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
         Deactivating,
     }
 
-    public Activity_ Activity { get; }
+    private object? Owner { get; set; }
+    public Activity_ Activity { get; private set; }
     public ITree<TThis>? Tree { get; }
-
-    public bool IsRoot { get; }
+    
+    [MemberNotNullWhen( false, nameof( Parent ) )] public bool IsRoot { get; }
     public TThis Root { get; }
-
+    
     public TThis? Parent { get; }
     public IEnumerable<TThis> Ancestors { get; }
     public IEnumerable<TThis> AncestorsAndSelf { get; }
 
+    private List<TThis> Children_ { get; }
     public IReadOnlyList<TThis> Children { get; }
     public IEnumerable<TThis> Descendants { get; }
     public IEnumerable<TThis> DescendantsAndSelf { get; }
@@ -43,6 +43,20 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
 
     public NodeBase();
     protected virtual void DisposeWhenDeactivate();
+
+    internal void SetOwner(ITree<TThis> owner, object? argument);
+    internal void RemoveOwner(ITree<TThis> owner, object? argument);
+
+    internal void SetOwner(TThis owner, object? argument);
+    internal void RemoveOwner(TThis owner, object? argument);
+
+    private void Activate(object? argument);
+    private void Deactivate(object? argument);
+
+    private protected virtual void BeforeActivate(object? argument);
+    private protected virtual void AfterActivate(object? argument);
+    private protected virtual void BeforeDeactivate(object? argument);
+    private protected virtual void AfterDeactivate(object? argument);
 
     protected virtual void OnBeforeActivate(object? argument);
     protected abstract void OnActivate(object? argument);
@@ -62,13 +76,18 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
 
 }
 public abstract class NodeBase2<TThis> : NodeBase<TThis> where TThis : NodeBase2<TThis> {
-    
+
     public event Action<TThis, object?>? OnBeforeDescendantActivateEvent;
     public event Action<TThis, object?>? OnAfterDescendantActivateEvent;
     public event Action<TThis, object?>? OnBeforeDescendantDeactivateEvent;
     public event Action<TThis, object?>? OnAfterDescendantDeactivateEvent;
 
     public NodeBase2();
+
+    private protected sealed override void BeforeActivate(object? argument);
+    private protected sealed override void AfterActivate(object? argument);
+    private protected sealed override void BeforeDeactivate(object? argument);
+    private protected sealed override void AfterDeactivate(object? argument);
 
     protected abstract void OnBeforeDescendantActivate(TThis descendant, object? argument);
     protected abstract void OnAfterDescendantActivate(TThis descendant, object? argument);

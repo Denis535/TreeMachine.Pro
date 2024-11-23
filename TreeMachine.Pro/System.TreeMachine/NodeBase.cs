@@ -13,18 +13,19 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
         Deactivating,
     }
 
-    // Activity
-    public Activity_ Activity { get; private set; } = Activity_.Inactive;
     // Owner
     private object? Owner { get; set; }
+    // Activity
+    public Activity_ Activity { get; private set; } = Activity_.Inactive;
     // Tree
-    public ITree<TThis>? Tree => Owner as ITree<TThis>;
+    public ITree<TThis>? Tree => (ITree<TThis>?) Root?.Owner;
+
     // Root
     [MemberNotNullWhen( false, nameof( Parent ) )] public bool IsRoot => Parent == null;
     public TThis Root => Parent?.Root ?? (TThis) this;
+
     // Parent
     public TThis? Parent => Owner as TThis;
-    // Ancestors
     public IEnumerable<TThis> Ancestors {
         get {
             if (Parent != null) {
@@ -34,10 +35,10 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
         }
     }
     public IEnumerable<TThis> AncestorsAndSelf => Ancestors.Prepend( (TThis) this );
+
     // Children
     private List<TThis> Children_ { get; } = new List<TThis>( 0 );
     public IReadOnlyList<TThis> Children => Children_;
-    // Descendants
     public IEnumerable<TThis> Descendants {
         get {
             foreach (var child in Children) {
@@ -47,6 +48,7 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
         }
     }
     public IEnumerable<TThis> DescendantsAndSelf => Descendants.Prepend( (TThis) this );
+
     // OnActivate
     public event Action<object?>? OnBeforeActivateEvent;
     public event Action<object?>? OnAfterActivateEvent;
