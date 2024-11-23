@@ -77,7 +77,7 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
     }
 
     // SetOwner
-    internal void SetOwner(TThis owner, object? argument) {
+    private void SetOwner(TThis owner, object? argument) {
         if (owner.Activity is Activity_.Active) {
             Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( Activity is Activity_.Inactive );
             Assert.Operation.Message( $"Node {this} must have no owner" ).Valid( Owner == null );
@@ -90,7 +90,7 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
             Owner = owner;
         }
     }
-    internal void RemoveOwner(TThis owner, object? argument) {
+    private void RemoveOwner(TThis owner, object? argument) {
         if (owner.Activity is Activity_.Active) {
             Assert.Operation.Message( $"Node {this} must be active" ).Valid( Activity is Activity_.Active );
             Assert.Operation.Message( $"Node {this} must have {owner} owner" ).Valid( Owner == owner );

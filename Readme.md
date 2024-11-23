@@ -47,8 +47,8 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
     internal void SetOwner(ITree<TThis> owner, object? argument);
     internal void RemoveOwner(ITree<TThis> owner, object? argument);
 
-    internal void SetOwner(TThis owner, object? argument);
-    internal void RemoveOwner(TThis owner, object? argument);
+    private void SetOwner(TThis owner, object? argument);
+    private void RemoveOwner(TThis owner, object? argument);
 
     private void Activate(object? argument);
     private void Deactivate(object? argument);
