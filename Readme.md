@@ -41,13 +41,15 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
     public event Action<object?>? OnAfterDeactivateEvent;
 
     public NodeBase();
-    protected internal virtual void DisposeWhenRemove(object? argument);
 
     internal void Attach(ITree<TThis> owner, object? argument);
     internal void Detach(ITree<TThis> owner, object? argument);
 
     private void Attach(TThis owner, object? argument);
     private void Detach(TThis owner, object? argument);
+
+    protected virtual void OnAttach(object? argument);
+    protected virtual void OnDetach(object? argument);
 
     private void Activate(object? argument);
     private void Deactivate(object? argument);

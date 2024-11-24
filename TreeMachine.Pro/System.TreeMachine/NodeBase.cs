@@ -59,9 +59,6 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
     // Constructor
     public NodeBase() {
     }
-    protected internal virtual void DisposeWhenRemove(object? argument) {
-        (this as IDisposable)?.Dispose();
-    }
 
     // Attach
     internal void Attach(ITree<TThis> owner, object? argument) {
@@ -69,7 +66,7 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
             Assert.Operation.Message( $"Node {this} must have no owner" ).Valid( Owner == null );
             Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( Activity is Activity_.Inactive );
             Owner = owner;
-            //OnAttach( argument );
+            OnAttach( argument );
             Activate( argument );
         }
     }
@@ -78,7 +75,7 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
             Assert.Operation.Message( $"Node {this} must have {owner} owner" ).Valid( Owner == owner );
             Assert.Operation.Message( $"Node {this} must be active" ).Valid( Activity is Activity_.Active );
             Deactivate( argument );
-            //OnDetach( argument );
+            OnDetach( argument );
             Owner = null;
         }
     }
@@ -89,14 +86,14 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
             Assert.Operation.Message( $"Node {this} must have no owner" ).Valid( Owner == null );
             Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( Activity is Activity_.Inactive );
             Owner = owner;
-            //OnAttach( argument );
+            OnAttach( argument );
             Activate( argument );
         } else {
             Assert.Argument.Message( $"Argument 'argument' ({argument}) must be null" ).Valid( argument == null );
             Assert.Operation.Message( $"Node {this} must have no owner" ).Valid( Owner == null );
             Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( Activity is Activity_.Inactive );
             Owner = owner;
-            //OnAttach( argument );
+            OnAttach( argument );
         }
     }
     private void Detach(TThis owner, object? argument) {
@@ -104,22 +101,22 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
             Assert.Operation.Message( $"Node {this} must have {owner} owner" ).Valid( Owner == owner );
             Assert.Operation.Message( $"Node {this} must be active" ).Valid( Activity is Activity_.Active );
             Deactivate( argument );
-            //OnDetach( argument );
+            OnDetach( argument );
             Owner = null;
         } else {
             Assert.Argument.Message( $"Argument 'argument' ({argument}) must be null" ).Valid( argument == null );
             Assert.Operation.Message( $"Node {this} must have {owner} owner" ).Valid( Owner == owner );
             Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( Activity is Activity_.Inactive );
-            //OnDetach( argument );
+            OnDetach( argument );
             Owner = null;
         }
     }
 
     // OnAttach
-    //protected virtual void OnAttach(object? argument) {
-    //}
-    //protected virtual void OnDetach(object? argument) {
-    //}
+    protected virtual void OnAttach(object? argument) {
+    }
+    protected virtual void OnDetach(object? argument) {
+    }
 
     // Activate
     private void Activate(object? argument) {
@@ -196,7 +193,6 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
         Assert.Operation.Message( $"Node {this} must have child {child} node" ).Valid( Children.Contains( child ) );
         child.Detach( (TThis) this, argument );
         Children_.Remove( child );
-        child.DisposeWhenRemove( argument );
     }
     protected bool RemoveChild(Func<TThis, bool> predicate, object? argument = null) {
         var child = Children.LastOrDefault( predicate );
