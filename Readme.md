@@ -48,8 +48,8 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
     private void Attach(TThis owner, object? argument);
     private void Detach(TThis owner, object? argument);
 
-    protected virtual void OnAttach(object? argument);
-    protected virtual void OnDetach(object? argument);
+    protected abstract void OnAttach(object? argument);
+    protected abstract void OnDetach(object? argument);
 
     private void Activate(object? argument);
     private void Deactivate(object? argument);

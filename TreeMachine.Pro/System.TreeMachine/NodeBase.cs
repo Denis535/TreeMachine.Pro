@@ -113,10 +113,8 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
     }
 
     // OnAttach
-    protected virtual void OnAttach(object? argument) {
-    }
-    protected virtual void OnDetach(object? argument) {
-    }
+    protected abstract void OnAttach(object? argument);
+    protected abstract void OnDetach(object? argument);
 
     // Activate
     private void Activate(object? argument) {
