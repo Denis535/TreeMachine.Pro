@@ -41,6 +41,15 @@ internal abstract class Node : NodeBase3<Node> {
     protected sealed override void OnDetach(object? argument) {
     }
 
+    protected override void OnBeforeDescendantAttach(Node descendant, object? argument) {
+    }
+    protected override void OnAfterDescendantAttach(Node descendant, object? argument) {
+    }
+    protected override void OnBeforeDescendantDetach(Node descendant, object? argument) {
+    }
+    protected override void OnAfterDescendantDetach(Node descendant, object? argument) {
+    }
+
     protected override void OnActivate(object? argument) {
         TestContext.Out.WriteLine( "OnActivate: " + GetType().Name );
     }

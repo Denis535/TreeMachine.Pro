@@ -6,6 +6,12 @@ using System.Linq;
 
 public abstract class NodeBase3<TThis> : NodeBase2<TThis> where TThis : NodeBase3<TThis> {
 
+    // OnDescendantAttach
+    public event Action<TThis, object?>? OnBeforeDescendantAttachEvent;
+    public event Action<TThis, object?>? OnAfterDescendantAttachEvent;
+    public event Action<TThis, object?>? OnBeforeDescendantDetachEvent;
+    public event Action<TThis, object?>? OnAfterDescendantDetachEvent;
+
     // OnDescendantActivate
     public event Action<TThis, object?>? OnBeforeDescendantActivateEvent;
     public event Action<TThis, object?>? OnAfterDescendantActivateEvent;
@@ -14,6 +20,36 @@ public abstract class NodeBase3<TThis> : NodeBase2<TThis> where TThis : NodeBase
 
     // Constructor
     public NodeBase3() {
+    }
+
+    // OnAttach
+    protected override void OnBeforeAttach(object? argument) {
+        foreach (var ancestor in Ancestors.Reverse()) {
+            ancestor.OnBeforeDescendantAttachEvent?.Invoke( (TThis) this, argument );
+            ancestor.OnBeforeDescendantAttach( (TThis) this, argument );
+        }
+        base.OnBeforeAttach( argument );
+    }
+    protected override void OnAfterAttach(object? argument) {
+        base.OnAfterAttach( argument );
+        foreach (var ancestor in Ancestors) {
+            ancestor.OnAfterDescendantAttach( (TThis) this, argument );
+            ancestor.OnAfterDescendantAttachEvent?.Invoke( (TThis) this, argument );
+        }
+    }
+    protected override void OnBeforeDetach(object? argument) {
+        foreach (var ancestor in Ancestors.Reverse()) {
+            ancestor.OnBeforeDescendantDetachEvent?.Invoke( (TThis) this, argument );
+            ancestor.OnBeforeDescendantDetach( (TThis) this, argument );
+        }
+        base.OnBeforeDetach( argument );
+    }
+    protected override void OnAfterDetach(object? argument) {
+        base.OnAfterDetach( argument );
+        foreach (var ancestor in Ancestors) {
+            ancestor.OnAfterDescendantDetach( (TThis) this, argument );
+            ancestor.OnAfterDescendantDetachEvent?.Invoke( (TThis) this, argument );
+        }
     }
 
     // OnActivate
@@ -45,6 +81,12 @@ public abstract class NodeBase3<TThis> : NodeBase2<TThis> where TThis : NodeBase
             ancestor.OnAfterDescendantDeactivateEvent?.Invoke( (TThis) this, argument );
         }
     }
+
+    // OnDescendantAttach
+    protected abstract void OnBeforeDescendantAttach(TThis descendant, object? argument);
+    protected abstract void OnAfterDescendantAttach(TThis descendant, object? argument);
+    protected abstract void OnBeforeDescendantDetach(TThis descendant, object? argument);
+    protected abstract void OnAfterDescendantDetach(TThis descendant, object? argument);
 
     // OnDescendantActivate
     protected abstract void OnBeforeDescendantActivate(TThis descendant, object? argument);
