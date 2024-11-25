@@ -20,7 +20,7 @@ internal class Tree<T> : ITree<Node> {
     }
 
 }
-internal abstract class Node : NodeBase2<Node> {
+internal abstract class Node : NodeBase3<Node> {
 
     //public bool IsDisposed { get; private set; }
 

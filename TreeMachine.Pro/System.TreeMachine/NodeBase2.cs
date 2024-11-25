@@ -6,50 +6,62 @@ using System.Linq;
 
 public abstract class NodeBase2<TThis> : NodeBase<TThis> where TThis : NodeBase2<TThis> {
 
-    // OnDescendantActivate
-    public event Action<TThis, object?>? OnBeforeDescendantActivateEvent;
-    public event Action<TThis, object?>? OnAfterDescendantActivateEvent;
-    public event Action<TThis, object?>? OnBeforeDescendantDeactivateEvent;
-    public event Action<TThis, object?>? OnAfterDescendantDeactivateEvent;
+    // OnActivate
+    public event Action<object?>? OnBeforeActivateEvent;
+    public event Action<object?>? OnAfterActivateEvent;
+    public event Action<object?>? OnBeforeDeactivateEvent;
+    public event Action<object?>? OnAfterDeactivateEvent;
 
     // Constructor
     public NodeBase2() {
     }
 
-    // OnActivate
-    private protected sealed override void OnBeforeActivateInternal(object? argument) {
-        foreach (var ancestor in Ancestors.Reverse()) {
-            ancestor.OnBeforeDescendantActivateEvent?.Invoke( (TThis) this, argument );
-            ancestor.OnBeforeDescendantActivate( (TThis) this, argument );
+    // Activate
+    private protected sealed override void Activate(object? argument) {
+        Assert.Operation.Message( $"Node {this} must have owner" ).Valid( Owner != null );
+        Assert.Operation.Message( $"Node {this} must have owner with valid activity" ).Valid( (Owner is ITree<TThis>) || ((NodeBase<TThis>?) Owner)!.Activity is Activity_.Active or Activity_.Activating );
+        Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( Activity is Activity_.Inactive );
+        OnBeforeActivate( argument );
+        Activity = Activity_.Activating;
+        {
+            OnActivate( argument );
+            foreach (var child in Children) {
+                child.Activate( argument );
+            }
         }
-        base.OnBeforeActivateInternal( argument );
+        Activity = Activity_.Active;
+        OnAfterActivate( argument );
     }
-    private protected sealed override void OnAfterActivateInternal(object? argument) {
-        base.OnAfterActivateInternal( argument );
-        foreach (var ancestor in Ancestors) {
-            ancestor.OnAfterDescendantActivate( (TThis) this, argument );
-            ancestor.OnAfterDescendantActivateEvent?.Invoke( (TThis) this, argument );
+    private protected sealed override void Deactivate(object? argument) {
+        Assert.Operation.Message( $"Node {this} must have owner" ).Valid( Owner != null );
+        Assert.Operation.Message( $"Node {this} must have owner with valid activity" ).Valid( (Owner is ITree<TThis>) || ((NodeBase<TThis>?) Owner)!.Activity is Activity_.Active or Activity_.Deactivating );
+        Assert.Operation.Message( $"Node {this} must be active" ).Valid( Activity is Activity_.Active );
+        OnBeforeDeactivate( argument );
+        Activity = Activity_.Deactivating;
+        {
+            foreach (var child in Children.Reverse()) {
+                child.Deactivate( argument );
+            }
+            OnDeactivate( argument );
         }
-    }
-    private protected sealed override void OnBeforeDeactivateInternal(object? argument) {
-        foreach (var ancestor in Ancestors.Reverse()) {
-            ancestor.OnBeforeDescendantDeactivateEvent?.Invoke( (TThis) this, argument );
-            ancestor.OnBeforeDescendantDeactivate( (TThis) this, argument );
-        }
-        base.OnBeforeDeactivateInternal( argument );
-    }
-    private protected sealed override void OnAfterDeactivateInternal(object? argument) {
-        base.OnAfterDeactivateInternal( argument );
-        foreach (var ancestor in Ancestors) {
-            ancestor.OnAfterDescendantDeactivate( (TThis) this, argument );
-            ancestor.OnAfterDescendantDeactivateEvent?.Invoke( (TThis) this, argument );
-        }
+        Activity = Activity_.Inactive;
+        OnAfterDeactivate( argument );
     }
 
-    // OnDescendantActivate
-    protected abstract void OnBeforeDescendantActivate(TThis descendant, object? argument);
-    protected abstract void OnAfterDescendantActivate(TThis descendant, object? argument);
-    protected abstract void OnBeforeDescendantDeactivate(TThis descendant, object? argument);
-    protected abstract void OnAfterDescendantDeactivate(TThis descendant, object? argument);
+    // OnActivate
+    protected virtual void OnBeforeActivate(object? argument) {
+        OnBeforeActivateEvent?.Invoke( argument );
+    }
+    protected abstract void OnActivate(object? argument);
+    protected virtual void OnAfterActivate(object? argument) {
+        OnAfterActivateEvent?.Invoke( argument );
+    }
+    protected virtual void OnBeforeDeactivate(object? argument) {
+        OnBeforeDeactivateEvent?.Invoke( argument );
+    }
+    protected abstract void OnDeactivate(object? argument);
+    protected virtual void OnAfterDeactivate(object? argument) {
+        OnAfterDeactivateEvent?.Invoke( argument );
+    }
 
 }
