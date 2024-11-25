@@ -18,6 +18,12 @@ internal class Tree<T> : ITree<Node> {
     public void SetRoot(Node? root, object? argument = null) {
         ITree<Node>.SetRoot( this, root, argument );
     }
+    void ITree<Node>.AddRoot(Node root, object? argument) {
+        ITree<Node>.AddRoot( this, root, argument );
+    }
+    void RemoveRootInternal(Node root, object? argument) {
+        ITree<Node>.RemoveRoot( this, root, argument );
+    }
 
 }
 internal abstract class Node : NodeBase3<Node> {
