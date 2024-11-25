@@ -48,8 +48,14 @@ public class Tests_02 {
             base.OnActivate( argument );
             AddChild( new A() );
             AddChild( new B() );
+            RemoveChildren( i => true );
+            AddChild( new A() );
+            AddChild( new B() );
         }
         protected override void OnDeactivate(object? argument) {
+            RemoveChildren( i => true );
+            AddChild( new A() );
+            AddChild( new B() );
             RemoveChildren( i => true );
             base.OnDeactivate( argument );
         }
@@ -65,8 +71,14 @@ public class Tests_02 {
             base.OnActivate( argument );
             AddChild( new A1() );
             AddChild( new A2() );
+            RemoveChildren( i => true );
+            AddChild( new A1() );
+            AddChild( new A2() );
         }
         protected override void OnDeactivate(object? argument) {
+            RemoveChildren( i => true );
+            AddChild( new A1() );
+            AddChild( new A2() );
             RemoveChildren( i => true );
             base.OnDeactivate( argument );
         }
@@ -82,8 +94,14 @@ public class Tests_02 {
             base.OnActivate( argument );
             AddChild( new B1() );
             AddChild( new B2() );
+            RemoveChildren( i => true );
+            AddChild( new B1() );
+            AddChild( new B2() );
         }
         protected override void OnDeactivate(object? argument) {
+            RemoveChildren( i => true );
+            AddChild( new B1() );
+            AddChild( new B2() );
             RemoveChildren( i => true );
             base.OnDeactivate( argument );
         }
