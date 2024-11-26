@@ -118,7 +118,7 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
             }
         } else {
             Assert.Operation.Message( $"Node {this} must have {owner} owner" ).Valid( Owner == owner );
-            Assert.Operation.Message( $"Node {this} must be active" ).Valid( Activity is Activity_.Inactive );
+            Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( Activity is Activity_.Inactive );
             {
                 OnBeforeDetach( argument );
                 OnDetach( argument );

@@ -35,7 +35,7 @@ public interface ITree<T> where T : NodeBase<T> {
     }
     protected static void AddRoot(ITree<T> tree, T root, object? argument) {
         Assert.Argument.Message( $"Argument 'root' must be non-null" ).NotNull( root != null );
-        Assert.Argument.Message( $"Argument 'root' must be active" ).Valid( root.Activity is NodeBase<T>.Activity_.Inactive );
+        Assert.Argument.Message( $"Argument 'root' must be inactive" ).Valid( root.Activity is NodeBase<T>.Activity_.Inactive );
         Assert.Operation.Message( $"Tree {tree} must have no root node" ).Valid( tree.Root == null );
         tree.Root = root;
         tree.Root.Attach( tree, argument );
