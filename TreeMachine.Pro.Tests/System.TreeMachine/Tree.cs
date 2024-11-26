@@ -42,9 +42,9 @@ internal abstract class Node : NodeBase3<Node> {
     //    IsDisposed = true;
     //}
 
-    protected sealed override void OnAttach(object? argument) {
+    protected override void OnAttach(object? argument) {
     }
-    protected sealed override void OnDetach(object? argument) {
+    protected override void OnDetach(object? argument) {
     }
 
     protected override void OnBeforeDescendantAttach(Node descendant, object? argument) {
