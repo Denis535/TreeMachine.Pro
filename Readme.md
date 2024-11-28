@@ -3,6 +3,7 @@ The library that helps you implement a tree structure.
 
 # Reference
 ```
+namespace System.TreeMachine;
 public interface ITree<T> where T : NodeBase<T> {
     
     protected T? Root { get; set; }
