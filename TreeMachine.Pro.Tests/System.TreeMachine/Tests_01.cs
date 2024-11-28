@@ -1,4 +1,3 @@
-#pragma warning disable CA2000 // Dispose objects before losing scope
 namespace System.TreeMachine {
     using System;
     using System.Collections.Generic;

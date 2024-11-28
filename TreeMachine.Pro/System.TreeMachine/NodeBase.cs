@@ -188,7 +188,7 @@
             if (Parent != null) {
                 Parent.RemoveChild( (TThis) this, argument );
             } else {
-                Tree!.SetRoot( null, argument );
+                Tree!.RemoveRoot( (TThis) this, argument );
             }
         }
 
