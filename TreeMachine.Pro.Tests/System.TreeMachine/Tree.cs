@@ -15,14 +15,14 @@
         }
 
         // SetRoot
-        public void SetRoot(Node? root, object? argument = null) {
-            ITree<Node>.SetRoot( this, root, argument );
+        public void SetRoot(Node? root, object? argument = null, Action<Node>? dispose = null) {
+            ITree<Node>.SetRoot( this, root, argument, dispose );
         }
-        public void AddRoot(Node root, object? argument) {
+        public void AddRoot(Node root, object? argument = null) {
             ITree<Node>.AddRoot( this, root, argument );
         }
-        public void RemoveRoot(Node root, object? argument) {
-            ITree<Node>.RemoveRoot( this, root, argument );
+        public void RemoveRoot(Node root, object? argument = null, Action<Node>? dispose = null) {
+            ITree<Node>.RemoveRoot( this, root, argument, dispose );
         }
 
     }
@@ -70,6 +70,33 @@
         protected override void OnBeforeDescendantDeactivate(Node descendant, object? argument) {
         }
         protected override void OnAfterDescendantDeactivate(Node descendant, object? argument) {
+        }
+
+        protected override void AddChild(Node child, object? argument) {
+            base.AddChild( child, argument );
+        }
+        protected override void RemoveChild(Node child, object? argument, Action<Node>? dispose) {
+            base.RemoveChild( child, argument, dispose );
+        }
+
+        protected void AddChild(Node child) {
+            AddChild( child, null );
+        }
+        protected void RemoveChild(Node child) {
+            RemoveChild( child, null, null );
+        }
+        protected bool RemoveChild(Func<Node, bool> predicate) {
+            return RemoveChild( predicate, null, null );
+        }
+        protected int RemoveChildren(Func<Node, bool> predicate) {
+            return RemoveChildren( predicate, null, null );
+        }
+        protected void RemoveSelf() {
+            RemoveSelf( null, null );
+        }
+
+        protected override void Sort(List<Node> children) {
+            base.Sort( children );
         }
 
     }
