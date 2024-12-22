@@ -15,14 +15,14 @@
         }
 
         // SetRoot
-        public void SetRoot(Node? root, object? argument = null, Action<Node>? dispose = null) {
-            ITree<Node>.SetRoot( this, root, argument, dispose );
+        public void SetRoot(Node? root, object? argument = null, Action<Node>? onRemoved = null) {
+            ITree<Node>.SetRoot( this, root, argument, onRemoved );
         }
         public void AddRoot(Node root, object? argument = null) {
             ITree<Node>.AddRoot( this, root, argument );
         }
-        public void RemoveRoot(Node root, object? argument = null, Action<Node>? dispose = null) {
-            ITree<Node>.RemoveRoot( this, root, argument, dispose );
+        public void RemoveRoot(Node root, object? argument = null, Action<Node>? onRemoved = null) {
+            ITree<Node>.RemoveRoot( this, root, argument, onRemoved );
         }
 
     }
@@ -75,8 +75,8 @@
         protected override void AddChild(Node child, object? argument) {
             base.AddChild( child, argument );
         }
-        protected override void RemoveChild(Node child, object? argument, Action<Node>? dispose) {
-            base.RemoveChild( child, argument, dispose );
+        protected override void RemoveChild(Node child, object? argument, Action<Node>? onRemoved) {
+            base.RemoveChild( child, argument, onRemoved );
         }
 
         protected void AddChild(Node child) {

@@ -8,9 +8,9 @@ public interface ITree<T> where T : NodeBase<T> {
     
     protected T? Root { get; set; }
 
-    protected void SetRoot(T? root, object? argument, Action<T>? dispose);
+    protected void SetRoot(T? root, object? argument, Action<T>? onRemoved);
     protected void AddRoot(T root, object? argument );
-    protected internal void RemoveRoot(T root, object? argument, Action<T>? dispose);
+    protected internal void RemoveRoot(T root, object? argument, Action<T>? onRemoved);
 
 }
 public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
@@ -62,10 +62,10 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
     private protected abstract void Deactivate(object? argument);
 
     protected virtual void AddChild(TThis child, object? argument);
-    protected virtual void RemoveChild(TThis child, object? argument, Action<T>? dispose);
-    protected bool RemoveChild(Func<TThis, bool> predicate, object? argument, Action<T>? dispose);
-    protected int RemoveChildren(Func<TThis, bool> predicate, object? argument, Action<T>? dispose);
-    protected void RemoveSelf(object? argument, Action<T>? dispose);
+    protected virtual void RemoveChild(TThis child, object? argument, Action<T>? onRemoved);
+    protected bool RemoveChild(Func<TThis, bool> predicate, object? argument, Action<T>? onRemoved);
+    protected int RemoveChildren(Func<TThis, bool> predicate, object? argument, Action<T>? onRemoved);
+    protected void RemoveSelf(object? argument, Action<T>? onRemoved);
 
     protected virtual void Sort(List<TThis> children);
 
