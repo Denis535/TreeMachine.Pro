@@ -12,7 +12,7 @@ namespace System.TreeMachine {
             var tree = new Tree<Node>();
             var root = new Root();
 
-            tree.SetRoot( null );
+            tree.SetRoot( null, null, null );
             NUnit.Framework.Assert.That( tree.Root, Is.Null );
             NUnit.Framework.Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 1 ) );
             foreach (var node in root.DescendantsAndSelf) {
@@ -20,7 +20,7 @@ namespace System.TreeMachine {
                 NUnit.Framework.Assert.That( node.Tree, Is.Null );
             }
 
-            tree.SetRoot( root );
+            tree.SetRoot( root, null, null );
             NUnit.Framework.Assert.That( tree.Root, Is.EqualTo( root ) );
             NUnit.Framework.Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 7 ) );
             foreach (var node in root.DescendantsAndSelf) {
@@ -28,7 +28,7 @@ namespace System.TreeMachine {
                 NUnit.Framework.Assert.That( node.Tree, Is.EqualTo( tree ) );
             }
 
-            tree.SetRoot( null );
+            tree.SetRoot( null, null, null );
             NUnit.Framework.Assert.That( tree.Root, Is.Null );
             NUnit.Framework.Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 1 ) );
             foreach (var node in root.DescendantsAndSelf) {

@@ -15,13 +15,13 @@
         }
 
         // SetRoot
-        public void SetRoot(Node? root, object? argument = null, Action<Node>? onRemoved = null) {
+        public void SetRoot(Node? root, object? argument, Action<Node>? onRemoved) {
             ITree<Node>.SetRoot( this, root, argument, onRemoved );
         }
-        public void AddRoot(Node root, object? argument = null) {
+        public void AddRoot(Node root, object? argument) {
             ITree<Node>.AddRoot( this, root, argument );
         }
-        public void RemoveRoot(Node root, object? argument = null, Action<Node>? onRemoved = null) {
+        public void RemoveRoot(Node root, object? argument, Action<Node>? onRemoved) {
             ITree<Node>.RemoveRoot( this, root, argument, onRemoved );
         }
 

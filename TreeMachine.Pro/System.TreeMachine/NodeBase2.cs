@@ -32,7 +32,7 @@
             Activate( argument );
         }
         internal sealed override void Detach(ITree<TThis> owner, object? argument) {
-            Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( Activity is Activity_.Active );
+            Assert.Operation.Message( $"Node {this} must be active" ).Valid( Activity is Activity_.Active );
             Deactivate( argument );
             base.Detach( owner, argument );
         }
