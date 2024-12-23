@@ -7,7 +7,7 @@
         <RootNamespace />
 
         <!--Assembly attributes-->
-        <Version>1.1.3</Version>
+        <Version>1.1.4</Version>
         <Description>The library that helps you implement a tree structure.</Description>
         <Authors>Denis535</Authors>
         <Company>Denis535</Company>

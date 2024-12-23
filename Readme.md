@@ -5,25 +5,17 @@ The library that helps you implement a tree structure.
 ```
 namespace System.TreeMachine;
 public interface ITree<T> where T : NodeBase<T> {
-    
+
     protected T? Root { get; set; }
 
     protected void SetRoot(T? root, object? argument, Action<T>? onRemoved);
-    protected void AddRoot(T root, object? argument );
+    protected void AddRoot(T root, object? argument);
     protected internal void RemoveRoot(T root, object? argument, Action<T>? onRemoved);
 
 }
 public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
-    public enum Activity_ {
-        Inactive,
-        Activating,
-        Active,
-        Deactivating,
-    }
 
     private protected object? Owner { get; private set; }
-    public Activity_ Activity { get; private protected set; }
-
     public ITree<TThis>? Tree { get; }
 
     [MemberNotNullWhen( false, nameof( Parent ) )] public bool IsRoot { get; }
@@ -35,7 +27,6 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
 
     private List<TThis> Children_ { get; }
     public IReadOnlyList<TThis> Children { get; }
-    public IEnumerable<TThis> Descendants { get; }
     public IEnumerable<TThis> DescendantsAndSelf { get; }
 
     public event Action<object?>? OnBeforeAttachEvent;
@@ -43,13 +34,14 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
     public event Action<object?>? OnBeforeDetachEvent;
     public event Action<object?>? OnAfterDetachEvent;
 
-    private protected NodeBase();
+    public NodeBase() {
+    }
 
-    internal void Attach(ITree<TThis> owner, object? argument);
-    internal void Detach(ITree<TThis> owner, object? argument);
+    internal virtual void Attach(ITree<TThis> owner, object? argument);
+    internal virtual void Detach(ITree<TThis> owner, object? argument);
 
-    private void Attach(TThis owner, object? argument);
-    private void Detach(TThis owner, object? argument);
+    internal virtual void Attach(TThis owner, object? argument);
+    internal virtual void Detach(TThis owner, object? argument);
 
     protected virtual void OnBeforeAttach(object? argument);
     protected abstract void OnAttach(object? argument);
@@ -58,29 +50,41 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
     protected abstract void OnDetach(object? argument);
     protected virtual void OnAfterDetach(object? argument);
 
-    private protected abstract void Activate(object? argument);
-    private protected abstract void Deactivate(object? argument);
-
     protected virtual void AddChild(TThis child, object? argument);
-    protected virtual void RemoveChild(TThis child, object? argument, Action<T>? onRemoved);
-    protected bool RemoveChild(Func<TThis, bool> predicate, object? argument, Action<T>? onRemoved);
-    protected int RemoveChildren(Func<TThis, bool> predicate, object? argument, Action<T>? onRemoved);
-    protected void RemoveSelf(object? argument, Action<T>? onRemoved);
+    protected virtual void RemoveChild(TThis child, object? argument, Action<TThis>? onRemoved);
+    protected bool RemoveChild(Func<TThis, bool> predicate, object? argument, Action<TThis>? onRemoved);
+    protected int RemoveChildren(Func<TThis, bool> predicate, object? argument, Action<TThis>? onRemoved);
+    protected void RemoveSelf(object? argument, Action<TThis>? onRemoved);
 
     protected virtual void Sort(List<TThis> children);
 
 }
 public abstract class NodeBase2<TThis> : NodeBase<TThis> where TThis : NodeBase2<TThis> {
+    public enum Activity_ {
+        Inactive,
+        Activating,
+        Active,
+        Deactivating,
+    }
+
+    public Activity_ Activity { get; private set; }
 
     public event Action<object?>? OnBeforeActivateEvent;
     public event Action<object?>? OnAfterActivateEvent;
     public event Action<object?>? OnBeforeDeactivateEvent;
     public event Action<object?>? OnAfterDeactivateEvent;
 
-    public NodeBase2();
+    public NodeBase2() {
+    }
 
-    private protected sealed override void Activate(object? argument);
-    private protected sealed override void Deactivate(object? argument);
+    internal sealed override void Attach(ITree<TThis> owner, object? argument);
+    internal sealed override void Detach(ITree<TThis> owner, object? argument);
+
+    internal sealed override void Attach(TThis owner, object? argument);
+    internal sealed override void Detach(TThis owner, object? argument);
+
+    private void Activate(object? argument);
+    private void Deactivate(object? argument);
 
     protected virtual void OnBeforeActivate(object? argument);
     protected abstract void OnActivate(object? argument);
@@ -91,7 +95,7 @@ public abstract class NodeBase2<TThis> : NodeBase<TThis> where TThis : NodeBase2
 
 }
 public abstract class NodeBase3<TThis> : NodeBase2<TThis> where TThis : NodeBase3<TThis> {
-    
+
     public event Action<TThis, object?>? OnBeforeDescendantAttachEvent;
     public event Action<TThis, object?>? OnAfterDescendantAttachEvent;
     public event Action<TThis, object?>? OnBeforeDescendantDetachEvent;
@@ -102,10 +106,11 @@ public abstract class NodeBase3<TThis> : NodeBase2<TThis> where TThis : NodeBase
     public event Action<TThis, object?>? OnBeforeDescendantDeactivateEvent;
     public event Action<TThis, object?>? OnAfterDescendantDeactivateEvent;
 
-    public NodeBase3();
+    public NodeBase3() {
+    }
 
     protected override void OnBeforeAttach(object? argument);
-    protected override void OnAfterAttach(object? argument;
+    protected override void OnAfterAttach(object? argument);
     protected override void OnBeforeDetach(object? argument);
     protected override void OnAfterDetach(object? argument);
 

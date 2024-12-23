@@ -5,7 +5,7 @@
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
 
-    public abstract class NodeBase<TThis> where TThis : NodeBase2<TThis> {
+    public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
 
         // Owner
         private protected object? Owner { get; private set; } = null;
