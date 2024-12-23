@@ -58,7 +58,7 @@
 
     <!--PackageReference-->
     <ItemGroup>
-        <PackageReference Include="Assert.Kind.Message.Condition" Version="1.0.9" />
+        <PackageReference Include="Assert.Kind.Message.Condition" Version="1.0.10" />
     </ItemGroup>
 
     <!--Include Builds-->
