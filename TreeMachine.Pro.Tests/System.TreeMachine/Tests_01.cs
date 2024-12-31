@@ -10,30 +10,43 @@ namespace System.TreeMachine {
         [Test]
         public void Test_00() {
             var tree = new Tree<Node>();
+            NUnit.Framework.Assert.That( tree.Root, Is.Null );
+
             var root = new Root();
-
-            tree.SetRoot( null, null, null );
-            NUnit.Framework.Assert.That( tree.Root, Is.Null );
             NUnit.Framework.Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 1 ) );
-            foreach (var node in root.DescendantsAndSelf) {
-                NUnit.Framework.Assert.That( node.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
-                NUnit.Framework.Assert.That( node.Tree, Is.Null );
+            foreach (var descendant in root.DescendantsAndSelf) {
+                NUnit.Framework.Assert.That( descendant.Tree, Is.Null );
+                NUnit.Framework.Assert.That( descendant.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
             }
 
-            tree.SetRoot( root, null, null );
-            NUnit.Framework.Assert.That( tree.Root, Is.EqualTo( root ) );
-            NUnit.Framework.Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 7 ) );
-            foreach (var node in root.DescendantsAndSelf) {
-                NUnit.Framework.Assert.That( node.Activity, Is.EqualTo( Node.Activity_.Active ) );
-                NUnit.Framework.Assert.That( node.Tree, Is.EqualTo( tree ) );
+            {
+                // SetRoot null
+                tree.SetRoot( null, null, null );
+                NUnit.Framework.Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 1 ) );
+                foreach (var descendant in root.DescendantsAndSelf) {
+                    NUnit.Framework.Assert.That( descendant.Tree, Is.Null );
+                    NUnit.Framework.Assert.That( descendant.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+                }
             }
-
-            tree.SetRoot( null, null, null );
-            NUnit.Framework.Assert.That( tree.Root, Is.Null );
-            NUnit.Framework.Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 7 ) );
-            foreach (var node in root.DescendantsAndSelf) {
-                NUnit.Framework.Assert.That( node.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
-                NUnit.Framework.Assert.That( node.Tree, Is.Null );
+            {
+                // SetRoot root
+                tree.SetRoot( root, null, null );
+                NUnit.Framework.Assert.That( tree.Root, Is.EqualTo( root ) );
+                NUnit.Framework.Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 7 ) );
+                foreach (var descendant in root.DescendantsAndSelf) {
+                    NUnit.Framework.Assert.That( descendant.Tree, Is.EqualTo( tree ) );
+                    NUnit.Framework.Assert.That( descendant.Activity, Is.EqualTo( Node.Activity_.Active ) );
+                }
+            }
+            {
+                // SetRoot null
+                tree.SetRoot( null, null, null );
+                NUnit.Framework.Assert.That( tree.Root, Is.Null );
+                NUnit.Framework.Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 7 ) );
+                foreach (var descendant in root.DescendantsAndSelf) {
+                    NUnit.Framework.Assert.That( descendant.Tree, Is.Null );
+                    NUnit.Framework.Assert.That( descendant.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+                }
             }
         }
 
@@ -45,8 +58,11 @@ namespace System.TreeMachine {
 
             protected override void OnActivate(object? argument) {
                 base.OnActivate( argument );
-                AddChild( new A() );
-                AddChild( new B() );
+                AddChild( new A(), null );
+                AddChild( new B(), null );
+                RemoveChildren( i => true, null, null );
+                AddChild( new A(), null );
+                AddChild( new B(), null );
             }
             protected override void OnDeactivate(object? argument) {
                 base.OnDeactivate( argument );
@@ -61,8 +77,8 @@ namespace System.TreeMachine {
 
             protected override void OnActivate(object? argument) {
                 base.OnActivate( argument );
-                AddChild( new A1() );
-                AddChild( new A2() );
+                AddChild( new A1(), null );
+                AddChild( new A2(), null );
             }
             protected override void OnDeactivate(object? argument) {
                 base.OnDeactivate( argument );
@@ -77,8 +93,8 @@ namespace System.TreeMachine {
 
             protected override void OnActivate(object? argument) {
                 base.OnActivate( argument );
-                AddChild( new B1() );
-                AddChild( new B2() );
+                AddChild( new B1(), null );
+                AddChild( new B2(), null );
             }
             protected override void OnDeactivate(object? argument) {
                 base.OnDeactivate( argument );

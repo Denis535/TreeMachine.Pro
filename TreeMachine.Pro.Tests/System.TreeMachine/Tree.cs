@@ -84,23 +84,6 @@
             base.RemoveChild( child, argument, callback );
         }
 
-        // AddChild
-        protected void AddChild(Node child) {
-            AddChild( child, null );
-        }
-        protected void RemoveChild(Node child) {
-            RemoveChild( child, null, null );
-        }
-        protected bool RemoveChild(Func<Node, bool> predicate) {
-            return RemoveChild( predicate, null, null );
-        }
-        protected int RemoveChildren(Func<Node, bool> predicate) {
-            return RemoveChildren( predicate, null, null );
-        }
-        protected void RemoveSelf() {
-            RemoveSelf( null, null );
-        }
-
         // Sort
         protected override void Sort(List<Node> children) {
             base.Sort( children );
