@@ -26,7 +26,7 @@
         }
 
     }
-    internal abstract class Node : NodeBase3<Node> {
+    internal abstract class Node : NodeBase4<Node> {
 
         //public bool IsDisposed { get; private set; }
 
