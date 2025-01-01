@@ -7,6 +7,8 @@
 
     public abstract class NodeBase3<TThis> : NodeBase2<TThis> where TThis : NodeBase3<TThis> {
 
+        private readonly List<TThis> children = new List<TThis>( 0 );
+
         // Root
         [MemberNotNullWhen( false, nameof( Parent ) )] public bool IsRoot => Parent == null;
         public TThis Root => Parent?.Root ?? (TThis) this;
@@ -24,9 +26,8 @@
         public IEnumerable<TThis> AncestorsAndSelf => Ancestors.Prepend( (TThis) this );
 
         // Children
-        private List<TThis> Children_ { get; } = new List<TThis>( 0 );
-        private protected override IReadOnlyList<TThis> ChildrenInternal => Children_;
-        public IReadOnlyList<TThis> Children => Children_;
+        private protected override IReadOnlyList<TThis> ChildrenInternal => Children;
+        public IReadOnlyList<TThis> Children => children;
         public IEnumerable<TThis> Descendants {
             get {
                 foreach (var child in Children) {
@@ -45,15 +46,15 @@
         protected virtual void AddChild(TThis child, object? argument) {
             Assert.Argument.Message( $"Argument 'child' must be non-null" ).NotNull( child != null );
             Assert.Operation.Message( $"Node {this} must have no child {child} node" ).Valid( !Children.Contains( child ) );
-            Children_.Add( child );
-            Sort( Children_ );
+            children.Add( child );
+            Sort( children );
             child.Attach( (TThis) this, argument );
         }
         protected virtual void RemoveChild(TThis child, object? argument, Action<TThis>? callback) {
             Assert.Argument.Message( $"Argument 'child' must be non-null" ).NotNull( child != null );
             Assert.Operation.Message( $"Node {this} must have child {child} node" ).Valid( Children.Contains( child ) );
             child.Detach( (TThis) this, argument );
-            Children_.Remove( child );
+            children.Remove( child );
             callback?.Invoke( child );
         }
         protected bool RemoveChild(Func<TThis, bool> predicate, object? argument, Action<TThis>? callback) {

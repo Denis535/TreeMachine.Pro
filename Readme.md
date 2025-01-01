@@ -85,7 +85,6 @@ public abstract class NodeBase3<TThis> : NodeBase2<TThis> where TThis : NodeBase
     public IEnumerable<TThis> Ancestors { get; }
     public IEnumerable<TThis> AncestorsAndSelf { get; }
 
-    private List<TThis> Children_ { get; }
     public IReadOnlyList<TThis> Children { get; }
     public IEnumerable<TThis> Descendants { get; }
     public IEnumerable<TThis> DescendantsAndSelf { get; }
