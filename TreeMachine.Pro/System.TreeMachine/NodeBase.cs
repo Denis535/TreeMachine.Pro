@@ -7,6 +7,8 @@
 
         // Owner
         private protected object? Owner { get; private set; } = null;
+        // Tree
+        public ITree<TThis>? Tree => (Owner as ITree<TThis>) ?? (Owner as NodeBase<TThis>)?.Tree;
 
         // OnAttach
         public event Action<object?>? OnBeforeAttachEvent;

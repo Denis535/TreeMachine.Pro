@@ -7,9 +7,6 @@
 
     public abstract class NodeBase3<TThis> : NodeBase2<TThis> where TThis : NodeBase3<TThis> {
 
-        // Tree
-        public ITree<TThis>? Tree => (ITree<TThis>?) Root?.Owner;
-
         // Root
         [MemberNotNullWhen( false, nameof( Parent ) )] public bool IsRoot => Parent == null;
         public TThis Root => Parent?.Root ?? (TThis) this;
@@ -28,6 +25,7 @@
 
         // Children
         private List<TThis> Children_ { get; } = new List<TThis>( 0 );
+        private protected override IReadOnlyList<TThis> ChildrenInternal => Children_;
         public IReadOnlyList<TThis> Children => Children_;
         public IEnumerable<TThis> Descendants {
             get {
@@ -85,11 +83,6 @@
         // Sort
         protected virtual void Sort(List<TThis> children) {
             //children.Sort( (a, b) => Comparer<int>.Default.Compare( GetOrderOf( a ), GetOrderOf( b ) ) );
-        }
-
-        // Helpers
-        private protected override IReadOnlyList<TThis> GetChildren() {
-            return Children;
         }
 
     }

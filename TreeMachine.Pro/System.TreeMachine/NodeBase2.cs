@@ -15,6 +15,9 @@
         // Activity
         public Activity_ Activity { get; private set; } = Activity_.Inactive;
 
+        // Children
+        private protected abstract IReadOnlyList<TThis> ChildrenInternal { get; }
+
         // OnActivate
         public event Action<object?>? OnBeforeActivateEvent;
         public event Action<object?>? OnAfterActivateEvent;
@@ -67,7 +70,7 @@
             Activity = Activity_.Activating;
             {
                 OnActivate( argument );
-                foreach (var child in GetChildren()) {
+                foreach (var child in ChildrenInternal) {
                     child.Activate( argument );
                 }
             }
@@ -81,7 +84,7 @@
             OnBeforeDeactivate( argument );
             Activity = Activity_.Deactivating;
             {
-                foreach (var child in GetChildren().Reverse()) {
+                foreach (var child in ChildrenInternal.Reverse()) {
                     child.Deactivate( argument );
                 }
                 OnDeactivate( argument );
@@ -107,9 +110,6 @@
         protected virtual void OnAfterDeactivate(object? argument) {
             OnAfterDeactivateEvent?.Invoke( argument );
         }
-
-        // Helpers
-        private protected abstract IReadOnlyList<TThis> GetChildren();
 
     }
 }

@@ -16,6 +16,7 @@ public interface ITree<T> where T : NodeBase<T> {
 public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
 
     private protected object? Owner { get; private set; }
+    public ITree<TThis>? Tree { get; }
 
     public event Action<object?>? OnBeforeAttachEvent;
     public event Action<object?>? OnAfterAttachEvent;
@@ -76,8 +77,6 @@ public abstract class NodeBase2<TThis> : NodeBase<TThis> where TThis : NodeBase2
 
 }
 public abstract class NodeBase3<TThis> : NodeBase2<TThis> where TThis : NodeBase3<TThis> {
-
-    public ITree<TThis>? Tree { get; }
 
     [MemberNotNullWhen( false, nameof( Parent ) )] public bool IsRoot { get; }
     public TThis Root { get; }
