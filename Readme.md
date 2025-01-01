@@ -19,11 +19,10 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
 
     public event Action<object?>? OnBeforeAttachEvent;
     public event Action<object?>? OnAfterAttachEvent;
-
     public event Action<object?>? OnBeforeDetachEvent;
     public event Action<object?>? OnAfterDetachEvent;
 
-    public NodeBase();
+    private protected NodeBase();
 
     internal virtual void Attach(ITree<TThis> owner, object? argument);
     internal virtual void Detach(ITree<TThis> owner, object? argument);
@@ -41,33 +40,6 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
 
 }
 public abstract class NodeBase2<TThis> : NodeBase<TThis> where TThis : NodeBase2<TThis> {
-
-    public ITree<TThis>? Tree { get; }
-
-    [MemberNotNullWhen( false, nameof( Parent ) )] public bool IsRoot { get; }
-    public TThis Root { get; }
-
-    public TThis? Parent { get; }
-    public IEnumerable<TThis> Ancestors { get; }
-    public IEnumerable<TThis> AncestorsAndSelf { get; }
-
-    private List<TThis> Children_ { get; }
-    public IReadOnlyList<TThis> Children { get; }
-    public IEnumerable<TThis> Descendants { get; }
-    public IEnumerable<TThis> DescendantsAndSelf { get; }
-
-    public NodeBase2();
-
-    protected virtual void AddChild(TThis child, object? argument);
-    protected virtual void RemoveChild(TThis child, object? argument, Action<TThis>? callback);
-    protected bool RemoveChild(Func<TThis, bool> predicate, object? argument, Action<TThis>? callback);
-    protected int RemoveChildren(Func<TThis, bool> predicate, object? argument, Action<TThis>? callback);
-    protected void RemoveSelf(object? argument, Action<TThis>? callback);
-
-    protected virtual void Sort(List<TThis> children);
-
-}
-public abstract class NodeBase3<TThis> : NodeBase2<TThis> where TThis : NodeBase3<TThis> {
     public enum Activity_ {
         Inactive,
         Activating,
@@ -79,11 +51,11 @@ public abstract class NodeBase3<TThis> : NodeBase2<TThis> where TThis : NodeBase
 
     public event Action<object?>? OnBeforeActivateEvent;
     public event Action<object?>? OnAfterActivateEvent;
-
     public event Action<object?>? OnBeforeDeactivateEvent;
     public event Action<object?>? OnAfterDeactivateEvent;
 
-    public NodeBase3();
+    private protected NodeBase2() {
+    }
 
     internal sealed override void Attach(ITree<TThis> owner, object? argument);
     internal sealed override void Detach(ITree<TThis> owner, object? argument);
@@ -103,17 +75,42 @@ public abstract class NodeBase3<TThis> : NodeBase2<TThis> where TThis : NodeBase
     protected virtual void OnAfterDeactivate(object? argument);
 
 }
+public abstract class NodeBase3<TThis> : NodeBase2<TThis> where TThis : NodeBase3<TThis> {
+
+    public ITree<TThis>? Tree { get; }
+
+    [MemberNotNullWhen( false, nameof( Parent ) )] public bool IsRoot { get; }
+    public TThis Root { get; }
+
+    public TThis? Parent { get; }
+    public IEnumerable<TThis> Ancestors { get; }
+    public IEnumerable<TThis> AncestorsAndSelf { get; }
+
+    private List<TThis> Children_ { get; }
+    public IReadOnlyList<TThis> Children { get; }
+    public IEnumerable<TThis> Descendants { get; }
+    public IEnumerable<TThis> DescendantsAndSelf { get; }
+
+    public NodeBase3();
+
+    protected virtual void AddChild(TThis child, object? argument);
+    protected virtual void RemoveChild(TThis child, object? argument, Action<TThis>? callback);
+    protected bool RemoveChild(Func<TThis, bool> predicate, object? argument, Action<TThis>? callback);
+    protected int RemoveChildren(Func<TThis, bool> predicate, object? argument, Action<TThis>? callback);
+    protected void RemoveSelf(object? argument, Action<TThis>? callback);
+
+    protected virtual void Sort(List<TThis> children);
+
+}
 public abstract class NodeBase4<TThis> : NodeBase3<TThis> where TThis : NodeBase4<TThis> {
 
     public event Action<TThis, object?>? OnBeforeDescendantAttachEvent;
     public event Action<TThis, object?>? OnAfterDescendantAttachEvent;
-
     public event Action<TThis, object?>? OnBeforeDescendantDetachEvent;
     public event Action<TThis, object?>? OnAfterDescendantDetachEvent;
 
     public event Action<TThis, object?>? OnBeforeDescendantActivateEvent;
     public event Action<TThis, object?>? OnAfterDescendantActivateEvent;
-
     public event Action<TThis, object?>? OnBeforeDescendantDeactivateEvent;
     public event Action<TThis, object?>? OnAfterDescendantDeactivateEvent;
 
@@ -121,25 +118,21 @@ public abstract class NodeBase4<TThis> : NodeBase3<TThis> where TThis : NodeBase
 
     protected override void OnBeforeAttach(object? argument);
     protected override void OnAfterAttach(object? argument);
-
     protected override void OnBeforeDetach(object? argument);
     protected override void OnAfterDetach(object? argument);
 
     protected abstract void OnBeforeDescendantAttach(TThis descendant, object? argument);
     protected abstract void OnAfterDescendantAttach(TThis descendant, object? argument);
-
     protected abstract void OnBeforeDescendantDetach(TThis descendant, object? argument);
     protected abstract void OnAfterDescendantDetach(TThis descendant, object? argument);
 
     protected override void OnBeforeActivate(object? argument);
     protected override void OnAfterActivate(object? argument);
-
     protected override void OnBeforeDeactivate(object? argument);
     protected override void OnAfterDeactivate(object? argument);
 
     protected abstract void OnBeforeDescendantActivate(TThis descendant, object? argument);
     protected abstract void OnAfterDescendantActivate(TThis descendant, object? argument);
-
     protected abstract void OnBeforeDescendantDeactivate(TThis descendant, object? argument);
     protected abstract void OnAfterDescendantDeactivate(TThis descendant, object? argument);
 
