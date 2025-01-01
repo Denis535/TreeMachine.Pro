@@ -19,6 +19,7 @@ public abstract class NodeBase<TThis> where TThis : NodeBase<TThis> {
 
     public event Action<object?>? OnBeforeAttachEvent;
     public event Action<object?>? OnAfterAttachEvent;
+
     public event Action<object?>? OnBeforeDetachEvent;
     public event Action<object?>? OnAfterDetachEvent;
 
@@ -78,6 +79,7 @@ public abstract class NodeBase3<TThis> : NodeBase2<TThis> where TThis : NodeBase
 
     public event Action<object?>? OnBeforeActivateEvent;
     public event Action<object?>? OnAfterActivateEvent;
+
     public event Action<object?>? OnBeforeDeactivateEvent;
     public event Action<object?>? OnAfterDeactivateEvent;
 
@@ -105,11 +107,13 @@ public abstract class NodeBase4<TThis> : NodeBase3<TThis> where TThis : NodeBase
 
     public event Action<TThis, object?>? OnBeforeDescendantAttachEvent;
     public event Action<TThis, object?>? OnAfterDescendantAttachEvent;
+
     public event Action<TThis, object?>? OnBeforeDescendantDetachEvent;
     public event Action<TThis, object?>? OnAfterDescendantDetachEvent;
 
     public event Action<TThis, object?>? OnBeforeDescendantActivateEvent;
     public event Action<TThis, object?>? OnAfterDescendantActivateEvent;
+
     public event Action<TThis, object?>? OnBeforeDescendantDeactivateEvent;
     public event Action<TThis, object?>? OnAfterDescendantDeactivateEvent;
 
@@ -117,21 +121,25 @@ public abstract class NodeBase4<TThis> : NodeBase3<TThis> where TThis : NodeBase
 
     protected override void OnBeforeAttach(object? argument);
     protected override void OnAfterAttach(object? argument);
+
     protected override void OnBeforeDetach(object? argument);
     protected override void OnAfterDetach(object? argument);
 
     protected abstract void OnBeforeDescendantAttach(TThis descendant, object? argument);
     protected abstract void OnAfterDescendantAttach(TThis descendant, object? argument);
+
     protected abstract void OnBeforeDescendantDetach(TThis descendant, object? argument);
     protected abstract void OnAfterDescendantDetach(TThis descendant, object? argument);
 
     protected override void OnBeforeActivate(object? argument);
     protected override void OnAfterActivate(object? argument);
+
     protected override void OnBeforeDeactivate(object? argument);
     protected override void OnAfterDeactivate(object? argument);
 
     protected abstract void OnBeforeDescendantActivate(TThis descendant, object? argument);
     protected abstract void OnAfterDescendantActivate(TThis descendant, object? argument);
+
     protected abstract void OnBeforeDescendantDeactivate(TThis descendant, object? argument);
     protected abstract void OnAfterDescendantDeactivate(TThis descendant, object? argument);
 
