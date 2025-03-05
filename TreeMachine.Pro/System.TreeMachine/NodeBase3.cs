@@ -66,7 +66,7 @@
             return false;
         }
         protected int RemoveChildren(Func<TThis, bool> predicate, object? argument, Action<TThis>? callback) {
-            var children = Children.Where( predicate ).Reverse().ToList();
+            var children = Children.Reverse().Where( predicate ).ToList();
             foreach (var child in children) {
                 RemoveChild( child, argument, callback );
             }
