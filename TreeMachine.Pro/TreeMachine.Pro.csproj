@@ -7,7 +7,7 @@
         <RootNamespace />
 
         <!--Assembly attributes-->
-        <Version>1.1.5</Version>
+        <Version>1.2.0</Version>
         <Description>The library that allows you to easily implement a tree structure.</Description>
         <Authors>Denis535</Authors>
         <Company>Denis535</Company>
@@ -25,7 +25,7 @@
         <PackageIconUrl></PackageIconUrl>
         <PackageDescription>$(Description)</PackageDescription>
         <PackageProjectUrl>https://github.com/Denis535/TreeMachine.Pro</PackageProjectUrl>
-        <PackageTags>node; tree; hierarchy; hierarchical structure</PackageTags>
+        <PackageTags>node; hierarchy; tree;</PackageTags>
 
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageLicenseUrl></PackageLicenseUrl>
