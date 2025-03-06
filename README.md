@@ -23,8 +23,7 @@ public abstract partial class NodeBase<TThis> where TThis : NodeBase<TThis> {
     public abstract event Action<object?>? OnBeforeDetachEvent;
     public abstract event Action<object?>? OnAfterDetachEvent;
 
-    public NodeBase() {
-    }
+    public NodeBase();
 
     internal abstract void Attach(ITree<TThis> owner, object? argument);
     internal abstract void Detach(ITree<TThis> owner, object? argument);

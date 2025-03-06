@@ -20,19 +20,19 @@
         }
 
         // Attach
-        internal sealed override void Attach(ITree<TThis> owner, object? argument) {
+        internal override void Attach(ITree<TThis> owner, object? argument) {
             Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( Activity is Activity_.Inactive );
             base.Attach( owner, argument );
             Activate( argument );
         }
-        internal sealed override void Detach(ITree<TThis> owner, object? argument) {
+        internal override void Detach(ITree<TThis> owner, object? argument) {
             Assert.Operation.Message( $"Node {this} must be active" ).Valid( Activity is Activity_.Active );
             Deactivate( argument );
             base.Detach( owner, argument );
         }
 
         // Attach
-        internal sealed override void Attach(TThis owner, object? argument) {
+        internal override void Attach(TThis owner, object? argument) {
             Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( Activity is Activity_.Inactive );
             if (owner.Activity is Activity_.Active) {
                 base.Attach( owner, argument );
@@ -41,7 +41,7 @@
                 base.Attach( owner, argument );
             }
         }
-        internal sealed override void Detach(TThis owner, object? argument) {
+        internal override void Detach(TThis owner, object? argument) {
             if (owner.Activity is Activity_.Active) {
                 Assert.Operation.Message( $"Node {this} must be active" ).Valid( Activity is Activity_.Active );
                 Deactivate( argument );
