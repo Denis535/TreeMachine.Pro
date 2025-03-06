@@ -18,7 +18,7 @@
         public abstract event Action<object?>? OnAfterDetachEvent;
 
         // Constructor
-        private protected NodeBase() {
+        public NodeBase() {
         }
 
         // Attach
