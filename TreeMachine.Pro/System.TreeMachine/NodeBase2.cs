@@ -2,75 +2,97 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Linq;
 
-    public abstract class NodeBase2<TThis> : NodeBase<TThis> where TThis : NodeBase2<TThis> {
+    public abstract class NodeBase2<TThis> : NodeBase<TThis> where TThis : notnull, NodeBase2<TThis> {
 
-        // Owner
-        private protected override object? Owner { get; set; } = null;
-        // Tree
-        public override ITree<TThis>? Tree => (Owner as ITree<TThis>) ?? (Owner as NodeBase<TThis>)?.Tree;
+        // OnDescendantAttach
+        public event Action<TThis, object?>? OnBeforeDescendantAttachEvent;
+        public event Action<TThis, object?>? OnAfterDescendantAttachEvent;
+        public event Action<TThis, object?>? OnBeforeDescendantDetachEvent;
+        public event Action<TThis, object?>? OnAfterDescendantDetachEvent;
 
-        // OnAttach
-        public override event Action<object?>? OnBeforeAttachEvent;
-        public override event Action<object?>? OnAfterAttachEvent;
-        public override event Action<object?>? OnBeforeDetachEvent;
-        public override event Action<object?>? OnAfterDetachEvent;
+        // OnDescendantActivate
+        public event Action<TThis, object?>? OnBeforeDescendantActivateEvent;
+        public event Action<TThis, object?>? OnAfterDescendantActivateEvent;
+        public event Action<TThis, object?>? OnBeforeDescendantDeactivateEvent;
+        public event Action<TThis, object?>? OnAfterDescendantDeactivateEvent;
 
         // Constructor
         public NodeBase2() {
         }
 
-        // Attach
-        internal override void Attach(ITree<TThis> owner, object? argument) {
-            Assert.Operation.Message( $"Node {this} must have no owner" ).Valid( Owner == null );
-            Owner = owner;
-            OnBeforeAttach( argument );
-            OnAttach( argument );
-            OnAfterAttach( argument );
-        }
-        internal override void Detach(ITree<TThis> owner, object? argument) {
-            Assert.Operation.Message( $"Node {this} must have {owner} owner" ).Valid( Owner == owner );
-            OnBeforeDetach( argument );
-            OnDetach( argument );
-            OnAfterDetach( argument );
-            Owner = null;
-        }
-
-        // Attach
-        internal override void Attach(TThis owner, object? argument) {
-            Assert.Operation.Message( $"Node {this} must have no owner" ).Valid( Owner == null );
-            Owner = owner;
-            OnBeforeAttach( argument );
-            OnAttach( argument );
-            OnAfterAttach( argument );
-        }
-        internal override void Detach(TThis owner, object? argument) {
-            Assert.Operation.Message( $"Node {this} must have {owner} owner" ).Valid( Owner == owner );
-            OnBeforeDetach( argument );
-            OnDetach( argument );
-            OnAfterDetach( argument );
-            Owner = null;
-        }
-
         // OnAttach
-        //protected override void OnAttach(object? argument) {
-        //}
         protected override void OnBeforeAttach(object? argument) {
-            OnBeforeAttachEvent?.Invoke( argument );
+            foreach (var ancestor in Ancestors.Reverse()) {
+                ancestor.OnBeforeDescendantAttachEvent?.Invoke( (TThis) this, argument );
+                ancestor.OnBeforeDescendantAttach( (TThis) this, argument );
+            }
+            base.OnBeforeAttach( argument );
         }
         protected override void OnAfterAttach(object? argument) {
-            OnAfterAttachEvent?.Invoke( argument );
+            base.OnAfterAttach( argument );
+            foreach (var ancestor in Ancestors) {
+                ancestor.OnAfterDescendantAttach( (TThis) this, argument );
+                ancestor.OnAfterDescendantAttachEvent?.Invoke( (TThis) this, argument );
+            }
         }
-
-        // OnDetach
-        //protected override void OnDetach(object? argument) {
-        //}
         protected override void OnBeforeDetach(object? argument) {
-            OnBeforeDetachEvent?.Invoke( argument );
+            foreach (var ancestor in Ancestors.Reverse()) {
+                ancestor.OnBeforeDescendantDetachEvent?.Invoke( (TThis) this, argument );
+                ancestor.OnBeforeDescendantDetach( (TThis) this, argument );
+            }
+            base.OnBeforeDetach( argument );
         }
         protected override void OnAfterDetach(object? argument) {
-            OnAfterDetachEvent?.Invoke( argument );
+            base.OnAfterDetach( argument );
+            foreach (var ancestor in Ancestors) {
+                ancestor.OnAfterDescendantDetach( (TThis) this, argument );
+                ancestor.OnAfterDescendantDetachEvent?.Invoke( (TThis) this, argument );
+            }
         }
+
+        // OnDescendantAttach
+        protected abstract void OnBeforeDescendantAttach(TThis descendant, object? argument);
+        protected abstract void OnAfterDescendantAttach(TThis descendant, object? argument);
+        protected abstract void OnBeforeDescendantDetach(TThis descendant, object? argument);
+        protected abstract void OnAfterDescendantDetach(TThis descendant, object? argument);
+
+        // OnActivate
+        protected override void OnBeforeActivate(object? argument) {
+            foreach (var ancestor in Ancestors.Reverse()) {
+                ancestor.OnBeforeDescendantActivateEvent?.Invoke( (TThis) this, argument );
+                ancestor.OnBeforeDescendantActivate( (TThis) this, argument );
+            }
+            base.OnBeforeActivate( argument );
+        }
+        protected override void OnAfterActivate(object? argument) {
+            base.OnAfterActivate( argument );
+            foreach (var ancestor in Ancestors) {
+                ancestor.OnAfterDescendantActivate( (TThis) this, argument );
+                ancestor.OnAfterDescendantActivateEvent?.Invoke( (TThis) this, argument );
+            }
+        }
+        protected override void OnBeforeDeactivate(object? argument) {
+            foreach (var ancestor in Ancestors.Reverse()) {
+                ancestor.OnBeforeDescendantDeactivateEvent?.Invoke( (TThis) this, argument );
+                ancestor.OnBeforeDescendantDeactivate( (TThis) this, argument );
+            }
+            base.OnBeforeDeactivate( argument );
+        }
+        protected override void OnAfterDeactivate(object? argument) {
+            base.OnAfterDeactivate( argument );
+            foreach (var ancestor in Ancestors) {
+                ancestor.OnAfterDescendantDeactivate( (TThis) this, argument );
+                ancestor.OnAfterDescendantDeactivateEvent?.Invoke( (TThis) this, argument );
+            }
+        }
+
+        // OnDescendantActivate
+        protected abstract void OnBeforeDescendantActivate(TThis descendant, object? argument);
+        protected abstract void OnAfterDescendantActivate(TThis descendant, object? argument);
+        protected abstract void OnBeforeDescendantDeactivate(TThis descendant, object? argument);
+        protected abstract void OnAfterDescendantDeactivate(TThis descendant, object? argument);
 
     }
 }

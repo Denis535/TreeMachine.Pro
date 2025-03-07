@@ -4,58 +4,64 @@
     using System.Linq;
     using System.Text;
 
-    public abstract class NodeBase4<TThis> : NodeBase3<TThis> where TThis : NodeBase4<TThis> {
+    public abstract partial class NodeBase<TThis> {
+        public enum Activity_ {
+            Inactive,
+            Activating,
+            Active,
+            Deactivating,
+        }
 
         // Activity
-        public override Activity_ Activity { get; private protected set; } = Activity_.Inactive;
+        public Activity_ Activity { get; private protected set; } = Activity_.Inactive;
 
         // OnActivate
-        public override event Action<object?>? OnBeforeActivateEvent;
-        public override event Action<object?>? OnAfterActivateEvent;
-        public override event Action<object?>? OnBeforeDeactivateEvent;
-        public override event Action<object?>? OnAfterDeactivateEvent;
+        public event Action<object?>? OnBeforeActivateEvent;
+        public event Action<object?>? OnAfterActivateEvent;
+        public event Action<object?>? OnBeforeDeactivateEvent;
+        public event Action<object?>? OnAfterDeactivateEvent;
 
         // Constructor
-        public NodeBase4() {
-        }
+        //public NodeBase() {
+        //}
 
         // Attach
-        internal override void Attach(ITree<TThis> owner, object? argument) {
+        internal void Attach(ITree<TThis> owner, object? argument) {
             Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( Activity is Activity_.Inactive );
-            base.Attach( owner, argument );
+            AttachBase( owner, argument );
             Activate( argument );
         }
-        internal override void Detach(ITree<TThis> owner, object? argument) {
+        internal void Detach(ITree<TThis> owner, object? argument) {
             Assert.Operation.Message( $"Node {this} must be active" ).Valid( Activity is Activity_.Active );
             Deactivate( argument );
-            base.Detach( owner, argument );
+            DetachBase( owner, argument );
         }
 
         // Attach
-        internal override void Attach(TThis owner, object? argument) {
+        internal void Attach(TThis owner, object? argument) {
             Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( Activity is Activity_.Inactive );
             if (owner.Activity is Activity_.Active) {
-                base.Attach( owner, argument );
+                AttachBase( owner, argument );
                 Activate( argument );
             } else {
-                base.Attach( owner, argument );
+                AttachBase( owner, argument );
             }
         }
-        internal override void Detach(TThis owner, object? argument) {
+        internal void Detach(TThis owner, object? argument) {
             if (owner.Activity is Activity_.Active) {
                 Assert.Operation.Message( $"Node {this} must be active" ).Valid( Activity is Activity_.Active );
                 Deactivate( argument );
-                base.Detach( owner, argument );
+                DetachBase( owner, argument );
             } else {
                 Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( Activity is Activity_.Inactive );
-                base.Detach( owner, argument );
+                DetachBase( owner, argument );
             }
         }
 
         // Activate
-        private protected override void Activate(object? argument) {
+        private void Activate(object? argument) {
             Assert.Operation.Message( $"Node {this} must have owner" ).Valid( Owner != null );
-            Assert.Operation.Message( $"Node {this} must have owner with valid activity" ).Valid( (Owner is ITree<TThis>) || ((NodeBase2<TThis>) Owner).Activity is Activity_.Active or Activity_.Activating );
+            Assert.Operation.Message( $"Node {this} must have owner with valid activity" ).Valid( (Owner is ITree<TThis>) || ((NodeBase<TThis>) Owner).Activity is Activity_.Active or Activity_.Activating );
             Assert.Operation.Message( $"Node {this} must be inactive" ).Valid( Activity is Activity_.Inactive );
             OnBeforeActivate( argument );
             Activity = Activity_.Activating;
@@ -68,9 +74,9 @@
             Activity = Activity_.Active;
             OnAfterActivate( argument );
         }
-        private protected override void Deactivate(object? argument) {
+        private void Deactivate(object? argument) {
             Assert.Operation.Message( $"Node {this} must have owner" ).Valid( Owner != null );
-            Assert.Operation.Message( $"Node {this} must have owner with valid activity" ).Valid( (Owner is ITree<TThis>) || ((NodeBase2<TThis>) Owner).Activity is Activity_.Active or Activity_.Deactivating );
+            Assert.Operation.Message( $"Node {this} must have owner with valid activity" ).Valid( (Owner is ITree<TThis>) || ((NodeBase<TThis>) Owner).Activity is Activity_.Active or Activity_.Deactivating );
             Assert.Operation.Message( $"Node {this} must be active" ).Valid( Activity is Activity_.Active );
             OnBeforeDeactivate( argument );
             Activity = Activity_.Deactivating;
@@ -85,22 +91,20 @@
         }
 
         // OnActivate
-        //protected override void OnActivate(object? argument) {
-        //}
-        protected override void OnBeforeActivate(object? argument) {
+        protected abstract void OnActivate(object? argument);
+        protected virtual void OnBeforeActivate(object? argument) {
             OnBeforeActivateEvent?.Invoke( argument );
         }
-        protected override void OnAfterActivate(object? argument) {
+        protected virtual void OnAfterActivate(object? argument) {
             OnAfterActivateEvent?.Invoke( argument );
         }
 
         // OnDeactivate
-        //protected override void OnDeactivate(object? argument) {
-        //}
-        protected override void OnBeforeDeactivate(object? argument) {
+        protected abstract void OnDeactivate(object? argument);
+        protected virtual void OnBeforeDeactivate(object? argument) {
             OnBeforeDeactivateEvent?.Invoke( argument );
         }
-        protected override void OnAfterDeactivate(object? argument) {
+        protected virtual void OnAfterDeactivate(object? argument) {
             OnAfterDeactivateEvent?.Invoke( argument );
         }
 

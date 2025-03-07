@@ -4,7 +4,7 @@ The library that allows you to easily implement a tree structure.
 # Reference
 ```
 namespace System.TreeMachine;
-public interface ITree<T> where T : NodeBase<T> {
+public interface ITree<T> where T : notnull, NodeBase<T> {
 
     protected T? Root { get; set; }
 
@@ -13,53 +13,57 @@ public interface ITree<T> where T : NodeBase<T> {
     protected internal void RemoveRoot(T root, object? argument, Action<T>? callback);
 
 }
-public abstract partial class NodeBase<TThis> where TThis : NodeBase<TThis> {
+public abstract partial class NodeBase<TThis> where TThis : notnull, NodeBase<TThis> {
 
-    private protected abstract object? Owner { get; set; }
-    public abstract ITree<TThis>? Tree { get; }
+    private protected object? Owner { get; set; }
+    public ITree<TThis>? Tree { get; }
 
-    public abstract event Action<object?>? OnBeforeAttachEvent;
-    public abstract event Action<object?>? OnAfterAttachEvent;
-    public abstract event Action<object?>? OnBeforeDetachEvent;
-    public abstract event Action<object?>? OnAfterDetachEvent;
+    public event Action<object?>? OnBeforeAttachEvent;
+    public event Action<object?>? OnAfterAttachEvent;
+    public event Action<object?>? OnBeforeDetachEvent;
+    public event Action<object?>? OnAfterDetachEvent;
 
-    public NodeBase();
+    public NodeBase() {
+    }
 
-    internal abstract void Attach(ITree<TThis> owner, object? argument);
-    internal abstract void Detach(ITree<TThis> owner, object? argument);
+    private void AttachBase(ITree<TThis> owner, object? argument);
+    private void DetachBase(ITree<TThis> owner, object? argument);
 
-    internal abstract void Attach(TThis owner, object? argument);
-    internal abstract void Detach(TThis owner, object? argument);
+    private void AttachBase(TThis owner, object? argument);
+    private void DetachBase(TThis owner, object? argument);
 
     protected abstract void OnAttach(object? argument);
-    protected abstract void OnBeforeAttach(object? argument);
-    protected abstract void OnAfterAttach(object? argument);
+    protected virtual void OnBeforeAttach(object? argument);
+    protected virtual void OnAfterAttach(object? argument);
 
     protected abstract void OnDetach(object? argument);
-    protected abstract void OnBeforeDetach(object? argument);
-    protected abstract void OnAfterDetach(object? argument);
+    protected virtual void OnBeforeDetach(object? argument);
+    protected virtual void OnAfterDetach(object? argument);
 
 }
 public abstract partial class NodeBase<TThis> {
 
-    [MemberNotNullWhen( false, nameof( Parent ) )] public abstract bool IsRoot { get; }
-    public abstract TThis Root { get; }
+    [MemberNotNullWhen( false, nameof( Parent ) )] public bool IsRoot { get; }
+    public TThis Root { get; }
 
-    public abstract TThis? Parent { get; }
-    public abstract IEnumerable<TThis> Ancestors { get; }
-    public abstract IEnumerable<TThis> AncestorsAndSelf { get; }
+    public TThis? Parent { get; }
+    public IEnumerable<TThis> Ancestors { get; }
+    public IEnumerable<TThis> AncestorsAndSelf { get; }
 
-    public abstract IReadOnlyList<TThis> Children { get; }
-    public abstract IEnumerable<TThis> Descendants { get; }
-    public abstract IEnumerable<TThis> DescendantsAndSelf { get; }
+    public IReadOnlyList<TThis> Children { get; }
+    public IEnumerable<TThis> Descendants { get; }
+    public IEnumerable<TThis> DescendantsAndSelf { get; }
 
-    protected abstract void AddChild(TThis child, object? argument);
-    protected abstract void RemoveChild(TThis child, object? argument, Action<TThis>? callback);
-    protected abstract bool RemoveChild(Func<TThis, bool> predicate, object? argument, Action<TThis>? callback);
-    protected abstract int RemoveChildren(Func<TThis, bool> predicate, object? argument, Action<TThis>? callback);
-    protected abstract void RemoveSelf(object? argument, Action<TThis>? callback);
+    //public NodeBase() {
+    //}
 
-    protected abstract void Sort(List<TThis> children);
+    protected virtual void AddChild(TThis child, object? argument);
+    protected virtual void RemoveChild(TThis child, object? argument, Action<TThis>? callback);
+    protected bool RemoveChild(Func<TThis, bool> predicate, object? argument, Action<TThis>? callback);
+    protected int RemoveChildren(Func<TThis, bool> predicate, object? argument, Action<TThis>? callback);
+    protected void RemoveSelf(object? argument, Action<TThis>? callback);
+
+    protected virtual void Sort(List<TThis> children);
 
 }
 public abstract partial class NodeBase<TThis> {
@@ -70,23 +74,32 @@ public abstract partial class NodeBase<TThis> {
         Deactivating,
     }
 
-    public abstract Activity_ Activity { get; private protected set; }
+    public Activity_ Activity { get; private protected set; }
 
-    public abstract event Action<object?>? OnBeforeActivateEvent;
-    public abstract event Action<object?>? OnAfterActivateEvent;
-    public abstract event Action<object?>? OnBeforeDeactivateEvent;
-    public abstract event Action<object?>? OnAfterDeactivateEvent;
+    public event Action<object?>? OnBeforeActivateEvent;
+    public event Action<object?>? OnAfterActivateEvent;
+    public event Action<object?>? OnBeforeDeactivateEvent;
+    public event Action<object?>? OnAfterDeactivateEvent;
 
-    private protected abstract void Activate(object? argument);
-    private protected abstract void Deactivate(object? argument);
+    //public NodeBase() {
+    //}
+
+    internal void Attach(ITree<TThis> owner, object? argument);
+    internal void Detach(ITree<TThis> owner, object? argument);
+
+    internal void Attach(TThis owner, object? argument);
+    internal void Detach(TThis owner, object? argument);
+
+    private void Activate(object? argument);
+    private void Deactivate(object? argument);
 
     protected abstract void OnActivate(object? argument);
-    protected abstract void OnBeforeActivate(object? argument);
-    protected abstract void OnAfterActivate(object? argument);
+    protected virtual void OnBeforeActivate(object? argument);
+    protected virtual void OnAfterActivate(object? argument);
 
     protected abstract void OnDeactivate(object? argument);
-    protected abstract void OnBeforeDeactivate(object? argument);
-    protected abstract void OnAfterDeactivate(object? argument);
+    protected virtual void OnBeforeDeactivate(object? argument);
+    protected virtual void OnAfterDeactivate(object? argument);
 
 }
 ```

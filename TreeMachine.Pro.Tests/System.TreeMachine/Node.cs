@@ -3,8 +3,8 @@
     using System.Collections.Generic;
     using System.Diagnostics;
     using System.Text;
-
-    internal class Node : NodeBase5<Node> {
+    
+    internal class Node : NodeBase2<Node> {
 
         //public bool IsDisposed { get; private set; }
 
