@@ -6,7 +6,7 @@
     public abstract partial class NodeBase<TThis> where TThis : notnull, NodeBase<TThis> {
 
         // Owner
-        private protected object? Owner { get; set; }
+        private object? Owner { get; set; }
         // Tree
         public ITree<TThis>? Tree => (Owner as ITree<TThis>) ?? (Owner as NodeBase<TThis>)?.Tree;
 

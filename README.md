@@ -15,7 +15,7 @@ public interface ITree<T> where T : notnull, NodeBase<T> {
 }
 public abstract partial class NodeBase<TThis> where TThis : notnull, NodeBase<TThis> {
 
-    private protected object? Owner { get; set; }
+    private object? Owner { get; set; }
     public ITree<TThis>? Tree { get; }
 
     public event Action<object?>? OnBeforeAttachEvent;
@@ -23,8 +23,7 @@ public abstract partial class NodeBase<TThis> where TThis : notnull, NodeBase<TT
     public event Action<object?>? OnBeforeDetachEvent;
     public event Action<object?>? OnAfterDetachEvent;
 
-    public NodeBase() {
-    }
+    public NodeBase();
 
     private void AttachBase(ITree<TThis> owner, object? argument);
     private void DetachBase(ITree<TThis> owner, object? argument);
@@ -54,8 +53,7 @@ public abstract partial class NodeBase<TThis> {
     public IEnumerable<TThis> Descendants { get; }
     public IEnumerable<TThis> DescendantsAndSelf { get; }
 
-    //public NodeBase() {
-    //}
+    //public NodeBase();
 
     protected virtual void AddChild(TThis child, object? argument);
     protected virtual void RemoveChild(TThis child, object? argument, Action<TThis>? callback);
@@ -74,15 +72,14 @@ public abstract partial class NodeBase<TThis> {
         Deactivating,
     }
 
-    public Activity_ Activity { get; private protected set; }
+    public Activity_ Activity { get; private set; }
 
     public event Action<object?>? OnBeforeActivateEvent;
     public event Action<object?>? OnAfterActivateEvent;
     public event Action<object?>? OnBeforeDeactivateEvent;
     public event Action<object?>? OnAfterDeactivateEvent;
 
-    //public NodeBase() {
-    //}
+    //public NodeBase();
 
     internal void Attach(ITree<TThis> owner, object? argument);
     internal void Detach(ITree<TThis> owner, object? argument);
