@@ -1,6 +1,7 @@
 ﻿namespace System.TreeMachine {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Text;
 
     public abstract partial class NodeBase<TThis> where TThis : notnull, NodeBase<TThis> {
@@ -22,14 +23,14 @@
 
         // Attach
         private void AttachBase(ITree<TThis> owner, object? argument) {
-            Assert.Operation.Message( $"Node {this} must have no owner" ).Valid( Owner == null );
+            Debug2.Assert.Operation( $"Node {this} must have no owner", Owner == null );
             Owner = owner;
             OnBeforeAttach( argument );
             OnAttach( argument );
             OnAfterAttach( argument );
         }
         private void DetachBase(ITree<TThis> owner, object? argument) {
-            Assert.Operation.Message( $"Node {this} must have {owner} owner" ).Valid( Owner == owner );
+            Debug2.Assert.Operation( $"Node {this} must have {owner} owner", Owner == owner );
             OnBeforeDetach( argument );
             OnDetach( argument );
             OnAfterDetach( argument );
@@ -38,14 +39,14 @@
 
         // Attach
         private void AttachBase(TThis owner, object? argument) {
-            Assert.Operation.Message( $"Node {this} must have no owner" ).Valid( Owner == null );
+            Debug2.Assert.Operation( $"Node {this} must have no owner", Owner == null );
             Owner = owner;
             OnBeforeAttach( argument );
             OnAttach( argument );
             OnAfterAttach( argument );
         }
         private void DetachBase(TThis owner, object? argument) {
-            Assert.Operation.Message( $"Node {this} must have {owner} owner" ).Valid( Owner == owner );
+            Debug2.Assert.Operation( $"Node {this} must have {owner} owner", Owner == owner );
             OnBeforeDetach( argument );
             OnDetach( argument );
             OnAfterDetach( argument );

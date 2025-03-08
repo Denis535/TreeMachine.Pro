@@ -1,6 +1,7 @@
 ﻿namespace System.TreeMachine {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Text;
 
     public interface ITree<T> where T : notnull, NodeBase<T> {
@@ -23,14 +24,14 @@
             }
         }
         protected static void AddRoot(ITree<T> tree, T root, object? argument) {
-            Assert.Argument.Message( $"Argument 'root' must be non-null" ).NotNull( root != null );
-            Assert.Operation.Message( $"Tree {tree} must have no root node" ).Valid( tree.Root == null );
+            Debug2.Assert.Argument( $"Argument 'root' must be non-null", root != null );
+            Debug2.Assert.Operation( $"Tree {tree} must have no root node", tree.Root == null );
             tree.Root = root;
             tree.Root.Attach( tree, argument );
         }
         protected static void RemoveRoot(ITree<T> tree, T root, object? argument, Action<T>? callback) {
-            Assert.Argument.Message( $"Argument 'root' must be non-null" ).NotNull( root != null );
-            Assert.Operation.Message( $"Tree {tree} must have root {root} node" ).Valid( tree.Root == root );
+            Debug2.Assert.Argument( $"Argument 'root' must be non-null", root != null );
+            Debug2.Assert.Operation( $"Tree {tree} must have root {root} node", tree.Root == root );
             tree.Root.Detach( tree, argument );
             tree.Root = null;
             callback?.Invoke( root );

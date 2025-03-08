@@ -10,42 +10,42 @@ namespace System.TreeMachine {
         [Test]
         public void Test_00() {
             var tree = new Tree<Node>();
-            NUnit.Framework.Assert.That( tree.Root, Is.Null );
+            Assert.That( tree.Root, Is.Null );
 
             var root = new Root();
-            NUnit.Framework.Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 1 ) );
+            Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 1 ) );
             foreach (var descendant in root.DescendantsAndSelf) {
-                NUnit.Framework.Assert.That( descendant.Tree, Is.Null );
-                NUnit.Framework.Assert.That( descendant.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+                Assert.That( descendant.Tree, Is.Null );
+                Assert.That( descendant.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
             }
 
             {
                 // SetRoot null
                 tree.SetRoot( null, null, null );
-                NUnit.Framework.Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 1 ) );
+                Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 1 ) );
                 foreach (var descendant in root.DescendantsAndSelf) {
-                    NUnit.Framework.Assert.That( descendant.Tree, Is.Null );
-                    NUnit.Framework.Assert.That( descendant.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+                    Assert.That( descendant.Tree, Is.Null );
+                    Assert.That( descendant.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
                 }
             }
             {
                 // SetRoot root
                 tree.SetRoot( root, null, null );
-                NUnit.Framework.Assert.That( tree.Root, Is.EqualTo( root ) );
-                NUnit.Framework.Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 7 ) );
+                Assert.That( tree.Root, Is.EqualTo( root ) );
+                Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 7 ) );
                 foreach (var descendant in root.DescendantsAndSelf) {
-                    NUnit.Framework.Assert.That( descendant.Tree, Is.EqualTo( tree ) );
-                    NUnit.Framework.Assert.That( descendant.Activity, Is.EqualTo( Node.Activity_.Active ) );
+                    Assert.That( descendant.Tree, Is.EqualTo( tree ) );
+                    Assert.That( descendant.Activity, Is.EqualTo( Node.Activity_.Active ) );
                 }
             }
             {
                 // SetRoot null
                 tree.SetRoot( null, null, null );
-                NUnit.Framework.Assert.That( tree.Root, Is.Null );
-                NUnit.Framework.Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 1 ) );
+                Assert.That( tree.Root, Is.Null );
+                Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 1 ) );
                 foreach (var descendant in root.DescendantsAndSelf) {
-                    NUnit.Framework.Assert.That( descendant.Tree, Is.Null );
-                    NUnit.Framework.Assert.That( descendant.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+                    Assert.That( descendant.Tree, Is.Null );
+                    Assert.That( descendant.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
                 }
             }
         }
