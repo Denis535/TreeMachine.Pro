@@ -43,15 +43,15 @@
 
         // AddChild
         protected virtual void AddChild(TThis child, object? argument) {
-            Debug2.Assert.Argument( $"Argument 'child' must be non-null", child != null );
-            Debug2.Assert.Operation( $"Node {this} must have no child {child} node", !Children.Contains( child ) );
+            Debug2.Assert.Argument.NotNull( $"Argument 'child' must be non-null", child != null );
+            Debug2.Assert.Operation.Valid( $"Node {this} must have no child {child} node", !Children.Contains( child ) );
             children.Add( child );
             Sort( children );
             child.Attach( (TThis) this, argument );
         }
         protected virtual void RemoveChild(TThis child, object? argument, Action<TThis>? callback) {
-            Debug2.Assert.Argument( $"Argument 'child' must be non-null", child != null );
-            Debug2.Assert.Operation( $"Node {this} must have child {child} node", Children.Contains( child ) );
+            Debug2.Assert.Argument.NotNull( $"Argument 'child' must be non-null", child != null );
+            Debug2.Assert.Operation.Valid( $"Node {this} must have child {child} node", Children.Contains( child ) );
             child.Detach( (TThis) this, argument );
             children.Remove( child );
             callback?.Invoke( child );
@@ -72,7 +72,7 @@
             return children.Count;
         }
         protected void RemoveSelf(object? argument, Action<TThis>? callback) {
-            Debug2.Assert.Operation( $"Node {this} must have owner", Owner != null );
+            Debug2.Assert.Operation.Valid( $"Node {this} must have owner", Owner != null );
             if (Parent != null) {
                 Parent.RemoveChild( (TThis) this, argument, callback );
             } else {

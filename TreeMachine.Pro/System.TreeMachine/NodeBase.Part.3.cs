@@ -28,19 +28,19 @@
 
         // Attach
         internal void Attach(ITree<TThis> owner, object? argument) {
-            Debug2.Assert.Operation( $"Node {this} must be inactive", Activity is Activity_.Inactive );
+            Debug2.Assert.Operation.Valid( $"Node {this} must be inactive", Activity is Activity_.Inactive );
             AttachBase( owner, argument );
             Activate( argument );
         }
         internal void Detach(ITree<TThis> owner, object? argument) {
-            Debug2.Assert.Operation( $"Node {this} must be active", Activity is Activity_.Active );
+            Debug2.Assert.Operation.Valid( $"Node {this} must be active", Activity is Activity_.Active );
             Deactivate( argument );
             DetachBase( owner, argument );
         }
 
         // Attach
         internal void Attach(TThis owner, object? argument) {
-            Debug2.Assert.Operation( $"Node {this} must be inactive", Activity is Activity_.Inactive );
+            Debug2.Assert.Operation.Valid( $"Node {this} must be inactive", Activity is Activity_.Inactive );
             if (owner.Activity is Activity_.Active) {
                 AttachBase( owner, argument );
                 Activate( argument );
@@ -50,20 +50,20 @@
         }
         internal void Detach(TThis owner, object? argument) {
             if (owner.Activity is Activity_.Active) {
-                Debug2.Assert.Operation( $"Node {this} must be active", Activity is Activity_.Active );
+                Debug2.Assert.Operation.Valid( $"Node {this} must be active", Activity is Activity_.Active );
                 Deactivate( argument );
                 DetachBase( owner, argument );
             } else {
-                Debug2.Assert.Operation( $"Node {this} must be inactive", Activity is Activity_.Inactive );
+                Debug2.Assert.Operation.Valid( $"Node {this} must be inactive", Activity is Activity_.Inactive );
                 DetachBase( owner, argument );
             }
         }
 
         // Activate
         private void Activate(object? argument) {
-            Debug2.Assert.Operation( $"Node {this} must have owner", Owner != null );
-            Debug2.Assert.Operation( $"Node {this} must have owner with valid activity", (Owner is ITree<TThis>) || ((NodeBase<TThis>) Owner).Activity is Activity_.Active or Activity_.Activating );
-            Debug2.Assert.Operation( $"Node {this} must be inactive", Activity is Activity_.Inactive );
+            Debug2.Assert.Operation.Valid( $"Node {this} must have owner", Owner != null );
+            Debug2.Assert.Operation.Valid( $"Node {this} must have owner with valid activity", (Owner is ITree<TThis>) || ((NodeBase<TThis>) Owner).Activity is Activity_.Active or Activity_.Activating );
+            Debug2.Assert.Operation.Valid( $"Node {this} must be inactive", Activity is Activity_.Inactive );
             OnBeforeActivate( argument );
             Activity = Activity_.Activating;
             {
@@ -76,9 +76,9 @@
             OnAfterActivate( argument );
         }
         private void Deactivate(object? argument) {
-            Debug2.Assert.Operation( $"Node {this} must have owner", Owner != null );
-            Debug2.Assert.Operation( $"Node {this} must have owner with valid activity", (Owner is ITree<TThis>) || ((NodeBase<TThis>) Owner).Activity is Activity_.Active or Activity_.Deactivating );
-            Debug2.Assert.Operation( $"Node {this} must be active", Activity is Activity_.Active );
+            Debug2.Assert.Operation.Valid( $"Node {this} must have owner", Owner != null );
+            Debug2.Assert.Operation.Valid( $"Node {this} must have owner with valid activity", (Owner is ITree<TThis>) || ((NodeBase<TThis>) Owner).Activity is Activity_.Active or Activity_.Deactivating );
+            Debug2.Assert.Operation.Valid( $"Node {this} must be active", Activity is Activity_.Active );
             OnBeforeDeactivate( argument );
             Activity = Activity_.Deactivating;
             {

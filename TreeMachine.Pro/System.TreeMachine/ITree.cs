@@ -24,14 +24,14 @@
             }
         }
         protected static void AddRoot(ITree<T> tree, T root, object? argument) {
-            Debug2.Assert.Argument( $"Argument 'root' must be non-null", root != null );
-            Debug2.Assert.Operation( $"Tree {tree} must have no root node", tree.Root == null );
+            Debug2.Assert.Argument.NotNull( $"Argument 'root' must be non-null", root != null );
+            Debug2.Assert.Operation.Valid( $"Tree {tree} must have no root node", tree.Root == null );
             tree.Root = root;
             tree.Root.Attach( tree, argument );
         }
         protected static void RemoveRoot(ITree<T> tree, T root, object? argument, Action<T>? callback) {
-            Debug2.Assert.Argument( $"Argument 'root' must be non-null", root != null );
-            Debug2.Assert.Operation( $"Tree {tree} must have root {root} node", tree.Root == root );
+            Debug2.Assert.Argument.NotNull( $"Argument 'root' must be non-null", root != null );
+            Debug2.Assert.Operation.Valid( $"Tree {tree} must have root {root} node", tree.Root == root );
             tree.Root.Detach( tree, argument );
             tree.Root = null;
             callback?.Invoke( root );
