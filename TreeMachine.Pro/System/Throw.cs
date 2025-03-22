@@ -1,44 +1,38 @@
-﻿namespace System.Diagnostics {
+﻿namespace System {
     using System;
     using System.Collections.Generic;
     using System.Diagnostics.CodeAnalysis;
     using System.Text;
 
-    internal static class Debug2 {
+    internal static class Throw {
         public static class Assert {
             public static class Argument {
 
-                [Conditional( "DEBUG" )]
                 public static void Valid(string message, [DoesNotReturnIf( false )] bool condition) {
-                    Debug.Assert( condition, message );
+                    if (!condition) throw new ArgumentException( message: message );
                 }
 
-                [Conditional( "DEBUG" )]
                 public static void NotNull(string message, [DoesNotReturnIf( false )] bool condition) {
-                    Debug.Assert( condition, message );
+                    if (!condition) throw new ArgumentNullException( null, message: message );
                 }
 
-                [Conditional( "DEBUG" )]
                 public static void InRange(string message, [DoesNotReturnIf( false )] bool condition) {
-                    Debug.Assert( condition, message );
+                    if (!condition) throw new ArgumentOutOfRangeException( null, message: message );
                 }
 
             }
             public static class Operation {
 
-                [Conditional( "DEBUG" )]
                 public static void Valid(string message, [DoesNotReturnIf( false )] bool condition) {
-                    Debug.Assert( condition, message );
+                    if (!condition) throw new InvalidOperationException( message: message );
                 }
 
-                [Conditional( "DEBUG" )]
                 public static void Ready(string message, [DoesNotReturnIf( false )] bool condition) {
-                    Debug.Assert( condition, message );
+                    if (!condition) throw new InvalidOperationException( message: message );
                 }
 
-                [Conditional( "DEBUG" )]
                 public static void NotDisposed(string message, [DoesNotReturnIf( false )] bool condition) {
-                    Debug.Assert( condition, message );
+                    if (!condition) throw new ObjectDisposedException( null, message: message );
                 }
 
             }
