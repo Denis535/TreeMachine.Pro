@@ -1,9 +1,9 @@
 ﻿namespace System.TreeMachine {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.Text;
     using System.Linq;
-    using System.Diagnostics.CodeAnalysis;
 
     public abstract partial class NodeBase<TThis> {
 
@@ -43,15 +43,15 @@
 
         // AddChild
         protected virtual void AddChild(TThis child, object? argument) {
-            Throw.Assert.Argument.NotNull( $"Argument 'child' must be non-null", child != null );
-            Throw.Assert.Operation.Valid( $"Node {this} must have no child {child} node", !Children.Contains( child ) );
+            Assert.Argument.NotNull( $"Argument 'child' must be non-null", child != null );
+            Assert.Operation.Valid( $"Node {this} must have no child {child} node", !Children.Contains( child ) );
             children.Add( child );
             Sort( children );
             child.Attach( (TThis) this, argument );
         }
         protected virtual void RemoveChild(TThis child, object? argument, Action<TThis>? callback) {
-            Throw.Assert.Argument.NotNull( $"Argument 'child' must be non-null", child != null );
-            Throw.Assert.Operation.Valid( $"Node {this} must have child {child} node", Children.Contains( child ) );
+            Assert.Argument.NotNull( $"Argument 'child' must be non-null", child != null );
+            Assert.Operation.Valid( $"Node {this} must have child {child} node", Children.Contains( child ) );
             child.Detach( (TThis) this, argument );
             children.Remove( child );
             callback?.Invoke( child );
@@ -72,7 +72,7 @@
             return children.Count;
         }
         protected void RemoveSelf(object? argument, Action<TThis>? callback) {
-            Throw.Assert.Operation.Valid( $"Node {this} must have owner", Owner != null );
+            Assert.Operation.Valid( $"Node {this} must have owner", Owner != null );
             if (Parent != null) {
                 Parent.RemoveChild( (TThis) this, argument, callback );
             } else {

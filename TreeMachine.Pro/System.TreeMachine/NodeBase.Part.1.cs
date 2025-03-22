@@ -22,14 +22,14 @@
 
         // Attach
         private void AttachBase(ITree<TThis> owner, object? argument) {
-            Throw.Assert.Operation.Valid( $"Node {this} must have no owner", Owner == null );
+            Assert.Operation.Valid( $"Node {this} must have no owner", Owner == null );
             Owner = owner;
             OnBeforeAttach( argument );
             OnAttach( argument );
             OnAfterAttach( argument );
         }
         private void DetachBase(ITree<TThis> owner, object? argument) {
-            Throw.Assert.Operation.Valid( $"Node {this} must have {owner} owner", Owner == owner );
+            Assert.Operation.Valid( $"Node {this} must have {owner} owner", Owner == owner );
             OnBeforeDetach( argument );
             OnDetach( argument );
             OnAfterDetach( argument );
@@ -38,14 +38,14 @@
 
         // Attach
         private void AttachBase(TThis owner, object? argument) {
-            Throw.Assert.Operation.Valid( $"Node {this} must have no owner", Owner == null );
+            Assert.Operation.Valid( $"Node {this} must have no owner", Owner == null );
             Owner = owner;
             OnBeforeAttach( argument );
             OnAttach( argument );
             OnAfterAttach( argument );
         }
         private void DetachBase(TThis owner, object? argument) {
-            Throw.Assert.Operation.Valid( $"Node {this} must have {owner} owner", Owner == owner );
+            Assert.Operation.Valid( $"Node {this} must have {owner} owner", Owner == owner );
             OnBeforeDetach( argument );
             OnDetach( argument );
             OnAfterDetach( argument );
