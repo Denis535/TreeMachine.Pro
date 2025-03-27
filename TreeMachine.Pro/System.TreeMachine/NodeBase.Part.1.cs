@@ -6,7 +6,7 @@
     public abstract partial class NodeBase<TThis> where TThis : notnull, NodeBase<TThis> {
 
         // Owner
-        private object? Owner { get; set; }
+        internal object? Owner { get; private set; }
         // Tree
         public ITree<TThis>? Tree => (Owner as ITree<TThis>) ?? (Owner as NodeBase<TThis>)?.Tree;
 
@@ -22,6 +22,7 @@
 
         // Attach
         private void AttachBase(ITree<TThis> owner, object? argument) {
+            Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
             Assert.Operation.Valid( $"Node {this} must have no owner", Owner == null );
             Owner = owner;
             OnBeforeAttach( argument );
@@ -29,6 +30,7 @@
             OnAfterAttach( argument );
         }
         private void DetachBase(ITree<TThis> owner, object? argument) {
+            Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
             Assert.Operation.Valid( $"Node {this} must have {owner} owner", Owner == owner );
             OnBeforeDetach( argument );
             OnDetach( argument );
@@ -38,6 +40,7 @@
 
         // Attach
         private void AttachBase(TThis owner, object? argument) {
+            Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
             Assert.Operation.Valid( $"Node {this} must have no owner", Owner == null );
             Owner = owner;
             OnBeforeAttach( argument );
@@ -45,6 +48,7 @@
             OnAfterAttach( argument );
         }
         private void DetachBase(TThis owner, object? argument) {
+            Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
             Assert.Operation.Valid( $"Node {this} must have {owner} owner", Owner == owner );
             OnBeforeDetach( argument );
             OnDetach( argument );

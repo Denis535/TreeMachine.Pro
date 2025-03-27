@@ -27,11 +27,13 @@
 
         // Attach
         internal void Attach(ITree<TThis> owner, object? argument) {
+            Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
             Assert.Operation.Valid( $"Node {this} must be inactive", Activity is Activity_.Inactive );
             AttachBase( owner, argument );
             Activate( argument );
         }
         internal void Detach(ITree<TThis> owner, object? argument) {
+            Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
             Assert.Operation.Valid( $"Node {this} must be active", Activity is Activity_.Active );
             Deactivate( argument );
             DetachBase( owner, argument );
@@ -39,6 +41,7 @@
 
         // Attach
         internal void Attach(TThis owner, object? argument) {
+            Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
             Assert.Operation.Valid( $"Node {this} must be inactive", Activity is Activity_.Inactive );
             if (owner.Activity is Activity_.Active) {
                 AttachBase( owner, argument );
@@ -48,6 +51,7 @@
             }
         }
         internal void Detach(TThis owner, object? argument) {
+            Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
             if (owner.Activity is Activity_.Active) {
                 Assert.Operation.Valid( $"Node {this} must be active", Activity is Activity_.Active );
                 Deactivate( argument );
