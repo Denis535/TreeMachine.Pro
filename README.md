@@ -25,12 +25,6 @@ public abstract partial class NodeBase<TThis> where TThis : notnull, NodeBase<TT
 
     public NodeBase();
 
-    private void AttachBase(ITree<TThis> owner, object? argument);
-    private void DetachBase(ITree<TThis> owner, object? argument);
-
-    private void AttachBase(TThis owner, object? argument);
-    private void DetachBase(TThis owner, object? argument);
-
     protected abstract void OnAttach(object? argument);
     protected virtual void OnBeforeAttach(object? argument);
     protected virtual void OnAfterAttach(object? argument);

@@ -30,7 +30,12 @@
             Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
             Assert.Operation.Valid( $"Node {this} must have no owner", Owner == null );
             Assert.Operation.Valid( $"Node {this} must be inactive", Activity == Activity_.Inactive );
-            AttachBase( owner, argument );
+            {
+                Owner = owner;
+                OnBeforeAttach( argument );
+                OnAttach( argument );
+                OnAfterAttach( argument );
+            }
             Activate( argument );
         }
         internal void Detach(ITree<TThis> owner, object? argument) {
@@ -38,7 +43,12 @@
             Assert.Operation.Valid( $"Node {this} must have owner", Owner == owner );
             Assert.Operation.Valid( $"Node {this} must be active", Activity == Activity_.Active );
             Deactivate( argument );
-            DetachBase( owner, argument );
+            {
+                OnBeforeDetach( argument );
+                OnDetach( argument );
+                OnAfterDetach( argument );
+                Owner = null;
+            }
         }
 
         // Attach
@@ -47,23 +57,42 @@
             Assert.Operation.Valid( $"Node {this} must have no owner", Owner == null );
             Assert.Operation.Valid( $"Node {this} must be inactive", Activity == Activity_.Inactive );
             if (owner.Activity == Activity_.Active) {
-                AttachBase( owner, argument );
+                {
+                    Owner = owner;
+                    OnBeforeAttach( argument );
+                    OnAttach( argument );
+                    OnAfterAttach( argument );
+                }
                 Activate( argument );
             } else {
-                AttachBase( owner, argument );
+                {
+                    Owner = owner;
+                    OnBeforeAttach( argument );
+                    OnAttach( argument );
+                    OnAfterAttach( argument );
+                }
             }
         }
         internal void Detach(TThis owner, object? argument) {
             Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
+            Assert.Operation.Valid( $"Node {this} must have owner", Owner == owner );
             if (owner.Activity == Activity_.Active) {
-                Assert.Operation.Valid( $"Node {this} must have owner", Owner == owner );
                 Assert.Operation.Valid( $"Node {this} must be active", Activity == Activity_.Active );
                 Deactivate( argument );
-                DetachBase( owner, argument );
+                {
+                    OnBeforeDetach( argument );
+                    OnDetach( argument );
+                    OnAfterDetach( argument );
+                    Owner = null;
+                }
             } else {
-                Assert.Operation.Valid( $"Node {this} must have owner", Owner == owner );
                 Assert.Operation.Valid( $"Node {this} must be inactive", Activity == Activity_.Inactive );
-                DetachBase( owner, argument );
+                {
+                    OnBeforeDetach( argument );
+                    OnDetach( argument );
+                    OnAfterDetach( argument );
+                    Owner = null;
+                }
             }
         }
 

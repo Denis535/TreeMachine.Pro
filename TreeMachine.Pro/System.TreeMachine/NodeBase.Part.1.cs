@@ -20,46 +20,6 @@
         public NodeBase() {
         }
 
-        // Attach
-        private void AttachBase(ITree<TThis> owner, object? argument) {
-            Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
-            Assert.Operation.Valid( $"Node {this} must have no owner", Owner == null );
-            Assert.Operation.Valid( $"Node {this} must be inactive", Activity == Activity_.Inactive );
-            Owner = owner;
-            OnBeforeAttach( argument );
-            OnAttach( argument );
-            OnAfterAttach( argument );
-        }
-        private void DetachBase(ITree<TThis> owner, object? argument) {
-            Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
-            Assert.Operation.Valid( $"Node {this} must have {owner} owner", Owner == owner );
-            Assert.Operation.Valid( $"Node {this} must be active", Activity is Activity_.Active or Activity_.Inactive );
-            OnBeforeDetach( argument );
-            OnDetach( argument );
-            OnAfterDetach( argument );
-            Owner = null;
-        }
-
-        // Attach
-        private void AttachBase(TThis owner, object? argument) {
-            Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
-            Assert.Operation.Valid( $"Node {this} must have no owner", Owner == null );
-            Assert.Operation.Valid( $"Node {this} must be inactive", Activity == Activity_.Inactive );
-            Owner = owner;
-            OnBeforeAttach( argument );
-            OnAttach( argument );
-            OnAfterAttach( argument );
-        }
-        private void DetachBase(TThis owner, object? argument) {
-            Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
-            Assert.Operation.Valid( $"Node {this} must have {owner} owner", Owner == owner );
-            Assert.Operation.Valid( $"Node {this} must be active", Activity is Activity_.Active or Activity_.Inactive );
-            OnBeforeDetach( argument );
-            OnDetach( argument );
-            OnAfterDetach( argument );
-            Owner = null;
-        }
-
         // OnAttach
         protected abstract void OnAttach(object? argument);
         protected virtual void OnBeforeAttach(object? argument) {
