@@ -28,13 +28,15 @@
         // Attach
         internal void Attach(ITree<TThis> owner, object? argument) {
             Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
-            Assert.Operation.Valid( $"Node {this} must be inactive", Activity is Activity_.Inactive );
+            Assert.Operation.Valid( $"Node {this} must have no owner", Owner == null );
+            Assert.Operation.Valid( $"Node {this} must be inactive", Activity == Activity_.Inactive );
             AttachBase( owner, argument );
             Activate( argument );
         }
         internal void Detach(ITree<TThis> owner, object? argument) {
             Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
-            Assert.Operation.Valid( $"Node {this} must be active", Activity is Activity_.Active );
+            Assert.Operation.Valid( $"Node {this} must have owner", Owner == owner );
+            Assert.Operation.Valid( $"Node {this} must be active", Activity == Activity_.Active );
             Deactivate( argument );
             DetachBase( owner, argument );
         }
@@ -42,8 +44,9 @@
         // Attach
         internal void Attach(TThis owner, object? argument) {
             Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
-            Assert.Operation.Valid( $"Node {this} must be inactive", Activity is Activity_.Inactive );
-            if (owner.Activity is Activity_.Active) {
+            Assert.Operation.Valid( $"Node {this} must have no owner", Owner == null );
+            Assert.Operation.Valid( $"Node {this} must be inactive", Activity == Activity_.Inactive );
+            if (owner.Activity == Activity_.Active) {
                 AttachBase( owner, argument );
                 Activate( argument );
             } else {
@@ -52,12 +55,14 @@
         }
         internal void Detach(TThis owner, object? argument) {
             Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
-            if (owner.Activity is Activity_.Active) {
-                Assert.Operation.Valid( $"Node {this} must be active", Activity is Activity_.Active );
+            if (owner.Activity == Activity_.Active) {
+                Assert.Operation.Valid( $"Node {this} must have owner", Owner == owner );
+                Assert.Operation.Valid( $"Node {this} must be active", Activity == Activity_.Active );
                 Deactivate( argument );
                 DetachBase( owner, argument );
             } else {
-                Assert.Operation.Valid( $"Node {this} must be inactive", Activity is Activity_.Inactive );
+                Assert.Operation.Valid( $"Node {this} must have owner", Owner == owner );
+                Assert.Operation.Valid( $"Node {this} must be inactive", Activity == Activity_.Inactive );
                 DetachBase( owner, argument );
             }
         }
@@ -66,7 +71,7 @@
         private void Activate(object? argument) {
             Assert.Operation.Valid( $"Node {this} must have owner", Owner != null );
             Assert.Operation.Valid( $"Node {this} must have owner with valid activity", (Owner is ITree<TThis>) || ((NodeBase<TThis>) Owner).Activity is Activity_.Active or Activity_.Activating );
-            Assert.Operation.Valid( $"Node {this} must be inactive", Activity is Activity_.Inactive );
+            Assert.Operation.Valid( $"Node {this} must be inactive", Activity == Activity_.Inactive );
             OnBeforeActivate( argument );
             Activity = Activity_.Activating;
             {
@@ -81,7 +86,7 @@
         private void Deactivate(object? argument) {
             Assert.Operation.Valid( $"Node {this} must have owner", Owner != null );
             Assert.Operation.Valid( $"Node {this} must have owner with valid activity", (Owner is ITree<TThis>) || ((NodeBase<TThis>) Owner).Activity is Activity_.Active or Activity_.Deactivating );
-            Assert.Operation.Valid( $"Node {this} must be active", Activity is Activity_.Active );
+            Assert.Operation.Valid( $"Node {this} must be active", Activity == Activity_.Active );
             OnBeforeDeactivate( argument );
             Activity = Activity_.Deactivating;
             {
