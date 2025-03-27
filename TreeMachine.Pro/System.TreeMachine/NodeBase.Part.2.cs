@@ -44,7 +44,7 @@
         // AddChild
         protected virtual void AddChild(TThis child, object? argument) {
             Assert.Argument.NotNull( $"Argument 'child' must be non-null", child != null );
-            Assert.Operation.Valid( $"Node {this} must have no child {child} node", !Children.Contains( child ) );
+            Assert.Operation.Valid( $"Node {this} must have no {child} child", !Children.Contains( child ) );
             Assert.Operation.Valid( $"Child {child} must have no owner", child.Owner == null );
             Assert.Operation.Valid( $"Child {child} must be inactive", child.Activity == Activity_.Inactive );
             children.Add( child );
@@ -53,8 +53,8 @@
         }
         protected virtual void RemoveChild(TThis child, object? argument, Action<TThis>? callback) {
             Assert.Argument.NotNull( $"Argument 'child' must be non-null", child != null );
-            Assert.Operation.Valid( $"Node {this} must have child {child} node", Children.Contains( child ) );
-            Assert.Operation.Valid( $"Child {child} must have owner", child.Owner == this );
+            Assert.Operation.Valid( $"Node {this} must have {child} child", Children.Contains( child ) );
+            Assert.Operation.Valid( $"Child {child} must have {this} owner", child.Owner == this );
             child.Detach( (TThis) this, argument );
             children.Remove( child );
             callback?.Invoke( child );
