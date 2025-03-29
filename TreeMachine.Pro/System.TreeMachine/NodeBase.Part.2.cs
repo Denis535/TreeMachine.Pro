@@ -55,7 +55,11 @@ namespace System.TreeMachine {
         protected virtual void RemoveChild(TThis child, object? argument, Action<TThis>? callback) {
             Assert.Argument.NotNull( $"Argument 'child' must be non-null", child != null );
             Assert.Argument.Valid( $"Argument 'child' ({child}) must have {this} owner", child.Owner == this );
-            Assert.Argument.Valid( $"Argument 'child' ({child}) must be active or inactive", child.Activity is Activity_.Active or Activity_.Inactive );
+            if (this.Activity == Activity_.Active) {
+                Assert.Argument.Valid( $"Argument 'child' ({child}) must be active", child.Activity == Activity_.Active );
+            } else {
+                Assert.Argument.Valid( $"Argument 'child' ({child}) must be inactive", child.Activity == Activity_.Inactive );
+            }
             Assert.Operation.Valid( $"Node {this} must have {child} child", this.Children.Contains( child ) );
             child.Detach( (TThis) this, argument );
             this.children.Remove( child );
