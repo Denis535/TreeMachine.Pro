@@ -1,10 +1,10 @@
 ﻿namespace System.TreeMachine {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Text;
-    
-    internal class Node : NodeBase2<Node> {
+    using System.Diagnostics;
+
+    public class Node : NodeBase2<Node> {
 
         //public bool IsDisposed { get; private set; }
 
@@ -38,10 +38,10 @@
 
         // OnActivate
         protected override void OnActivate(object? argument) {
-            Trace.WriteLine( "OnActivate: " + GetType().Name );
+            Trace.WriteLine( "OnActivate: " + this.GetType().Name );
         }
         protected override void OnDeactivate(object? argument) {
-            Trace.WriteLine( "OnDeactivate: " + GetType().Name );
+            Trace.WriteLine( "OnDeactivate: " + this.GetType().Name );
         }
 
         // OnDescendantActivate

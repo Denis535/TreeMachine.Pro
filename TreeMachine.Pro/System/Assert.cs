@@ -1,8 +1,8 @@
 ﻿namespace System {
     using System;
     using System.Collections.Generic;
-    using System.Diagnostics.CodeAnalysis;
     using System.Text;
+    using System.Diagnostics.CodeAnalysis;
 
     internal static class Assert {
         public static class Argument {

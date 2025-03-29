@@ -1,8 +1,8 @@
 #nullable enable
 namespace System.Diagnostics.CodeAnalysis {
     using System;
-    using System.Collections;
     using System.Collections.Generic;
+    using System.Text;
     using System.ComponentModel;
 
     // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis
@@ -71,10 +71,10 @@ namespace System.Diagnostics.CodeAnalysis {
     internal sealed class MemberNotNullAttribute : Attribute {
         public string[] Members { get; }
         public MemberNotNullAttribute(string member) {
-            Members = new[] { member };
+            this.Members = new[] { member };
         }
         public MemberNotNullAttribute(params string[] members) {
-            Members = members;
+            this.Members = members;
         }
     }
     [EditorBrowsable( EditorBrowsableState.Never )]
@@ -83,12 +83,12 @@ namespace System.Diagnostics.CodeAnalysis {
         public bool ReturnValue { get; }
         public string[] Members { get; }
         public MemberNotNullWhenAttribute(bool returnValue, string member) {
-            ReturnValue = returnValue;
-            Members = new[] { member };
+            this.ReturnValue = returnValue;
+            this.Members = new[] { member };
         }
         public MemberNotNullWhenAttribute(bool returnValue, params string[] members) {
-            ReturnValue = returnValue;
-            Members = members;
+            this.ReturnValue = returnValue;
+            this.Members = members;
         }
     }
 

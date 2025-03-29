@@ -1,8 +1,8 @@
 namespace System.TreeMachine {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Text;
+    using System.Linq;
     using NUnit.Framework;
 
     public class Tests_01 {
@@ -58,11 +58,11 @@ namespace System.TreeMachine {
 
             protected override void OnActivate(object? argument) {
                 base.OnActivate( argument );
-                AddChild( new A(), null );
-                AddChild( new B(), null );
-                RemoveChildren( i => true, null, null );
-                AddChild( new A(), null );
-                AddChild( new B(), null );
+                this.AddChild( new A(), null );
+                this.AddChild( new B(), null );
+                this.RemoveChildren( i => true, null, null );
+                this.AddChild( new A(), null );
+                this.AddChild( new B(), null );
             }
             protected override void OnDeactivate(object? argument) {
                 base.OnDeactivate( argument );
@@ -77,8 +77,8 @@ namespace System.TreeMachine {
 
             protected override void OnActivate(object? argument) {
                 base.OnActivate( argument );
-                AddChild( new A1(), null );
-                AddChild( new A2(), null );
+                this.AddChild( new A1(), null );
+                this.AddChild( new A2(), null );
             }
             protected override void OnDeactivate(object? argument) {
                 base.OnDeactivate( argument );
@@ -93,8 +93,8 @@ namespace System.TreeMachine {
 
             protected override void OnActivate(object? argument) {
                 base.OnActivate( argument );
-                AddChild( new B1(), null );
-                AddChild( new B2(), null );
+                this.AddChild( new B1(), null );
+                this.AddChild( new B2(), null );
             }
             protected override void OnDeactivate(object? argument) {
                 base.OnDeactivate( argument );

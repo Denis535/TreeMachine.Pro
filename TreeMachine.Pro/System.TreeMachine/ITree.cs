@@ -25,8 +25,8 @@
         }
         protected static void AddRoot(ITree<T> tree, T root, object? argument) {
             Assert.Argument.NotNull( $"Argument 'tree' must be non-null", tree != null );
-            Assert.Argument.NotNull( $"Argument 'root' must be non-null", root != null );
             Assert.Argument.Valid( $"Argument 'tree' ({tree}) must have no root", tree.Root == null );
+            Assert.Argument.NotNull( $"Argument 'root' must be non-null", root != null );
             Assert.Argument.Valid( $"Argument 'root' ({root}) must have no owner", root.Owner == null );
             Assert.Argument.Valid( $"Argument 'root' ({root}) must be inactive", root.Activity == NodeBase<T>.Activity_.Inactive );
             tree.Root = root;
@@ -34,8 +34,8 @@
         }
         protected static void RemoveRoot(ITree<T> tree, T root, object? argument, Action<T>? callback) {
             Assert.Argument.NotNull( $"Argument 'tree' must be non-null", tree != null );
-            Assert.Argument.NotNull( $"Argument 'root' must be non-null", root != null );
             Assert.Argument.Valid( $"Argument 'tree' ({tree}) must have {root} root", tree.Root == root );
+            Assert.Argument.NotNull( $"Argument 'root' must be non-null", root != null );
             Assert.Argument.Valid( $"Argument 'root' ({root}) must have {tree} owner", root.Owner == tree );
             Assert.Argument.Valid( $"Argument 'root' ({root}) must be active", root.Activity == NodeBase<T>.Activity_.Active );
             tree.Root.Detach( tree, argument );

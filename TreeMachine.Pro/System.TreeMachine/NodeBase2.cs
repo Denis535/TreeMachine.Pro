@@ -24,7 +24,7 @@
 
         // OnAttach
         protected override void OnBeforeAttach(object? argument) {
-            foreach (var ancestor in Ancestors.Reverse()) {
+            foreach (var ancestor in this.Ancestors.Reverse()) {
                 ancestor.OnBeforeDescendantAttachEvent?.Invoke( (TThis) this, argument );
                 ancestor.OnBeforeDescendantAttach( (TThis) this, argument );
             }
@@ -32,13 +32,13 @@
         }
         protected override void OnAfterAttach(object? argument) {
             base.OnAfterAttach( argument );
-            foreach (var ancestor in Ancestors) {
+            foreach (var ancestor in this.Ancestors) {
                 ancestor.OnAfterDescendantAttach( (TThis) this, argument );
                 ancestor.OnAfterDescendantAttachEvent?.Invoke( (TThis) this, argument );
             }
         }
         protected override void OnBeforeDetach(object? argument) {
-            foreach (var ancestor in Ancestors.Reverse()) {
+            foreach (var ancestor in this.Ancestors.Reverse()) {
                 ancestor.OnBeforeDescendantDetachEvent?.Invoke( (TThis) this, argument );
                 ancestor.OnBeforeDescendantDetach( (TThis) this, argument );
             }
@@ -46,7 +46,7 @@
         }
         protected override void OnAfterDetach(object? argument) {
             base.OnAfterDetach( argument );
-            foreach (var ancestor in Ancestors) {
+            foreach (var ancestor in this.Ancestors) {
                 ancestor.OnAfterDescendantDetach( (TThis) this, argument );
                 ancestor.OnAfterDescendantDetachEvent?.Invoke( (TThis) this, argument );
             }
@@ -60,7 +60,7 @@
 
         // OnActivate
         protected override void OnBeforeActivate(object? argument) {
-            foreach (var ancestor in Ancestors.Reverse()) {
+            foreach (var ancestor in this.Ancestors.Reverse()) {
                 ancestor.OnBeforeDescendantActivateEvent?.Invoke( (TThis) this, argument );
                 ancestor.OnBeforeDescendantActivate( (TThis) this, argument );
             }
@@ -68,13 +68,13 @@
         }
         protected override void OnAfterActivate(object? argument) {
             base.OnAfterActivate( argument );
-            foreach (var ancestor in Ancestors) {
+            foreach (var ancestor in this.Ancestors) {
                 ancestor.OnAfterDescendantActivate( (TThis) this, argument );
                 ancestor.OnAfterDescendantActivateEvent?.Invoke( (TThis) this, argument );
             }
         }
         protected override void OnBeforeDeactivate(object? argument) {
-            foreach (var ancestor in Ancestors.Reverse()) {
+            foreach (var ancestor in this.Ancestors.Reverse()) {
                 ancestor.OnBeforeDescendantDeactivateEvent?.Invoke( (TThis) this, argument );
                 ancestor.OnBeforeDescendantDeactivate( (TThis) this, argument );
             }
@@ -82,7 +82,7 @@
         }
         protected override void OnAfterDeactivate(object? argument) {
             base.OnAfterDeactivate( argument );
-            foreach (var ancestor in Ancestors) {
+            foreach (var ancestor in this.Ancestors) {
                 ancestor.OnAfterDescendantDeactivate( (TThis) this, argument );
                 ancestor.OnAfterDescendantDeactivateEvent?.Invoke( (TThis) this, argument );
             }

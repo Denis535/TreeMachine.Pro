@@ -1,8 +1,8 @@
 namespace System.TreeMachine {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Text;
+    using System.Linq;
     using NUnit.Framework;
 
     public class Tests_00 {
@@ -55,11 +55,11 @@ namespace System.TreeMachine {
         internal class Root : Node {
 
             public Root() {
-                AddChild( new A(), null );
-                AddChild( new B(), null );
-                RemoveChildren( i => true, null, null );
-                AddChild( new A(), null );
-                AddChild( new B(), null );
+                this.AddChild( new A(), null );
+                this.AddChild( new B(), null );
+                this.RemoveChildren( i => true, null, null );
+                this.AddChild( new A(), null );
+                this.AddChild( new B(), null );
             }
 
             protected override void OnActivate(object? argument) {
@@ -74,8 +74,8 @@ namespace System.TreeMachine {
         internal class A : Node {
 
             public A() {
-                AddChild( new A1(), null );
-                AddChild( new A2(), null );
+                this.AddChild( new A1(), null );
+                this.AddChild( new A2(), null );
             }
 
             protected override void OnActivate(object? argument) {
@@ -90,8 +90,8 @@ namespace System.TreeMachine {
         internal class B : Node {
 
             public B() {
-                AddChild( new B1(), null );
-                AddChild( new B2(), null );
+                this.AddChild( new B1(), null );
+                this.AddChild( new B2(), null );
             }
 
             protected override void OnActivate(object? argument) {

@@ -3,10 +3,10 @@
     using System.Collections.Generic;
     using System.Text;
 
-    internal class Tree<T> : ITree<Node> {
+    public class Tree<T> : ITree<Node> {
 
         // Root
-        Node? ITree<Node>.Root { get => Root; set => Root = value; }
+        Node? ITree<Node>.Root { get => this.Root; set => this.Root = value; }
         public Node? Root { get; private set; }
 
         // Constructor
