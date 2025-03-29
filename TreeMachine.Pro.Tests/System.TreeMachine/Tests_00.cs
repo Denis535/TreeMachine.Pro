@@ -131,16 +131,22 @@ namespace System.TreeMachine {
         }
 
         [Test]
-        public void Test_02() {
+        public void Test_10() {
             var tree = new Tree();
             var root = new Root();
             var a = new A();
             var b = new B();
-            root.OnAfterAttachEvent += arg => {
+            root.OnBeforeAttachEvent += arg => {
+                root.AddChild( a, null );
+                root.AddChild( b, null );
+                root.RemoveChildren( i => true, null, null );
                 root.AddChild( a, null );
                 root.AddChild( b, null );
             };
-            root.OnBeforeDetachEvent += arg => {
+            root.OnAfterDetachEvent += arg => {
+                root.RemoveChildren( i => true, null, null );
+                root.AddChild( a, null );
+                root.AddChild( b, null );
                 root.RemoveChildren( i => true, null, null );
             };
 
@@ -181,7 +187,119 @@ namespace System.TreeMachine {
         }
 
         [Test]
-        public void Test_03() {
+        public void Test_11() {
+            var tree = new Tree();
+            var root = new Root();
+            var a = new A();
+            var b = new B();
+            root.OnAfterAttachEvent += arg => {
+                root.AddChild( a, null );
+                root.AddChild( b, null );
+                root.RemoveChildren( i => true, null, null );
+                root.AddChild( a, null );
+                root.AddChild( b, null );
+            };
+            root.OnBeforeDetachEvent += arg => {
+                root.RemoveChildren( i => true, null, null );
+                root.AddChild( a, null );
+                root.AddChild( b, null );
+                root.RemoveChildren( i => true, null, null );
+            };
+
+            {
+                // tree.SetRoot root
+                tree.SetRoot( root, null, null );
+                Assert.That( tree.Root, Is.EqualTo( root ) );
+
+                Assert.That( root.Tree, Is.EqualTo( tree ) );
+                Assert.That( root.Parent, Is.Null );
+                Assert.That( root.Activity, Is.EqualTo( Node.Activity_.Active ) );
+
+                Assert.That( a.Tree, Is.EqualTo( tree ) );
+                Assert.That( a.Parent, Is.EqualTo( root ) );
+                Assert.That( a.Activity, Is.EqualTo( Node.Activity_.Active ) );
+
+                Assert.That( b.Tree, Is.EqualTo( tree ) );
+                Assert.That( b.Parent, Is.EqualTo( root ) );
+                Assert.That( b.Activity, Is.EqualTo( Node.Activity_.Active ) );
+            }
+            {
+                // tree.SetRoot null
+                tree.SetRoot( null, null, null );
+                Assert.That( tree.Root, Is.Null );
+
+                Assert.That( root.Tree, Is.Null );
+                Assert.That( root.Parent, Is.Null );
+                Assert.That( root.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+
+                Assert.That( a.Tree, Is.Null );
+                Assert.That( a.Parent, Is.Null );
+                Assert.That( a.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+
+                Assert.That( b.Tree, Is.Null );
+                Assert.That( b.Parent, Is.Null );
+                Assert.That( b.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+            }
+        }
+
+        [Test]
+        public void Test_20() {
+            var tree = new Tree();
+            var root = new Root();
+            var a = new A();
+            var b = new B();
+            root.OnBeforeActivateEvent += arg => {
+                root.AddChild( a, null );
+                root.AddChild( b, null );
+                root.RemoveChildren( i => true, null, null );
+                root.AddChild( a, null );
+                root.AddChild( b, null );
+            };
+            root.OnAfterDeactivateEvent += arg => {
+                root.RemoveChildren( i => true, null, null );
+                root.AddChild( a, null );
+                root.AddChild( b, null );
+                root.RemoveChildren( i => true, null, null );
+            };
+
+            {
+                // tree.SetRoot root
+                tree.SetRoot( root, null, null );
+                Assert.That( tree.Root, Is.EqualTo( root ) );
+
+                Assert.That( root.Tree, Is.EqualTo( tree ) );
+                Assert.That( root.Parent, Is.Null );
+                Assert.That( root.Activity, Is.EqualTo( Node.Activity_.Active ) );
+
+                Assert.That( a.Tree, Is.EqualTo( tree ) );
+                Assert.That( a.Parent, Is.EqualTo( root ) );
+                Assert.That( a.Activity, Is.EqualTo( Node.Activity_.Active ) );
+
+                Assert.That( b.Tree, Is.EqualTo( tree ) );
+                Assert.That( b.Parent, Is.EqualTo( root ) );
+                Assert.That( b.Activity, Is.EqualTo( Node.Activity_.Active ) );
+            }
+            {
+                // tree.SetRoot null
+                tree.SetRoot( null, null, null );
+                Assert.That( tree.Root, Is.Null );
+
+                Assert.That( root.Tree, Is.Null );
+                Assert.That( root.Parent, Is.Null );
+                Assert.That( root.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+
+                Assert.That( a.Tree, Is.Null );
+                Assert.That( a.Parent, Is.Null );
+                Assert.That( a.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+
+                Assert.That( b.Tree, Is.Null );
+                Assert.That( b.Parent, Is.Null );
+                Assert.That( b.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+            }
+        }
+
+        [Test]
+        public void Test_21() {
             var tree = new Tree();
             var root = new Root();
             var a = new A();
@@ -189,8 +307,14 @@ namespace System.TreeMachine {
             root.OnAfterActivateEvent += arg => {
                 root.AddChild( a, null );
                 root.AddChild( b, null );
+                root.RemoveChildren( i => true, null, null );
+                root.AddChild( a, null );
+                root.AddChild( b, null );
             };
             root.OnBeforeDeactivateEvent += arg => {
+                root.RemoveChildren( i => true, null, null );
+                root.AddChild( a, null );
+                root.AddChild( b, null );
                 root.RemoveChildren( i => true, null, null );
             };
 
