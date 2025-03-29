@@ -2,8 +2,8 @@
 namespace System.Diagnostics.CodeAnalysis {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.ComponentModel;
+    using System.Text;
 
     // https://learn.microsoft.com/en-us/dotnet/api/system.diagnostics.codeanalysis
 

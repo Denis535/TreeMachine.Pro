@@ -1,8 +1,9 @@
-﻿namespace System.TreeMachine {
+﻿#nullable enable
+namespace System.TreeMachine {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.Linq;
+    using System.Text;
 
     public abstract class NodeBase2<TThis> : NodeBase<TThis> where TThis : notnull, NodeBase2<TThis> {
 

@@ -1,8 +1,8 @@
 ﻿namespace System.TreeMachine {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.Diagnostics;
+    using System.Text;
 
     public class Node : NodeBase2<Node> {
 

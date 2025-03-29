@@ -1,9 +1,10 @@
-﻿namespace System.TreeMachine {
+﻿#nullable enable
+namespace System.TreeMachine {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.Diagnostics.CodeAnalysis;
     using System.Linq;
+    using System.Text;
 
     public abstract partial class NodeBase<TThis> {
 

@@ -1,8 +1,9 @@
-﻿namespace System {
+﻿#nullable enable
+namespace System {
     using System;
     using System.Collections.Generic;
-    using System.Text;
     using System.Diagnostics.CodeAnalysis;
+    using System.Text;
 
     internal static class Assert {
         public static class Argument {
