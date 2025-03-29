@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using System.Text;
 
-    public class Tree<T> : ITree<Node> {
+    public class Tree : ITree<Node> {
 
         // Root
         Node? ITree<Node>.Root { get => this.Root; set => this.Root = value; }

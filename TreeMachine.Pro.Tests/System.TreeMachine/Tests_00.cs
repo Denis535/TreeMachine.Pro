@@ -1,7 +1,6 @@
 namespace System.TreeMachine {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
     using System.Text;
     using NUnit.Framework;
 
@@ -9,107 +8,227 @@ namespace System.TreeMachine {
 
         [Test]
         public void Test_00() {
-            var tree = new Tree<Node>();
-            Assert.That( tree.Root, Is.Null );
-
+            var tree = new Tree();
             var root = new Root();
-            Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 7 ) );
-            foreach (var descendant in root.DescendantsAndSelf) {
-                Assert.That( descendant.Tree, Is.Null );
-                Assert.That( descendant.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
-            }
+            var a = new A();
+            var b = new B();
 
             {
-                // SetRoot null
-                tree.SetRoot( null, null, null );
-                Assert.That( tree.Root, Is.Null );
-                Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 7 ) );
-                foreach (var descendant in root.DescendantsAndSelf) {
-                    Assert.That( descendant.Tree, Is.Null );
-                    Assert.That( descendant.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
-                }
-            }
-            {
-                // SetRoot root
+                // tree.SetRoot root
                 tree.SetRoot( root, null, null );
                 Assert.That( tree.Root, Is.EqualTo( root ) );
-                Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 7 ) );
-                foreach (var descendant in root.DescendantsAndSelf) {
-                    Assert.That( descendant.Tree, Is.EqualTo( tree ) );
-                    Assert.That( descendant.Activity, Is.EqualTo( Node.Activity_.Active ) );
-                }
+
+                Assert.That( root.Tree, Is.EqualTo( tree ) );
+                Assert.That( root.Parent, Is.Null );
+                Assert.That( root.Activity, Is.EqualTo( Node.Activity_.Active ) );
             }
             {
-                // SetRoot null
+                // root.AddChild A, B
+                root.AddChild( a, null );
+                root.AddChild( b, null );
+                Assert.That( root.Children.Count, Is.EqualTo( 2 ) );
+
+                Assert.That( a.Tree, Is.EqualTo( tree ) );
+                Assert.That( a.Parent, Is.EqualTo( root ) );
+                Assert.That( a.Activity, Is.EqualTo( Node.Activity_.Active ) );
+
+                Assert.That( b.Tree, Is.EqualTo( tree ) );
+                Assert.That( b.Parent, Is.EqualTo( root ) );
+                Assert.That( b.Activity, Is.EqualTo( Node.Activity_.Active ) );
+            }
+            {
+                // root.RemoveChildren A, B
+                root.RemoveChildren( i => true, null, null );
+                Assert.That( root.Children.Count, Is.Zero );
+
+                Assert.That( a.Tree, Is.Null );
+                Assert.That( a.Parent, Is.Null );
+                Assert.That( a.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+
+                Assert.That( b.Tree, Is.Null );
+                Assert.That( b.Parent, Is.Null );
+                Assert.That( b.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+            }
+            {
+                // tree.SetRoot null
                 tree.SetRoot( null, null, null );
                 Assert.That( tree.Root, Is.Null );
-                Assert.That( root.DescendantsAndSelf.Count(), Is.EqualTo( 7 ) );
-                foreach (var descendant in root.DescendantsAndSelf) {
-                    Assert.That( descendant.Tree, Is.Null );
-                    Assert.That( descendant.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
-                }
+
+                Assert.That( root.Tree, Is.Null );
+                Assert.That( root.Parent, Is.Null );
+                Assert.That( root.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
             }
         }
 
-        // Root
-        internal class Root : Node {
+        [Test]
+        public void Test_01() {
+            var tree = new Tree();
+            var root = new Root();
+            var a = new A();
+            var b = new B();
 
-            public Root() {
-                this.AddChild( new A(), null );
-                this.AddChild( new B(), null );
-                this.RemoveChildren( i => true, null, null );
-                this.AddChild( new A(), null );
-                this.AddChild( new B(), null );
-            }
+            {
+                // root.AddChild A, B
+                root.AddChild( a, null );
+                root.AddChild( b, null );
+                Assert.That( root.Children.Count, Is.EqualTo( 2 ) );
 
-            protected override void OnActivate(object? argument) {
-                base.OnActivate( argument );
-            }
-            protected override void OnDeactivate(object? argument) {
-                base.OnDeactivate( argument );
-            }
+                Assert.That( a.Tree, Is.Null );
+                Assert.That( a.Parent, Is.EqualTo( root ) );
+                Assert.That( a.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
 
+                Assert.That( b.Tree, Is.EqualTo( null ) );
+                Assert.That( b.Parent, Is.EqualTo( root ) );
+                Assert.That( b.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+            }
+            {
+                // tree.SetRoot root
+                tree.SetRoot( root, null, null );
+                Assert.That( tree.Root, Is.EqualTo( root ) );
+
+                Assert.That( root.Tree, Is.EqualTo( tree ) );
+                Assert.That( root.Parent, Is.Null );
+                Assert.That( root.Activity, Is.EqualTo( Node.Activity_.Active ) );
+
+                Assert.That( a.Tree, Is.EqualTo( tree ) );
+                Assert.That( a.Parent, Is.EqualTo( root ) );
+                Assert.That( a.Activity, Is.EqualTo( Node.Activity_.Active ) );
+
+                Assert.That( b.Tree, Is.EqualTo( tree ) );
+                Assert.That( b.Parent, Is.EqualTo( root ) );
+                Assert.That( b.Activity, Is.EqualTo( Node.Activity_.Active ) );
+            }
+            {
+                // tree.SetRoot null
+                tree.SetRoot( null, null, null );
+                Assert.That( tree.Root, Is.Null );
+
+                Assert.That( root.Tree, Is.Null );
+                Assert.That( root.Parent, Is.Null );
+                Assert.That( root.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+
+                Assert.That( a.Tree, Is.Null );
+                Assert.That( a.Parent, Is.EqualTo( root ) );
+                Assert.That( a.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+
+                Assert.That( b.Tree, Is.Null );
+                Assert.That( b.Parent, Is.EqualTo( root ) );
+                Assert.That( b.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+            }
+            {
+                // root.RemoveChildren A, B
+                root.RemoveChildren( i => true, null, null );
+                Assert.That( root.Children.Count, Is.Zero );
+
+                Assert.That( a.Tree, Is.Null );
+                Assert.That( a.Parent, Is.Null );
+                Assert.That( a.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+
+                Assert.That( b.Tree, Is.Null );
+                Assert.That( b.Parent, Is.Null );
+                Assert.That( b.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+            }
         }
-        // A
-        internal class A : Node {
 
-            public A() {
-                this.AddChild( new A1(), null );
-                this.AddChild( new A2(), null );
-            }
+        [Test]
+        public void Test_02() {
+            var tree = new Tree();
+            var root = new Root();
+            var a = new A();
+            var b = new B();
+            root.OnAfterAttachEvent += arg => {
+                root.AddChild( a, null );
+                root.AddChild( b, null );
+            };
+            root.OnBeforeDetachEvent += arg => {
+                root.RemoveChildren( i => true, null, null );
+            };
 
-            protected override void OnActivate(object? argument) {
-                base.OnActivate( argument );
-            }
-            protected override void OnDeactivate(object? argument) {
-                base.OnDeactivate( argument );
-            }
+            {
+                // tree.SetRoot root
+                tree.SetRoot( root, null, null );
+                Assert.That( tree.Root, Is.EqualTo( root ) );
 
-        }
-        // B
-        internal class B : Node {
+                Assert.That( root.Tree, Is.EqualTo( tree ) );
+                Assert.That( root.Parent, Is.Null );
+                Assert.That( root.Activity, Is.EqualTo( Node.Activity_.Active ) );
 
-            public B() {
-                this.AddChild( new B1(), null );
-                this.AddChild( new B2(), null );
-            }
+                Assert.That( a.Tree, Is.EqualTo( tree ) );
+                Assert.That( a.Parent, Is.EqualTo( root ) );
+                Assert.That( a.Activity, Is.EqualTo( Node.Activity_.Active ) );
 
-            protected override void OnActivate(object? argument) {
-                base.OnActivate( argument );
+                Assert.That( b.Tree, Is.EqualTo( tree ) );
+                Assert.That( b.Parent, Is.EqualTo( root ) );
+                Assert.That( b.Activity, Is.EqualTo( Node.Activity_.Active ) );
             }
-            protected override void OnDeactivate(object? argument) {
-                base.OnDeactivate( argument );
-            }
+            {
+                // tree.SetRoot null
+                tree.SetRoot( null, null, null );
+                Assert.That( tree.Root, Is.Null );
 
+                Assert.That( root.Tree, Is.Null );
+                Assert.That( root.Parent, Is.Null );
+                Assert.That( root.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+
+                Assert.That( a.Tree, Is.Null );
+                Assert.That( a.Parent, Is.Null );
+                Assert.That( a.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+
+                Assert.That( b.Tree, Is.Null );
+                Assert.That( b.Parent, Is.Null );
+                Assert.That( b.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+            }
         }
-        // Misc
-        internal class A1 : Node {
+
+        [Test]
+        public void Test_03() {
+            var tree = new Tree();
+            var root = new Root();
+            var a = new A();
+            var b = new B();
+            root.OnAfterActivateEvent += arg => {
+                root.AddChild( a, null );
+                root.AddChild( b, null );
+            };
+            root.OnBeforeDeactivateEvent += arg => {
+                root.RemoveChildren( i => true, null, null );
+            };
+
+            {
+                // tree.SetRoot root
+                tree.SetRoot( root, null, null );
+                Assert.That( tree.Root, Is.EqualTo( root ) );
+
+                Assert.That( root.Tree, Is.EqualTo( tree ) );
+                Assert.That( root.Parent, Is.Null );
+                Assert.That( root.Activity, Is.EqualTo( Node.Activity_.Active ) );
+
+                Assert.That( a.Tree, Is.EqualTo( tree ) );
+                Assert.That( a.Parent, Is.EqualTo( root ) );
+                Assert.That( a.Activity, Is.EqualTo( Node.Activity_.Active ) );
+
+                Assert.That( b.Tree, Is.EqualTo( tree ) );
+                Assert.That( b.Parent, Is.EqualTo( root ) );
+                Assert.That( b.Activity, Is.EqualTo( Node.Activity_.Active ) );
+            }
+            {
+                // tree.SetRoot null
+                tree.SetRoot( null, null, null );
+                Assert.That( tree.Root, Is.Null );
+
+                Assert.That( root.Tree, Is.Null );
+                Assert.That( root.Parent, Is.Null );
+                Assert.That( root.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+
+                Assert.That( a.Tree, Is.Null );
+                Assert.That( a.Parent, Is.Null );
+                Assert.That( a.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+
+                Assert.That( b.Tree, Is.Null );
+                Assert.That( b.Parent, Is.Null );
+                Assert.That( b.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
+            }
         }
-        internal class A2 : Node {
-        }
-        internal class B1 : Node {
-        }
-        internal class B2 : Node {
-        }
+
     }
 }

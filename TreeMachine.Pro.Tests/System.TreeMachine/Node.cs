@@ -4,7 +4,7 @@
     using System.Diagnostics;
     using System.Text;
 
-    public class Node : NodeBase2<Node> {
+    public abstract class Node : NodeBase2<Node> {
 
         //public bool IsDisposed { get; private set; }
 
@@ -55,11 +55,20 @@
         }
 
         // AddChild
-        protected override void AddChild(Node child, object? argument) {
+        public new void AddChild(Node child, object? argument) {
             base.AddChild( child, argument );
         }
-        protected override void RemoveChild(Node child, object? argument, Action<Node>? callback) {
+        public new void RemoveChild(Node child, object? argument, Action<Node>? callback) {
             base.RemoveChild( child, argument, callback );
+        }
+        public new bool RemoveChild(Func<Node, bool> predicate, object? argument, Action<Node>? callback) {
+            return base.RemoveChild( predicate, argument, callback );
+        }
+        public new int RemoveChildren(Func<Node, bool> predicate, object? argument, Action<Node>? callback) {
+            return base.RemoveChildren( predicate, argument, callback );
+        }
+        public new void RemoveSelf(object? argument, Action<Node>? callback) {
+            base.RemoveSelf( argument, callback );
         }
 
         // Sort
@@ -68,4 +77,18 @@
         }
 
     }
+    public class Root : Node {
+    }
+    public class A : Node {
+    }
+    //public class A1 : Node {
+    //}
+    //public class A2 : Node {
+    //}
+    public class B : Node {
+    }
+    //public class B1 : Node {
+    //}
+    //public class B2 : Node {
+    //}
 }
