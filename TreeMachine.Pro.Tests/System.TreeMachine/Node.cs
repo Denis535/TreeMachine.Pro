@@ -22,8 +22,18 @@
 
         // OnAttach
         protected override void OnAttach(object? argument) {
+            //if (argument != null) {
+            //    Trace.WriteLine( "OnAttach: " + this.GetType().Name + $" ({argument})" );
+            //} else {
+            //    Trace.WriteLine( "OnAttach: " + this.GetType().Name );
+            //}
         }
         protected override void OnDetach(object? argument) {
+            //if (argument != null) {
+            //    Trace.WriteLine( "OnDetach: " + this.GetType().Name + $" ({argument})" );
+            //} else {
+            //    Trace.WriteLine( "OnDetach: " + this.GetType().Name );
+            //}
         }
 
         // OnDescendantAttach
@@ -38,10 +48,18 @@
 
         // OnActivate
         protected override void OnActivate(object? argument) {
-            Trace.WriteLine( "OnActivate: " + this.GetType().Name );
+            if (argument != null) {
+                Trace.WriteLine( "OnActivate: " + this.GetType().Name + $" ({argument})" );
+            } else {
+                Trace.WriteLine( "OnActivate: " + this.GetType().Name );
+            }
         }
         protected override void OnDeactivate(object? argument) {
-            Trace.WriteLine( "OnDeactivate: " + this.GetType().Name );
+            if (argument != null) {
+                Trace.WriteLine( "OnDeactivate: " + this.GetType().Name + $" ({argument})" );
+            } else {
+                Trace.WriteLine( "OnDeactivate: " + this.GetType().Name );
+            }
         }
 
         // OnDescendantActivate
@@ -81,14 +99,6 @@
     }
     public class A : Node {
     }
-    //public class A1 : Node {
-    //}
-    //public class A2 : Node {
-    //}
     public class B : Node {
     }
-    //public class B1 : Node {
-    //}
-    //public class B2 : Node {
-    //}
 }
