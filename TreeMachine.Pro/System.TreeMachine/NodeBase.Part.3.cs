@@ -26,69 +26,6 @@ namespace System.TreeMachine {
         //public NodeBase() {
         //}
 
-        // Attach
-        internal void Attach(ITree<TThis> owner, object? argument) {
-            Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
-            Assert.Operation.Valid( $"Node {this} must have no owner", this.Owner == null );
-            Assert.Operation.Valid( $"Node {this} must be inactive", this.Activity == Activity_.Inactive );
-            {
-                this.Owner = owner;
-                this.OnBeforeAttach( argument );
-                this.OnAttach( argument );
-                this.OnAfterAttach( argument );
-            }
-            {
-                this.Activate( argument );
-            }
-        }
-        internal void Detach(ITree<TThis> owner, object? argument) {
-            Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
-            Assert.Operation.Valid( $"Node {this} must have {owner} owner", this.Owner == owner );
-            Assert.Operation.Valid( $"Node {this} must be active", this.Activity == Activity_.Active );
-            {
-                this.Deactivate( argument );
-            }
-            {
-                this.OnBeforeDetach( argument );
-                this.OnDetach( argument );
-                this.OnAfterDetach( argument );
-                this.Owner = null;
-            }
-        }
-
-        // Attach
-        internal void Attach(TThis owner, object? argument) {
-            Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
-            Assert.Operation.Valid( $"Node {this} must have no owner", this.Owner == null );
-            Assert.Operation.Valid( $"Node {this} must be inactive", this.Activity == Activity_.Inactive );
-            {
-                this.Owner = owner;
-                this.OnBeforeAttach( argument );
-                this.OnAttach( argument );
-                this.OnAfterAttach( argument );
-            }
-            if (owner.Activity == Activity_.Active) {
-                this.Activate( argument );
-            } else {
-            }
-        }
-        internal void Detach(TThis owner, object? argument) {
-            Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
-            Assert.Operation.Valid( $"Node {this} must have {owner} owner", this.Owner == owner );
-            if (owner.Activity == Activity_.Active) {
-                Assert.Operation.Valid( $"Node {this} must be active", this.Activity == Activity_.Active );
-                this.Deactivate( argument );
-            } else {
-                Assert.Operation.Valid( $"Node {this} must be inactive", this.Activity == Activity_.Inactive );
-            }
-            {
-                this.OnBeforeDetach( argument );
-                this.OnDetach( argument );
-                this.OnAfterDetach( argument );
-                this.Owner = null;
-            }
-        }
-
         // Activate
         private void Activate(object? argument) {
             Assert.Operation.Valid( $"Node {this} must have owner", this.Owner != null );
