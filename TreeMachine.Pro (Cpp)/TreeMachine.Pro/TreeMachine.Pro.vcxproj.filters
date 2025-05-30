@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="TreeMachine">
+      <UniqueIdentifier>{f0dbbca8-116a-4b02-8b60-596424e6de63}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="TreeMachine\TreeBase.h">
+      <Filter>TreeMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeMachine\NodeBase.h">
+      <Filter>TreeMachine</Filter>
+    </ClInclude>
+    <ClInclude Include="TreeMachine.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="TreeMachine\pch.h">
+      <Filter>TreeMachine</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="TreeMachine\NodeBase.cpp">
+      <Filter>TreeMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="TreeMachine\TreeBase.cpp">
+      <Filter>TreeMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.cpp" />
+  </ItemGroup>
+</Project>

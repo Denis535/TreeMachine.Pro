@@ -1,0 +1,9 @@
+<Project>
+    <ItemDefinitionGroup>
+        <ClCompile>
+            <ConformanceMode>true</ConformanceMode>
+            <Zc__cplusplus>true</Zc__cplusplus>
+            <TreatWarningAsError>true</TreatWarningAsError>
+        </ClCompile>
+    </ItemDefinitionGroup>
+</Project>

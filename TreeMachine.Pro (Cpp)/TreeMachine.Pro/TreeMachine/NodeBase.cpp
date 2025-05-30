@@ -1,0 +1,105 @@
+#include "pch.h"
+#include "NodeBase.h"
+#include "TreeBase.h"
+
+namespace TreeMachine {
+
+    [[nodiscard]] void *const NodeBase::Owner() const {
+        if (const auto *const tree = get_if<TreeBase *>(&this->m_Owner)) {
+            return *tree;
+        }
+        if (const auto *const node = get_if<NodeBase *>(&this->m_Owner)) {
+            return *node;
+        }
+        return nullptr;
+    }
+    [[nodiscard]] TreeBase *const NodeBase::Tree() const {
+        if (const auto *const tree = get_if<TreeBase *>(&this->m_Owner)) {
+            return *tree;
+        }
+        if (const auto *const node = get_if<NodeBase *>(&this->m_Owner)) {
+            return (*node)->Tree();
+        }
+        return nullptr;
+    }
+
+    void NodeBase::Attach(TreeBase *const owner, const any argument) {
+        assert(owner && "Argument 'owner' must be non-null");
+        assert(this->Owner() == nullptr && "Node must have no owner");
+        //   assert(this->Activity == Activity_.Inactive && "Node must be inactive");
+        {
+            this->m_Owner = owner;
+            this->OnBeforeAttach(argument);
+            this->OnAttach(argument);
+            this->OnAfterAttach(argument);
+        }
+        /*  {
+              this->Activate(argument);
+          }*/
+    }
+    void NodeBase::Detach(TreeBase *const owner, const any argument) {
+        assert(owner && "Argument 'owner' must be non-null");
+        assert(this->Owner() == owner && "Node must have owner");
+        //   assert(this->Activity == Activity_.Active && "Node must be active");
+        /*  {
+              this->Deactivate(argument);
+          }*/
+        {
+            this->OnBeforeDetach(argument);
+            this->OnDetach(argument);
+            this->OnAfterDetach(argument);
+            this->m_Owner = nullptr;
+        }
+    }
+
+    void NodeBase::Attach(NodeBase *const owner, const any argument) {
+        assert(owner && "Argument 'owner' must be non-null");
+        assert(this->Owner() == nullptr && "Node must have no owner");
+        //   assert(this->Activity == Activity_.Inactive && "Node must be inactive");
+        {
+            this->m_Owner = owner;
+            this->OnBeforeAttach(argument);
+            this->OnAttach(argument);
+            this->OnAfterAttach(argument);
+        }
+        /*   if (owner.Activity == Activity_.Active) {
+               this->Activate(argument);
+           } else {
+           }*/
+    }
+    void NodeBase::Detach(NodeBase *const owner, const any argument) {
+        assert(owner && "Argument 'owner' must be non-null");
+        assert(this->Owner() == owner && "Node must have owner");
+        /*         if (owner.Activity == Activity_.Active) {
+                     assert(this->Activity == Activity_.Active && "Node must be active");
+                     this->Deactivate(argument);
+                 } else {
+                     assert(this->Activity == Activity_.Inactive && "Node must be inactive");
+                 }*/
+        {
+            this->OnBeforeDetach(argument);
+            this->OnDetach(argument);
+            this->OnAfterDetach(argument);
+            this->m_Owner = nullptr;
+        }
+    }
+
+    void NodeBase::OnAttach(const any argument) {
+    }
+    void NodeBase::OnBeforeAttach(const any argument) {
+        // this->OnBeforeAttachEvent ?.Invoke(argument);
+    }
+    void NodeBase::OnAfterAttach(const any argument) {
+        // this->OnAfterAttachEvent ?.Invoke(argument);
+    }
+
+    void NodeBase::OnDetach(const any argument) {
+    }
+    void NodeBase::OnBeforeDetach(const any argument) {
+        // this->OnBeforeDetachEvent ?.Invoke(argument);
+    }
+    void NodeBase::OnAfterDetach(const any argument) {
+        // this->OnAfterDetachEvent ?.Invoke(argument);
+    }
+
+}
