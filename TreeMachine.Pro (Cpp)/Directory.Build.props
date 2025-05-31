@@ -1,9 +1,16 @@
 <Project>
     <ItemDefinitionGroup>
         <ClCompile>
+            <LanguageStandard>stdcpp17</LanguageStandard>
+            <LanguageStandard_C>stdc17</LanguageStandard_C>
             <ConformanceMode>true</ConformanceMode>
             <Zc__cplusplus>true</Zc__cplusplus>
+            <PrecompiledHeader>Use</PrecompiledHeader>
+            <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+            <WarningLevel>Level3</WarningLevel>
             <TreatWarningAsError>true</TreatWarningAsError>
+            <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Private;$(ProjectDir)Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <AdditionalOptions>/external:anglebrackets %(AdditionalOptions)</AdditionalOptions>
         </ClCompile>
     </ItemDefinitionGroup>
 </Project>

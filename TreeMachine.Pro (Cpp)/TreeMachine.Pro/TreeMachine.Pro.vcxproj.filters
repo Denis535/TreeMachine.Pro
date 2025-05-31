@@ -1,30 +1,42 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="TreeMachine">
+    <Filter Include="Private">
+      <UniqueIdentifier>{e1f56072-6633-4f3f-88a7-5c220d094831}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public">
+      <UniqueIdentifier>{dd97aa3f-f0bc-4578-86bd-4e25fc5fcc2e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Public\TreeMachine">
       <UniqueIdentifier>{f0dbbca8-116a-4b02-8b60-596424e6de63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Private\TreeMachine">
+      <UniqueIdentifier>{0920fb59-3dc3-4a17-81d4-5097b731127d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="TreeMachine\TreeBase.h">
-      <Filter>TreeMachine</Filter>
+    <ClInclude Include="Public\TreeMachine\TreeBase.h">
+      <Filter>Public\TreeMachine</Filter>
     </ClInclude>
-    <ClInclude Include="TreeMachine\NodeBase.h">
-      <Filter>TreeMachine</Filter>
+    <ClInclude Include="Public\TreeMachine\NodeBase.h">
+      <Filter>Public\TreeMachine</Filter>
     </ClInclude>
-    <ClInclude Include="TreeMachine.h" />
-    <ClInclude Include="pch.h" />
-    <ClInclude Include="TreeMachine\pch.h">
-      <Filter>TreeMachine</Filter>
+    <ClInclude Include="Private\pch.h">
+      <Filter>Private</Filter>
+    </ClInclude>
+    <ClInclude Include="Public\TreeMachine.h">
+      <Filter>Public</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TreeMachine\NodeBase.cpp">
-      <Filter>TreeMachine</Filter>
+    <ClCompile Include="Private\pch.cpp">
+      <Filter>Private</Filter>
     </ClCompile>
-    <ClCompile Include="TreeMachine\TreeBase.cpp">
-      <Filter>TreeMachine</Filter>
+    <ClCompile Include="Private\TreeMachine\TreeBase.cpp">
+      <Filter>Private\TreeMachine</Filter>
     </ClCompile>
-    <ClCompile Include="pch.cpp" />
+    <ClCompile Include="Private\TreeMachine\NodeBase.cpp">
+      <Filter>Private\TreeMachine</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

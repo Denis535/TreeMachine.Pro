@@ -1,4 +1,4 @@
-HeaderFilterRegex: '(\\TreeMachine\\)([a-zA-Z0-9_]+\.h)$'
+HeaderFilterRegex: '(\\(Public|Private)\\)'
 
 FormatStyle: none
 

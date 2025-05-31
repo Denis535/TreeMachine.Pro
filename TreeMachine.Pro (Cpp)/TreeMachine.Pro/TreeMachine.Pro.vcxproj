@@ -141,21 +141,20 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="TreeMachine\NodeBase.h" />
+    <ClInclude Include="Public\TreeMachine\NodeBase.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="TreeMachine\pch.h" />
-    <ClInclude Include="TreeMachine\TreeBase.h" />
-    <ClInclude Include="TreeMachine.h" />
+    <ClInclude Include="Public\TreeMachine\TreeBase.h" />
+    <ClInclude Include="Public\TreeMachine.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="TreeMachine\NodeBase.cpp" />
+    <ClCompile Include="Private\TreeMachine\NodeBase.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="TreeMachine\TreeBase.cpp" />
+    <ClCompile Include="Private\TreeMachine\TreeBase.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
