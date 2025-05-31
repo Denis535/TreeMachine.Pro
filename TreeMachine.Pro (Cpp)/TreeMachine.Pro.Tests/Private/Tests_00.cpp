@@ -1,7 +1,7 @@
 #include "pch.h"
-//#include "TreeMachine.h"
+#include "TreeMachine.h"
 
-/*using namespace TreeMachine;
+using namespace TreeMachine;
 
 class Node : public NodeBase {
     public:
@@ -28,8 +28,8 @@ class Tree : TreeBase {
     public:
     Tree &operator=(const Tree &other) = delete;
     Tree &operator=(Tree &&other) = delete;
-};*/
+};
 
 TEST(Tests_00, Test_00) { // NOLINT
-    // auto tree = Tree();
+    auto tree = Tree();
 }

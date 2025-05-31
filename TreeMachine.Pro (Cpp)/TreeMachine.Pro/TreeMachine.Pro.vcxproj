@@ -142,13 +142,13 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Public\TreeMachine\NodeBase.h" />
-    <ClInclude Include="pch.h" />
+    <ClInclude Include="Private\pch.h" />
     <ClInclude Include="Public\TreeMachine\TreeBase.h" />
     <ClInclude Include="Public\TreeMachine.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Private\TreeMachine\NodeBase.cpp" />
-    <ClCompile Include="pch.cpp">
+    <ClCompile Include="Private\pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>

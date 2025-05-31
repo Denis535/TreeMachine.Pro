@@ -1,7 +1,10 @@
 #pragma once
-#include "pch.h"
+#include <any>
+#include <variant>
 
 namespace TreeMachine {
+    using namespace std;
+
     class NodeBase {
         friend class TreeBase;
 

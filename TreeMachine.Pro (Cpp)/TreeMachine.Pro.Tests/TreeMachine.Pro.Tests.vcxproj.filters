@@ -4,9 +4,7 @@
     <ClCompile Include="Private\Tests_00.cpp">
       <Filter>Private</Filter>
     </ClCompile>
-    <ClCompile Include="Private\pch.cpp">
-      <Filter>Private</Filter>
-    </ClCompile>
+    <ClCompile Include="pch.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -20,8 +18,6 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Private\pch.h">
-      <Filter>Private</Filter>
-    </ClInclude>
+    <ClInclude Include="pch.h" />
   </ItemGroup>
 </Project>

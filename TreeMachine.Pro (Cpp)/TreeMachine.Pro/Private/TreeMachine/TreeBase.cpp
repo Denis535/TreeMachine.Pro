@@ -32,4 +32,5 @@ namespace TreeMachine {
             callback(root, argument);
         }
     }
+
 }

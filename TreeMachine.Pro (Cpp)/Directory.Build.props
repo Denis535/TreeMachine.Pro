@@ -9,7 +9,7 @@
             <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
             <WarningLevel>Level3</WarningLevel>
             <TreatWarningAsError>true</TreatWarningAsError>
-            <AdditionalIncludeDirectories>$(ProjectDir);$(ProjectDir)Private;$(ProjectDir)Public;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+            <AdditionalIncludeDirectories>$(ProjectDir)Public;$(ProjectDir)Private;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
             <AdditionalOptions>/external:anglebrackets %(AdditionalOptions)</AdditionalOptions>
         </ClCompile>
     </ItemDefinitionGroup>

@@ -21,22 +21,22 @@
     <ClInclude Include="Public\TreeMachine\NodeBase.h">
       <Filter>Public\TreeMachine</Filter>
     </ClInclude>
-    <ClInclude Include="Private\pch.h">
-      <Filter>Private</Filter>
-    </ClInclude>
     <ClInclude Include="Public\TreeMachine.h">
       <Filter>Public</Filter>
     </ClInclude>
+    <ClInclude Include="Private\pch.h">
+      <Filter>Private</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="Private\pch.cpp">
-      <Filter>Private</Filter>
-    </ClCompile>
     <ClCompile Include="Private\TreeMachine\TreeBase.cpp">
       <Filter>Private\TreeMachine</Filter>
     </ClCompile>
     <ClCompile Include="Private\TreeMachine\NodeBase.cpp">
       <Filter>Private\TreeMachine</Filter>
+    </ClCompile>
+    <ClCompile Include="Private\pch.cpp">
+      <Filter>Private</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
