@@ -22,7 +22,7 @@ class Tree : TreeBase {
     explicit Tree(Tree &other) = delete;
     explicit Tree(Tree &&other) = delete;
     ~Tree() override {
-        SetRoot(nullptr, nullptr, [](auto *root, auto arg) {});
+        SetRoot(nullptr, nullptr, [](auto *root, auto arg) { delete root; });
     }
 
     public:

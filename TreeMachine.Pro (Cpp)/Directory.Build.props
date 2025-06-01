@@ -7,10 +7,7 @@
             <Zc__cplusplus>true</Zc__cplusplus>
             <PrecompiledHeader>Use</PrecompiledHeader>
             <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-            <WarningLevel>Level3</WarningLevel>
-            <TreatWarningAsError>true</TreatWarningAsError>
             <AdditionalIncludeDirectories>$(ProjectDir)Public;$(ProjectDir)Private;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-            <AdditionalOptions>/external:anglebrackets %(AdditionalOptions)</AdditionalOptions>
         </ClCompile>
     </ItemDefinitionGroup>
 </Project>

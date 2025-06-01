@@ -1,4 +1,4 @@
-HeaderFilterRegex: '(\\(Public|Private)\\)'
+HeaderFilterRegex: '.*'
 
 FormatStyle: none
 
@@ -20,6 +20,7 @@ Checks: >
   -google-build-using-namespace,
 
   readability-*,
+  readability-implicit-bool-conversion,
   -readability-redundant-access-specifiers,
   -readability-avoid-const-params-in-decls,
   -readability-const-return-type,
