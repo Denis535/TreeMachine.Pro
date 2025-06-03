@@ -1,4 +1,4 @@
-#include "pch.h"
+#include "../../pch/pch.h"
 #include "TreeMachine/NodeBase.h"
 #include "TreeMachine/TreeBase.h"
 
