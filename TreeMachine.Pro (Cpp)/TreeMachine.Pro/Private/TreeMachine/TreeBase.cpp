@@ -1,6 +1,6 @@
-#include "../../pch/pch.h"
-#include "TreeMachine/NodeBase.h"
-#include "TreeMachine/TreeBase.h"
+#include "pch/pch.h"
+#include "Public/TreeMachine/NodeBase.h"
+#include "Public/TreeMachine/TreeBase.h"
 
 namespace TreeMachine {
 

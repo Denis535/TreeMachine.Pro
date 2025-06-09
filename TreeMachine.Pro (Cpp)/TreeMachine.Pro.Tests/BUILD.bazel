@@ -1,0 +1,15 @@
+cc_test(
+    name = "tree_machine_pro_tests",
+    srcs = glob([
+        "pch/pch.cpp",
+        "Private/*.cpp",
+        "Private/**/*.cpp",
+    ], allow_empty = True),
+    includes = ["."],
+    deps = [
+        "//TreeMachine.Pro:tree_machine_pro",
+        "@googletest//:gtest_main",
+    ],
+    copts = ["/std:c++17"],
+    visibility = ["//visibility:public"],
+)
