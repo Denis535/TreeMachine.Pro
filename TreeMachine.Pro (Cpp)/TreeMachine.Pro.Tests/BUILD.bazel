@@ -9,8 +9,8 @@ cc_test(
         ".",
     ],
     deps = [
-        "//TreeMachine.Pro:tree_machine_pro",
         "@googletest//:gtest_main",
+        "//TreeMachine.Pro:tree_machine_pro",
     ],
     visibility = ["//visibility:public"],
 )
