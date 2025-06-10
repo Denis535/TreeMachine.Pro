@@ -1,5 +1,5 @@
 #include "pch/pch.h"
-#include "Public/TreeMachine/TreeMachine.h"
+#include "TreeMachine/TreeMachine.h"
 
 using namespace TreeMachine;
 

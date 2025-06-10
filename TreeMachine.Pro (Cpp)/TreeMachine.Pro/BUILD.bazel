@@ -5,11 +5,14 @@ cc_library(
         "Private/*.cpp",
         "Private/**/*.cpp",
     ], allow_empty = True),
+    includes = [
+        ".",
+    ],
     hdrs = glob([
         "Public/*.h",
         "Public/**/*.h",
     ], allow_empty = True),
-    includes = ["."],
+    strip_include_prefix = "Public",
     deps = [
     ],
     copts = ["/std:c++17"],

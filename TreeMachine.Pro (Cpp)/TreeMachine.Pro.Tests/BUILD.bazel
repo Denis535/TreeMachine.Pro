@@ -5,7 +5,9 @@ cc_test(
         "Private/*.cpp",
         "Private/**/*.cpp",
     ], allow_empty = True),
-    includes = ["."],
+    includes = [
+        ".",
+    ],
     deps = [
         "//TreeMachine.Pro:tree_machine_pro",
         "@googletest//:gtest_main",
