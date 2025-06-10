@@ -12,6 +12,5 @@ cc_test(
         "//TreeMachine.Pro:tree_machine_pro",
         "@googletest//:gtest_main",
     ],
-    copts = ["/std:c++17"],
     visibility = ["//visibility:public"],
 )

@@ -1,0 +1,24 @@
+# --- Host settings ---
+build --host_platform=//platforms:windows_x64
+
+# --- Common settings ---
+build --platforms=//platforms:windows_x64
+
+# --- Standard and MSVC ABI compatibility ---
+build --copt=/std:c++17
+build --copt=/Zc:preprocessor
+build --copt=/Zc:__cplusplus
+
+# --- Debug configuration ---
+build:debug --compilation_mode=dbg
+build:debug --strip=never
+build:debug --copt=/Od
+build:debug --linkopt=/DEBUG
+build:debug --define=DEBUG=1
+
+# --- Release configuration ---
+build:release --compilation_mode=opt
+build:release --strip=always
+build:release --copt=/O2
+build:release --linkopt=/INCREMENTAL:NO
+build:release --define=NDEBUG=1

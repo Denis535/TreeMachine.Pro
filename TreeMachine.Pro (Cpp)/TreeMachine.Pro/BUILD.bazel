@@ -15,6 +15,5 @@ cc_library(
     strip_include_prefix = "Public",
     deps = [
     ],
-    copts = ["/std:c++17"],
     visibility = ["//visibility:public"],
 )
