@@ -5,6 +5,7 @@ platform(
     constraint_values = [
         "@platforms//os:windows",
         "@platforms//cpu:x86",
+        "@bazel_tools//tools/cpp:clang-cl",
     ],
 )
 
@@ -13,5 +14,6 @@ platform(
     constraint_values = [
         "@platforms//os:windows",
         "@platforms//cpu:x86_64",
+        "@bazel_tools//tools/cpp:clang-cl",
     ],
 )

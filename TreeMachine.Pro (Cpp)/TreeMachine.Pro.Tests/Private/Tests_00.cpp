@@ -1,5 +1,5 @@
-#include "pch/pch.h"
 #include "TreeMachine/TreeMachine.h"
+#include "pch/pch.h"
 
 using namespace TreeMachine;
 
@@ -31,5 +31,13 @@ class Tree : TreeBase {
 };
 
 TEST(Tests_00, Test_00) { // NOLINT
+#if defined(__clang__) && defined(_MSC_VER)
+    SUCCEED();
+#else
+    FAIL() << "Clang-cl is not used";
+#endif
+}
+
+TEST(Tests_00, Test_01) { // NOLINT
     auto tree = Tree();
 }

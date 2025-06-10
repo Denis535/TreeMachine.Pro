@@ -2,9 +2,3 @@ module(name = "tree_machine_pro")
 
 bazel_dep(name = "googletest", version = "1.14.0")
 bazel_dep(name = "platforms", version = "1.0.0")
-bazel_dep(name = "toolchains_llvm", version = "1.4.0")
-
-llvm = use_extension("@toolchains_llvm//toolchain/extensions:llvm.bzl", "llvm")
-llvm.toolchain(llvm_version = "20.1.0")
-use_repo(llvm, "llvm_toolchain")
-register_toolchains("@llvm_toolchain//:all")
