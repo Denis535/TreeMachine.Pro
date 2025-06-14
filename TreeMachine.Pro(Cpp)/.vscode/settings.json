@@ -7,12 +7,6 @@
         "**/.editorconfig": true,
         "**/.clang-format": true,
         "**/.clang-tidy": true,
-        "**/*.lock": true,
-        "**/*.bat": true,
     },
-    "clangd.checkUpdates": true,
-    "bazel.lsp.command": "bazel-lsp",
-    "files.associations": {
-        "variant": "cpp"
-    },
+    "bazel.lsp.command": "bazel-lsp"
 }
