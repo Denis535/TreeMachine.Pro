@@ -1,0 +1,10 @@
+{
+    "recommendations": [
+        "BazelBuild.vscode-bazel",
+        "llvm-vs-code-extensions.vscode-clangd",
+        "spmeesseman.vscode-taskexplorer",
+    ],
+    "unwantedRecommendations": [
+        "ms-vscode.cpptools",
+    ]
+}

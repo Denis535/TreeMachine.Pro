@@ -1,0 +1,15 @@
+{
+    "clangd.checkUpdates": true,
+    "bazel.lsp.command": "bazel-lsp",
+    "files.exclude": {
+        ".vscode/**": true,
+        "bazel-*/**": true,
+        "**/.gitignore": true,
+        "**/.gitattributes": true,
+        "**/.editorconfig": true,
+        "**/.clang-format": true,
+        "**/.clang-tidy": true,
+        "**/*.lock": true,
+        "**/*.bat": true,
+    }
+}

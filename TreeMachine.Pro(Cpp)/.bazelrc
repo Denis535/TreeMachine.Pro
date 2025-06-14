@@ -1,15 +1,12 @@
-# --- Host settings ---
+# --- Host ---
 build --host_platform=//platforms:windows_x64
 
-# --- Common settings ---
-build --toolchain_resolution_debug=true
-
-# --- Standard and MSVC ABI compatibility ---
+# --- Language ---
 build --copt=/std:c++17
 build --copt=/Zc:preprocessor
 build --copt=/Zc:__cplusplus
 
-# --- Debug configuration ---
+# --- Debug ---
 build:windows_x64_debug --platforms=//platforms:windows_x64
 build:windows_x64_debug --compilation_mode=dbg
 build:windows_x64_debug --strip=never
@@ -17,7 +14,7 @@ build:windows_x64_debug --copt=/Od
 build:windows_x64_debug --linkopt=/DEBUG
 build:windows_x64_debug --define=DEBUG=1
 
-# --- Release configuration ---
+# --- Release ---
 build:windows_x64_release --platforms=//platforms:windows_x64
 build:windows_x64_release --compilation_mode=opt
 build:windows_x64_release --strip=always

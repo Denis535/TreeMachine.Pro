@@ -1,16 +1,18 @@
-cc_test(
-    name = "tree_machine_pro_tests",
+cc_library(
+    name = "tree_machine_pro",
     srcs = glob([
-        "pch/pch.cpp",
         "Private/*.cpp",
         "Private/**/*.cpp",
     ], allow_empty = True),
     includes = [
         ".",
     ],
+    hdrs = glob([
+        "Public/*.h",
+        "Public/**/*.h",
+    ], allow_empty = True),
+    strip_include_prefix = "Public",
     deps = [
-        "@googletest//:gtest_main",
-        "//TreeMachine.Pro:tree_machine_pro",
     ],
     visibility = ["//visibility:public"],
 )
