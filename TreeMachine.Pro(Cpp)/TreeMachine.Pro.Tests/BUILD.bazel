@@ -1,8 +1,8 @@
 cc_test(
     name = "tree_machine_pro_tests",
     srcs = glob([
-        "Private/*.cpp",
-        "Private/**/*.cpp",
+        "Sources/*.cpp",
+        "Sources/**/*.cpp",
     ], allow_empty = True),
     includes = [
         ".",

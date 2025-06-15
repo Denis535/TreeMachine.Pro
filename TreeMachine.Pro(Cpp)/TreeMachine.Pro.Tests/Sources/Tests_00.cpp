@@ -1,5 +1,5 @@
+#include <gtest/gtest.h>
 #include "TreeMachine/TreeMachine.h"
-#include "pch/pch.h"
 
 using namespace std;
 using namespace TreeMachine;

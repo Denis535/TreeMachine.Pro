@@ -1,17 +1,17 @@
 cc_library(
     name = "tree_machine_pro",
     srcs = glob([
-        "Private/*.cpp",
-        "Private/**/*.cpp",
+        "Sources/*.cpp",
+        "Sources/**/*.cpp",
     ], allow_empty = True),
     includes = [
         ".",
     ],
     hdrs = glob([
-        "Public/*.h",
-        "Public/**/*.h",
+        "Headers/*.h",
+        "Headers/**/*.h",
     ], allow_empty = True),
-    strip_include_prefix = "Public",
+    strip_include_prefix = "Headers",
     deps = [
     ],
     visibility = ["//visibility:public"],
