@@ -16,7 +16,7 @@
             },
         },
         {
-            "label": "Build (windows_x64_debug)",
+            "label": "Build Lib (windows_x64_debug)",
             "type": "shell",
             "command": "bazel",
             "args": [
@@ -32,7 +32,7 @@
             },
         },
         {
-            "label": "Build (windows_x64_release)",
+            "label": "Build Lib (windows_x64_release)",
             "type": "shell",
             "command": "bazel",
             "args": [
@@ -48,15 +48,31 @@
             },
         },
         {
-            "label": "Test (windows_x64_debug)",
+            "label": "Build Tests (windows_x64_debug)",
             "type": "shell",
             "command": "bazel",
             "args": [
-                "test",
+                "build",
                 "//TreeMachine.Pro.Tests:tree_machine_pro_tests",
                 "--config=windows_x64_debug"
             ],
-            "group": "test",
+            "group": "build",
+            "problemMatcher": [],
+            "presentation": {
+                "clear": true,
+                "focus": true,
+            },
+        },
+        {
+            "label": "Build Tests (windows_x64_release)",
+            "type": "shell",
+            "command": "bazel",
+            "args": [
+                "build",
+                "//TreeMachine.Pro.Tests:tree_machine_pro_tests",
+                "--config=windows_x64_release"
+            ],
+            "group": "build",
             "problemMatcher": [],
             "presentation": {
                 "clear": true,

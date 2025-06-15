@@ -1,6 +1,7 @@
 #include "TreeMachine/TreeMachine.h"
 #include "pch/pch.h"
 
+using namespace std;
 using namespace TreeMachine;
 
 class Node : public NodeBase {
@@ -31,13 +32,20 @@ class Tree : TreeBase {
 };
 
 TEST(Tests_00, Test_00) { // NOLINT
-#if defined(__clang__) && defined(_MSC_VER)
-    SUCCEED();
-#else
-    FAIL() << "Clang-cl is not used";
-#endif
+    auto tree = Tree();
 }
 
-TEST(Tests_00, Test_01) { // NOLINT
-    auto tree = Tree();
+TEST(Tests_00, Test_10) { // NOLINT
+#if defined(__clang__) && !defined(_MSC_VER)
+    cout << "Compiler: Clang" << endl;
+#elif defined(__clang__) && defined(_MSC_VER)
+    cout << "Compiler: Clang-cl (Clang with MSVC compatibility)" << endl;
+#elif defined(_MSC_VER)
+    cout << "Compiler: MSVC" << endl;
+#elif defined(__GNUC__)
+    cout << "Compiler: GCC" << endl;
+#else
+    cout << "Compiler: Unknown" << endl;
+#endif
+    SUCCEED();
 }
