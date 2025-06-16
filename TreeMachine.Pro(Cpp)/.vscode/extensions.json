@@ -3,6 +3,7 @@
         "ms-vscode.cpptools",
         "BazelBuild.vscode-bazel",
         "spmeesseman.vscode-taskexplorer",
+        "DavidSchuldenfrei.gtest-adapter",
     ],
     "unwantedRecommendations": [
         "llvm-vs-code-extensions.vscode-clangd",

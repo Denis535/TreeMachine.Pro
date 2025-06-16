@@ -9,28 +9,6 @@
         "**/.clang-format": true,
         "**/.clang-tidy": true,
     },
-    "editor.tokenColorCustomizations": {
-        "textMateRules": [
-            {
-                "scope": "googletest.failed",
-                "settings": {
-                    "foreground": "#f00"
-                }
-            },
-            {
-                "scope": "googletest.passed",
-                "settings": {
-                    "foreground": "#0f0"
-                }
-            },
-            {
-                "scope": "googletest.run",
-                "settings": {
-                    "foreground": "#0f0"
-                }
-            }
-        ]
-    },
     "files.associations": {
         "cmath": "cpp",
         "any": "cpp",
@@ -65,5 +43,31 @@
         "xtr1common": "cpp",
         "xutility": "cpp"
     },
-    "explorer.compactFolders": false
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            {
+                "scope": "googletest.failed",
+                "settings": {
+                    "foreground": "#f00"
+                }
+            },
+            {
+                "scope": "googletest.passed",
+                "settings": {
+                    "foreground": "#0f0"
+                }
+            },
+            {
+                "scope": "googletest.run",
+                "settings": {
+                    "foreground": "#0f0"
+                }
+            }
+        ]
+    },
+    "explorer.compactFolders": false,
+    "gtest-adapter.debugConfig": [
+        "Run Tests (windows_x64_debug)"
+    ],
+    "gtest-adapter.supportLocation": true
 }
