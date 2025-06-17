@@ -2,4 +2,4 @@
 bazel-bin/
 bazel-out/
 bazel-testlogs/
-bazel-treemachine.pro(cpp)/
+bazel-treemachine.pro_cpp/
