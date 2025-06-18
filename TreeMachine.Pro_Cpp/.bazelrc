@@ -8,7 +8,8 @@ build --copt=/Zc:__cplusplus  # Set correct __cplusplus value based on the stand
 build --copt=/permissive-     # Enforce strict ISO C++ compliance
 build --copt=/EHsc            # Use standard C++ exception handling (no SEH)
 build --copt=/sdl             # Enable additional security and runtime checks (Security Development Lifecycle)
-build --copt=/W3              # Enable warning level 3 (recommended level)
+build --copt=/W4              # Enable warning level 3
+build --copt=/WX
 
 # --- Debug ---
 build:windows_x64_debug --platforms=//platforms:windows_x64

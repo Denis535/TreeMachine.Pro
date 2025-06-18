@@ -9,7 +9,7 @@
 
 namespace TreeMachine {
 
-    [[nodiscard]] void *const NodeBase::Owner() const {
+    [[nodiscard]] void * NodeBase::Owner() const {
         if (const auto *const tree = get_if<TreeBase *>(&this->m_Owner)) {
             return *tree;
         }
@@ -18,7 +18,7 @@ namespace TreeMachine {
         }
         return nullptr;
     }
-    [[nodiscard]] TreeBase *const NodeBase::Tree() const {
+    [[nodiscard]] TreeBase * NodeBase::Tree() const {
         if (const auto *const tree = get_if<TreeBase *>(&this->m_Owner)) {
             return *tree;
         }
@@ -89,21 +89,21 @@ namespace TreeMachine {
         }
     }
 
-    void NodeBase::OnAttach(const any argument) {
+    void NodeBase::OnAttach([[maybe_unused]] const any argument) {
     }
-    void NodeBase::OnBeforeAttach(const any argument) {
+    void NodeBase::OnBeforeAttach([[maybe_unused]] const any argument) {
         // this->OnBeforeAttachEvent ?.Invoke(argument);
     }
-    void NodeBase::OnAfterAttach(const any argument) {
+    void NodeBase::OnAfterAttach([[maybe_unused]] const any argument) {
         // this->OnAfterAttachEvent ?.Invoke(argument);
     }
 
-    void NodeBase::OnDetach(const any argument) {
+    void NodeBase::OnDetach([[maybe_unused]] const any argument) {
     }
-    void NodeBase::OnBeforeDetach(const any argument) {
+    void NodeBase::OnBeforeDetach([[maybe_unused]] const any argument) {
         // this->OnBeforeDetachEvent ?.Invoke(argument);
     }
-    void NodeBase::OnAfterDetach(const any argument) {
+    void NodeBase::OnAfterDetach([[maybe_unused]] const any argument) {
         // this->OnAfterDetachEvent ?.Invoke(argument);
     }
 

@@ -19,10 +19,10 @@ namespace TreeMachine {
         virtual ~NodeBase() = default;
 
         private:
-        [[nodiscard]] void *const Owner() const;
+        [[nodiscard]] void *Owner() const;
 
         public:
-        [[nodiscard]] TreeBase *const Tree() const;
+        [[nodiscard]] TreeBase *Tree() const;
 
         private:
         void Attach(TreeBase *const owner, const any argument);

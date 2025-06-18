@@ -26,7 +26,7 @@ class Tree final : TreeBase {
     explicit Tree(Tree &&other) = delete;
 
     ~Tree() override {
-        SetRoot(nullptr, nullptr, [](auto *root, auto arg) {
+        SetRoot(nullptr, nullptr, [](auto *root, [[maybe_unused]] auto arg) {
             delete root;
         });
     }

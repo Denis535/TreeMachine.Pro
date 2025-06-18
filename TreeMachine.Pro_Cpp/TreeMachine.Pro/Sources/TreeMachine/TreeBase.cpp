@@ -9,7 +9,7 @@
 
 namespace TreeMachine {
 
-    [[nodiscard]] NodeBase *const TreeBase::Root() const {
+    [[nodiscard]] NodeBase *TreeBase::Root() const {
         return m_Root;
     }
     void TreeBase::SetRoot(NodeBase *const root, const any argument, const function<const void(NodeBase *const, const any)> callback) {
