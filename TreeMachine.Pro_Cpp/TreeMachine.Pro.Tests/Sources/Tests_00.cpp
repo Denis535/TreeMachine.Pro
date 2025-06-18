@@ -1,10 +1,10 @@
-#include <gtest/gtest.h>
+#include "gtest/gtest.h"
 #include "TreeMachine/TreeMachine.h"
 
 using namespace std;
 using namespace TreeMachine;
 
-class Node : public NodeBase {
+class Node final : public NodeBase {
     public:
     explicit Node() = default;
     explicit Node(Node &other) = delete;
@@ -15,15 +15,20 @@ class Node : public NodeBase {
     Node &operator=(const Node &other) = delete;
     Node &operator=(Node &&other) = delete;
 };
-class Tree : TreeBase {
+
+class Tree final : TreeBase {
     public:
     explicit Tree() {
         SetRoot(new Node(), nullptr, nullptr);
     }
+
     explicit Tree(Tree &other) = delete;
     explicit Tree(Tree &&other) = delete;
+
     ~Tree() override {
-        SetRoot(nullptr, nullptr, [](auto *root, auto arg) { delete root; });
+        SetRoot(nullptr, nullptr, [](auto *root, auto arg) {
+            delete root;
+        });
     }
 
     public:
@@ -31,11 +36,7 @@ class Tree : TreeBase {
     Tree &operator=(Tree &&other) = delete;
 };
 
-TEST(Tests_00, Test_00) { // NOLINT
-    auto tree = Tree();
-}
-
-TEST(Tests_00, Test_10) { // NOLINT
+TEST(Tests_00, Test) { // NOLINT
 #if defined(__clang__) && !defined(_MSC_VER)
     cout << "Compiler: Clang" << endl;
 #elif defined(__clang__) && defined(_MSC_VER)
@@ -48,4 +49,8 @@ TEST(Tests_00, Test_10) { // NOLINT
     cout << "Compiler: Unknown" << endl;
 #endif
     SUCCEED();
+}
+
+TEST(Tests_00, Test_00) { // NOLINT
+    auto tree = Tree();
 }

@@ -4,19 +4,19 @@ UseTab: Never
 IndentWidth: 4
 ColumnLimit: 0
 
-SortIncludes: true
+SortIncludes: "CaseInsensitive"
 SortUsingDeclarations: false
 
 IncludeBlocks: Preserve
 IncludeCategories:
-  - Regex:           '^(<pch\.h>)$'
-    Priority:        -2000
-  - Regex:           '^("pch\.h")$'
-    Priority:        -1000
-  - Regex:           '^(<.*>)$'
-    Priority:        1000
-  - Regex:           '^(".*")$'
-    Priority:        2000
+  - Regex: '^(<pch\.h>)$'
+    Priority: -2000
+  - Regex: '^("pch\.h")$'
+    Priority: -1000
+  - Regex: '^(<.*>)$'
+    Priority: 1000
+  - Regex: '^(".*")$'
+    Priority: 2000
 
 IncludeIsMainRegex: '$^'
 IncludeIsMainSourceRegex: '$^'

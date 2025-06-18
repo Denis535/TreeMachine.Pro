@@ -1,0 +1,14 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Test" type="BlazeCommandRunConfigurationType" factoryName="Bazel Command">
+    <blaze-settings blaze-command="test" kind="cc_test" handler-id="BlazeCLionRunConfigurationHandlerProvider">
+      <blaze-target>//TreeMachine.Pro.Tests:tree_machine_pro_tests</blaze-target>
+      <blaze-user-flag>--config=windows_x64_debug</blaze-user-flag>
+      <env_state>
+        <envs />
+      </env_state>
+    </blaze-settings>
+    <method v="2">
+      <option name="Blaze.BeforeRunTask" enabled="true" />
+    </method>
+  </configuration>
+</component>
