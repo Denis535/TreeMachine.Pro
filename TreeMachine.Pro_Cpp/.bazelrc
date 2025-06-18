@@ -2,9 +2,13 @@
 build --host_platform=//platforms:windows_x64
 
 # --- Language ---
-build --copt=/std:c++17
-build --copt=/Zc:preprocessor
-build --copt=/Zc:__cplusplus
+build --copt=/std:c++17       # Use C++17 standard
+build --copt=/Zc:preprocessor # Enable standard-compliant preprocessor
+build --copt=/Zc:__cplusplus  # Set correct __cplusplus value based on the standard
+build --copt=/permissive-     # Enforce strict ISO C++ compliance
+build --copt=/EHsc            # Use standard C++ exception handling (no SEH)
+build --copt=/sdl             # Enable additional security and runtime checks (Security Development Lifecycle)
+build --copt=/W3              # Enable warning level 3 (recommended level)
 
 # --- Debug ---
 build:windows_x64_debug --platforms=//platforms:windows_x64
