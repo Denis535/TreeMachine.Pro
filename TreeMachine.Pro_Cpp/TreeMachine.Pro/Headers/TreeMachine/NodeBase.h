@@ -29,10 +29,10 @@ namespace TreeMachine {
         public:
         [[nodiscard]] TreeBase *Tree() const;
 
-        [[nodiscard]] function<void(const any)> OnBeforeAttachCallback();
-        [[nodiscard]] function<void(const any)> OnAfterAttachCallback();
-        [[nodiscard]] function<void(const any)> OnBeforeDetachCallback();
-        [[nodiscard]] function<void(const any)> OnAfterDetachCallback();
+        [[nodiscard]] function<void(const any)> OnBeforeAttachCallback() const;
+        [[nodiscard]] function<void(const any)> OnAfterAttachCallback() const;
+        [[nodiscard]] function<void(const any)> OnBeforeDetachCallback() const;
+        [[nodiscard]] function<void(const any)> OnAfterDetachCallback() const;
 
         void OnBeforeAttachCallback(const function<void(const any)> callback);
         void OnAfterAttachCallback(const function<void(const any)> callback);

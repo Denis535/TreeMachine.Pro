@@ -29,16 +29,16 @@ namespace TreeMachine {
         return nullptr;
     }
 
-    [[nodiscard]] function<void(const any)> NodeBase::OnBeforeAttachCallback() {
+    [[nodiscard]] function<void(const any)> NodeBase::OnBeforeAttachCallback() const {
         return this->m_OnBeforeAttachCallback;
     }
-    [[nodiscard]] function<void(const any)> NodeBase::OnAfterAttachCallback() {
+    [[nodiscard]] function<void(const any)> NodeBase::OnAfterAttachCallback() const {
         return this->m_OnAfterAttachCallback;
     }
-    [[nodiscard]] function<void(const any)> NodeBase::OnBeforeDetachCallback() {
+    [[nodiscard]] function<void(const any)> NodeBase::OnBeforeDetachCallback() const {
         return this->m_OnBeforeDetachCallback;
     }
-    [[nodiscard]] function<void(const any)> NodeBase::OnAfterDetachCallback() {
+    [[nodiscard]] function<void(const any)> NodeBase::OnAfterDetachCallback() const {
         return this->m_OnAfterDetachCallback;
     }
 
