@@ -12,6 +12,11 @@ namespace TreeMachine {
         private:
         variant<nullptr_t, TreeBase *, NodeBase *> m_Owner = nullptr;
 
+        function<void(const any)> m_OnBeforeAttachCallback = nullptr;
+        function<void(const any)> m_OnAfterAttachCallback = nullptr;
+        function<void(const any)> m_OnBeforeDetachCallback = nullptr;
+        function<void(const any)> m_OnAfterDetachCallback = nullptr;
+
         public:
         explicit NodeBase() = default;
         explicit NodeBase(const NodeBase &other) = delete;
@@ -23,6 +28,16 @@ namespace TreeMachine {
 
         public:
         [[nodiscard]] TreeBase *Tree() const;
+
+        [[nodiscard]] function<void(const any)> OnBeforeAttachCallback();
+        [[nodiscard]] function<void(const any)> OnAfterAttachCallback();
+        [[nodiscard]] function<void(const any)> OnBeforeDetachCallback();
+        [[nodiscard]] function<void(const any)> OnAfterDetachCallback();
+
+        void OnBeforeAttachCallback(const function<void(const any)> callback);
+        void OnAfterAttachCallback(const function<void(const any)> callback);
+        void OnBeforeDetachCallback(const function<void(const any)> callback);
+        void OnAfterDetachCallback(const function<void(const any)> callback);
 
         private:
         void Attach(TreeBase *const owner, const any argument);

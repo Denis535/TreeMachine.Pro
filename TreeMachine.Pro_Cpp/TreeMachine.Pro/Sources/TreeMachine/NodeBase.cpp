@@ -9,7 +9,7 @@
 
 namespace TreeMachine {
 
-    [[nodiscard]] void * NodeBase::Owner() const {
+    [[nodiscard]] void *NodeBase::Owner() const {
         if (const auto *const tree = get_if<TreeBase *>(&this->m_Owner)) {
             return *tree;
         }
@@ -18,7 +18,8 @@ namespace TreeMachine {
         }
         return nullptr;
     }
-    [[nodiscard]] TreeBase * NodeBase::Tree() const {
+
+    [[nodiscard]] TreeBase *NodeBase::Tree() const {
         if (const auto *const tree = get_if<TreeBase *>(&this->m_Owner)) {
             return *tree;
         }
@@ -26,6 +27,32 @@ namespace TreeMachine {
             return (*node)->Tree();
         }
         return nullptr;
+    }
+
+    [[nodiscard]] function<void(const any)> NodeBase::OnBeforeAttachCallback() {
+        return this->m_OnBeforeAttachCallback;
+    }
+    [[nodiscard]] function<void(const any)> NodeBase::OnAfterAttachCallback() {
+        return this->m_OnAfterAttachCallback;
+    }
+    [[nodiscard]] function<void(const any)> NodeBase::OnBeforeDetachCallback() {
+        return this->m_OnBeforeDetachCallback;
+    }
+    [[nodiscard]] function<void(const any)> NodeBase::OnAfterDetachCallback() {
+        return this->m_OnAfterDetachCallback;
+    }
+
+    void NodeBase::OnBeforeAttachCallback(const function<void(const any)> callback) {
+        this->m_OnBeforeAttachCallback = callback;
+    }
+    void NodeBase::OnAfterAttachCallback(const function<void(const any)> callback) {
+        this->m_OnAfterAttachCallback = callback;
+    }
+    void NodeBase::OnBeforeDetachCallback(const function<void(const any)> callback) {
+        this->m_OnBeforeDetachCallback = callback;
+    }
+    void NodeBase::OnAfterDetachCallback(const function<void(const any)> callback) {
+        this->m_OnAfterDetachCallback = callback;
     }
 
     void NodeBase::Attach(TreeBase *const owner, const any argument) {
@@ -92,19 +119,27 @@ namespace TreeMachine {
     void NodeBase::OnAttach([[maybe_unused]] const any argument) {
     }
     void NodeBase::OnBeforeAttach([[maybe_unused]] const any argument) {
-        // this->OnBeforeAttachEvent ?.Invoke(argument);
+        if (this->m_OnBeforeAttachCallback) {
+            this->m_OnBeforeAttachCallback(argument);
+        }
     }
     void NodeBase::OnAfterAttach([[maybe_unused]] const any argument) {
-        // this->OnAfterAttachEvent ?.Invoke(argument);
+        if (this->m_OnAfterAttachCallback) {
+            this->m_OnAfterAttachCallback(argument);
+        }
     }
 
     void NodeBase::OnDetach([[maybe_unused]] const any argument) {
     }
     void NodeBase::OnBeforeDetach([[maybe_unused]] const any argument) {
-        // this->OnBeforeDetachEvent ?.Invoke(argument);
+        if (this->m_OnBeforeDetachCallback) {
+            this->m_OnBeforeDetachCallback(argument);
+        }
     }
     void NodeBase::OnAfterDetach([[maybe_unused]] const any argument) {
-        // this->OnAfterDetachEvent ?.Invoke(argument);
+        if (this->m_OnAfterDetachCallback) {
+            this->m_OnAfterDetachCallback(argument);
+        }
     }
 
 }

@@ -12,7 +12,7 @@ namespace TreeMachine {
     [[nodiscard]] NodeBase *TreeBase::Root() const {
         return m_Root;
     }
-    void TreeBase::SetRoot(NodeBase *const root, const any argument, const function<const void(NodeBase *const, const any)> callback) {
+    void TreeBase::SetRoot(NodeBase *const root, const any argument, const function<void(NodeBase *const, const any)> callback) {
         if (this->m_Root != nullptr) {
             this->RemoveRoot(this->m_Root, argument, callback);
         }
@@ -27,7 +27,7 @@ namespace TreeMachine {
         this->m_Root = root;
         this->m_Root->Attach(this, argument);
     }
-    void TreeBase::RemoveRoot(NodeBase *const root, const any argument, const function<const void(NodeBase *const, const any)> callback) {
+    void TreeBase::RemoveRoot(NodeBase *const root, const any argument, const function<void(NodeBase *const, const any)> callback) {
         assert(root && "Argument 'root' must be non-null");
         assert(root->Owner() == this && "Argument 'root' must have owner");
         // assert(root.Activity == NodeBase<T>.Activity_.Active && "Argument 'root' ({root}) must be active");
