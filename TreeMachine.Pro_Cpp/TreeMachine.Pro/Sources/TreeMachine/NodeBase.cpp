@@ -118,12 +118,12 @@ namespace TreeMachine {
 
     void NodeBase::OnAttach([[maybe_unused]] const any argument) {
     }
-    void NodeBase::OnBeforeAttach([[maybe_unused]] const any argument) {
+    void NodeBase::OnBeforeAttach(const any argument) {
         if (this->m_OnBeforeAttachCallback) {
             this->m_OnBeforeAttachCallback(argument);
         }
     }
-    void NodeBase::OnAfterAttach([[maybe_unused]] const any argument) {
+    void NodeBase::OnAfterAttach(const any argument) {
         if (this->m_OnAfterAttachCallback) {
             this->m_OnAfterAttachCallback(argument);
         }
@@ -131,12 +131,12 @@ namespace TreeMachine {
 
     void NodeBase::OnDetach([[maybe_unused]] const any argument) {
     }
-    void NodeBase::OnBeforeDetach([[maybe_unused]] const any argument) {
+    void NodeBase::OnBeforeDetach(const any argument) {
         if (this->m_OnBeforeDetachCallback) {
             this->m_OnBeforeDetachCallback(argument);
         }
     }
-    void NodeBase::OnAfterDetach([[maybe_unused]] const any argument) {
+    void NodeBase::OnAfterDetach(const any argument) {
         if (this->m_OnAfterDetachCallback) {
             this->m_OnAfterDetachCallback(argument);
         }

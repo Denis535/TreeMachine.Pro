@@ -10,7 +10,7 @@
 namespace TreeMachine {
 
     [[nodiscard]] NodeBase *TreeBase::Root() const {
-        return m_Root;
+        return this->m_Root;
     }
     void TreeBase::SetRoot(NodeBase *const root, const any argument, const function<void(NodeBase *const, const any)> callback) {
         if (this->m_Root != nullptr) {
