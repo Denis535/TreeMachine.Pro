@@ -31,7 +31,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ba905a7-ea50-4506-9756-feebbc8a6ed4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.clang-tidy" beforeDir="false" afterPath="$PROJECT_DIR$/../.clang-tidy" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/Tests_00.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_00.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/NodeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/NodeBase.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/TreeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/TreeBase.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Sources/TreeMachine/NodeBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Sources/TreeMachine/NodeBase.cpp" afterDir="false" />
@@ -85,10 +87,15 @@
     "node.js.selected.package.tslint": "(autodetect)",
     "nodejs_package_manager_path": "npm",
     "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "RiderInlayHintsCppOptions",
+    "settings.editor.selected.configurable": "Errors",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Projects\TreeMachine.Pro\TreeMachine.Pro_Cpp\TreeMachine.Pro.Tests\Sources\TreeMachine" />
+    </key>
+  </component>
   <component name="RunManager" selected="Bazel Command.Build">
     <list>
       <item itemvalue="Bazel Command.Build" />
@@ -103,7 +110,8 @@
       <option name="presentableId" value="Default" />
       <updated>1750245779113</updated>
       <workItem from="1750245779928" duration="9472000" />
-      <workItem from="1750314754718" duration="7207000" />
+      <workItem from="1750314754718" duration="11786000" />
+      <workItem from="1750332058875" duration="22885000" />
     </task>
     <servers />
   </component>

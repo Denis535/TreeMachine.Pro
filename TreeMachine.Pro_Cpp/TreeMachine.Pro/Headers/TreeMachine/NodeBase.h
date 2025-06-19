@@ -1,6 +1,7 @@
 #pragma once
 #include <any>
 #include <functional>
+#include <list>
 #include <variant>
 
 namespace TreeMachine {
@@ -12,6 +13,10 @@ namespace TreeMachine {
         private:
         variant<nullptr_t, TreeBase *, NodeBase *> m_Owner = nullptr;
 
+        private:
+        list<NodeBase *> m_Children = list<NodeBase *>(0);
+
+        private:
         function<void(const any)> m_OnBeforeAttachCallback = nullptr;
         function<void(const any)> m_OnAfterAttachCallback = nullptr;
         function<void(const any)> m_OnBeforeDetachCallback = nullptr;
@@ -29,11 +34,30 @@ namespace TreeMachine {
         public:
         [[nodiscard]] TreeBase *Tree() const;
 
+        public:
+        [[nodiscard]] bool IsRoot() const;
+        [[nodiscard]] const NodeBase *Root() const;
+        [[nodiscard]] NodeBase *Root();
+
+        public:
+        [[nodiscard]] NodeBase *Parent() const;
+        [[nodiscard]] list<NodeBase *> Ancestors() const;
+        [[nodiscard]] list<const NodeBase *> AncestorsAndSelf() const;
+        [[nodiscard]] list<NodeBase *> AncestorsAndSelf();
+
+        public:
+        [[nodiscard]] list<NodeBase *> Children() const;
+        [[nodiscard]] list<NodeBase *> Descendants() const;
+        [[nodiscard]] list<const NodeBase *> DescendantsAndSelf() const;
+        [[nodiscard]] list<NodeBase *> DescendantsAndSelf();
+
+        public:
         [[nodiscard]] function<void(const any)> OnBeforeAttachCallback() const;
         [[nodiscard]] function<void(const any)> OnAfterAttachCallback() const;
         [[nodiscard]] function<void(const any)> OnBeforeDetachCallback() const;
         [[nodiscard]] function<void(const any)> OnAfterDetachCallback() const;
 
+        public:
         void OnBeforeAttachCallback(const function<void(const any)> callback);
         void OnAfterAttachCallback(const function<void(const any)> callback);
         void OnBeforeDetachCallback(const function<void(const any)> callback);
@@ -43,6 +67,7 @@ namespace TreeMachine {
         void Attach(TreeBase *const owner, const any argument);
         void Detach(TreeBase *const owner, const any argument);
 
+        private:
         void Attach(NodeBase *const owner, const any argument);
         void Detach(NodeBase *const owner, const any argument);
 
@@ -51,9 +76,20 @@ namespace TreeMachine {
         virtual void OnBeforeAttach(const any argument);
         virtual void OnAfterAttach(const any argument);
 
+        protected:
         virtual void OnDetach(const any argument);
         virtual void OnBeforeDetach(const any argument);
         virtual void OnAfterDetach(const any argument);
+
+        protected:
+        virtual void AddChild(NodeBase *const child, const any argument);
+        virtual void RemoveChild(NodeBase *const child, const any argument, const function<void(NodeBase *const, const any)> callback);
+        bool RemoveChild(const function<bool(NodeBase *const)> predicate, const any argument, const function<void(NodeBase *const, const any)> callback);
+        size_t RemoveChildren(const function<bool(NodeBase *const)> predicate, const any argument, const function<void(NodeBase *const, const any)> callback);
+        void RemoveSelf(const any argument, const function<void(NodeBase *const, const any)> callback);
+
+        protected:
+        virtual void Sort(list<NodeBase *> &children);
 
         public:
         NodeBase &operator=(const NodeBase &other) = delete;
