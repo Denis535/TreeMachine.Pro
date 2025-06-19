@@ -11,14 +11,14 @@ namespace TreeMachine {
         private:
         NodeBase *m_Root = nullptr;
 
+        protected:
+        [[nodiscard]] NodeBase *Root() const;
+
         public:
         explicit TreeBase() = default;
         explicit TreeBase(const TreeBase &other) = delete;
         explicit TreeBase(TreeBase &&other) = delete;
         virtual ~TreeBase() = default;
-
-        protected:
-        [[nodiscard]] NodeBase *Root() const;
 
         protected:
         virtual void SetRoot(NodeBase *const root, const any argument, const function<void(NodeBase *const, const any)> callback);

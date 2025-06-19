@@ -131,7 +131,7 @@ namespace TreeMachine {
         return result;
     }
 
-    [[nodiscard]] class NodeBase::Activity NodeBase::Activity() const {
+    [[nodiscard]] NodeBase::EActivity NodeBase::Activity() const {
         return this->m_Activity;
     }
 
@@ -148,17 +148,17 @@ namespace TreeMachine {
         return this->m_OnAfterDetachCallback;
     }
 
-    void NodeBase::OnBeforeAttachCallback(const function<void(const any)> callback) {
-        this->m_OnBeforeAttachCallback = callback;
+    [[nodiscard]] function<void(const any)> NodeBase::OnBeforeActivateCallback() const {
+        return this->m_OnBeforeAttachCallback;
     }
-    void NodeBase::OnAfterAttachCallback(const function<void(const any)> callback) {
-        this->m_OnAfterAttachCallback = callback;
+    [[nodiscard]] function<void(const any)> NodeBase::OnAfterActivateCallback() const {
+        return this->m_OnAfterAttachCallback;
     }
-    void NodeBase::OnBeforeDetachCallback(const function<void(const any)> callback) {
-        this->m_OnBeforeDetachCallback = callback;
+    [[nodiscard]] function<void(const any)> NodeBase::OnBeforeDeactivateCallback() const {
+        return this->m_OnBeforeDetachCallback;
     }
-    void NodeBase::OnAfterDetachCallback(const function<void(const any)> callback) {
-        this->m_OnAfterDetachCallback = callback;
+    [[nodiscard]] function<void(const any)> NodeBase::OnAfterDeactivateCallback() const {
+        return this->m_OnAfterDetachCallback;
     }
 
     void NodeBase::Attach(TreeBase *const owner, const any argument) {
@@ -302,6 +302,32 @@ namespace TreeMachine {
 
     void NodeBase::Sort(list<NodeBase *> &children) {
         (void)children;
+    }
+
+    void NodeBase::OnBeforeAttachCallback(const function<void(const any)> callback) {
+        this->m_OnBeforeAttachCallback = callback;
+    }
+    void NodeBase::OnAfterAttachCallback(const function<void(const any)> callback) {
+        this->m_OnAfterAttachCallback = callback;
+    }
+    void NodeBase::OnBeforeDetachCallback(const function<void(const any)> callback) {
+        this->m_OnBeforeDetachCallback = callback;
+    }
+    void NodeBase::OnAfterDetachCallback(const function<void(const any)> callback) {
+        this->m_OnAfterDetachCallback = callback;
+    }
+
+    void NodeBase::OnBeforeActivateCallback(const function<void(const any)> callback) {
+        this->m_OnBeforeActivateCallback = callback;
+    }
+    void NodeBase::OnAfterActivateCallback(const function<void(const any)> callback) {
+        this->m_OnAfterActivateCallback = callback;
+    }
+    void NodeBase::OnBeforeDeactivateCallback(const function<void(const any)> callback) {
+        this->m_OnBeforeDeactivateCallback = callback;
+    }
+    void NodeBase::OnAfterDeactivateCallback(const function<void(const any)> callback) {
+        this->m_OnAfterDeactivateCallback = callback;
     }
 
 }
