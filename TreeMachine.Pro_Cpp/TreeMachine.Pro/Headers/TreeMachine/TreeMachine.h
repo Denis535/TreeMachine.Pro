@@ -1,3 +1,3 @@
 #pragma once
-#include "Headers/TreeMachine/TreeBase.h"
-#include "Headers/TreeMachine/NodeBase.h"
+#include "TreeBase.h"
+#include "NodeBase.h"

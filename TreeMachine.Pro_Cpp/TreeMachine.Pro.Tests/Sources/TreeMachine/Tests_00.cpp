@@ -52,6 +52,6 @@ namespace TreeMachine {
     }
 
     TEST(Tests_00, Test_00) { // NOLINT
-        [[maybe_unused]] auto teee = Tree();
+        [[maybe_unused]] auto tree = Tree();
     }
 }

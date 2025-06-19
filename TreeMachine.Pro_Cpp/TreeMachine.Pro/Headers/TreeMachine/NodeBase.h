@@ -10,6 +10,14 @@ namespace TreeMachine {
     class NodeBase {
         friend class TreeBase;
 
+        public:
+        enum class Activity : uint8_t {
+            Inactive,
+            Activating,
+            Active,
+            Deactivating,
+        };
+
         private:
         variant<nullptr_t, TreeBase *, NodeBase *> m_Owner = nullptr;
 
@@ -17,10 +25,19 @@ namespace TreeMachine {
         list<NodeBase *> m_Children = list<NodeBase *>(0);
 
         private:
+        Activity m_Activity = Activity::Inactive;
+
+        private:
         function<void(const any)> m_OnBeforeAttachCallback = nullptr;
         function<void(const any)> m_OnAfterAttachCallback = nullptr;
         function<void(const any)> m_OnBeforeDetachCallback = nullptr;
         function<void(const any)> m_OnAfterDetachCallback = nullptr;
+
+        private:
+        function<void(const any)> m_OnBeforeActivateCallback = nullptr;
+        function<void(const any)> m_OnAfterActivateCallback = nullptr;
+        function<void(const any)> m_OnBeforeDeactivateCallback = nullptr;
+        function<void(const any)> m_OnAfterDeactivateCallback = nullptr;
 
         public:
         explicit NodeBase() = default;
@@ -50,6 +67,9 @@ namespace TreeMachine {
         [[nodiscard]] list<NodeBase *> Descendants() const;
         [[nodiscard]] list<const NodeBase *> DescendantsAndSelf() const;
         [[nodiscard]] list<NodeBase *> DescendantsAndSelf();
+
+        public:
+        [[nodiscard]] Activity Activity() const;
 
         public:
         [[nodiscard]] function<void(const any)> OnBeforeAttachCallback() const;

@@ -131,6 +131,10 @@ namespace TreeMachine {
         return result;
     }
 
+    [[nodiscard]] class NodeBase::Activity NodeBase::Activity() const {
+        return this->m_Activity;
+    }
+
     [[nodiscard]] function<void(const any)> NodeBase::OnBeforeAttachCallback() const {
         return this->m_OnBeforeAttachCallback;
     }
