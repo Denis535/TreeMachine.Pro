@@ -58,6 +58,10 @@ namespace TreeMachine {
         return nullptr;
     }
 
+    [[nodiscard]] NodeBase::EActivity NodeBase::Activity() const {
+        return this->m_Activity;
+    }
+
     [[nodiscard]] bool NodeBase::IsRoot() const {
         return this->Parent() == nullptr;
     }
@@ -131,10 +135,6 @@ namespace TreeMachine {
         return result;
     }
 
-    [[nodiscard]] NodeBase::EActivity NodeBase::Activity() const {
-        return this->m_Activity;
-    }
-
     [[nodiscard]] function<void(const any)> NodeBase::OnBeforeAttachCallback() const {
         return this->m_OnBeforeAttachCallback;
     }
@@ -172,7 +172,7 @@ namespace TreeMachine {
             this->OnAfterAttach(argument);
         }
         {
-            // this->Activate(argument);
+            this->Activate(argument);
         }
     }
     void NodeBase::Detach(TreeBase *const owner, const any argument) {
@@ -180,7 +180,7 @@ namespace TreeMachine {
         assert(this->Owner() == owner && "Node must have owner");
         assert(this->Activity() == EActivity::Active && "Node must be active");
         {
-            // this->Deactivate(argument);
+            this->Deactivate(argument);
         }
         {
             this->OnBeforeDetach(argument);
@@ -201,7 +201,7 @@ namespace TreeMachine {
             this->OnAfterAttach(argument);
         }
         if (owner->Activity() == EActivity::Active) {
-            // this->Activate(argument);
+            this->Activate(argument);
         } else {
         }
     }
@@ -210,7 +210,7 @@ namespace TreeMachine {
         assert(this->Owner() == owner && "Node must have owner");
         if (owner->Activity() == EActivity::Active) {
             assert(this->Activity() == EActivity::Active && "Node must be active");
-            // this->Deactivate(argument);
+            this->Deactivate(argument);
         } else {
             assert(this->Activity() == EActivity::Inactive && "Node must be inactive");
         }
@@ -220,6 +220,11 @@ namespace TreeMachine {
             this->OnAfterDetach(argument);
             this->m_Owner = nullptr;
         }
+    }
+
+    void NodeBase::Activate([[maybe_unused]] const any argument) {
+    }
+    void NodeBase::Deactivate([[maybe_unused]] const any argument) {
     }
 
     void NodeBase::OnAttach([[maybe_unused]] const any argument) {

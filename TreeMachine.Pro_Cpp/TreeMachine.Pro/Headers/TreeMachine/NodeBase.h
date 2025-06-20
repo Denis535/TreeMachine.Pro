@@ -22,10 +22,10 @@ namespace TreeMachine {
         variant<nullptr_t, TreeBase *, NodeBase *> m_Owner = nullptr;
 
         private:
-        list<NodeBase *> m_Children = list<NodeBase *>(0);
+        EActivity m_Activity = EActivity::Inactive;
 
         private:
-        EActivity m_Activity = EActivity::Inactive;
+        list<NodeBase *> m_Children = list<NodeBase *>(0);
 
         private:
         function<void(const any)> m_OnBeforeAttachCallback = nullptr;
@@ -46,6 +46,9 @@ namespace TreeMachine {
         [[nodiscard]] TreeBase *Tree() const;
 
         public:
+        [[nodiscard]] EActivity Activity() const;
+
+        public:
         [[nodiscard]] bool IsRoot() const;
         [[nodiscard]] const NodeBase *Root() const;
         [[nodiscard]] NodeBase *Root();
@@ -61,9 +64,6 @@ namespace TreeMachine {
         [[nodiscard]] list<NodeBase *> Descendants() const;
         [[nodiscard]] list<const NodeBase *> DescendantsAndSelf() const;
         [[nodiscard]] list<NodeBase *> DescendantsAndSelf();
-
-        public:
-        [[nodiscard]] EActivity Activity() const;
 
         public:
         [[nodiscard]] function<void(const any)> OnBeforeAttachCallback() const;
@@ -90,6 +90,10 @@ namespace TreeMachine {
         private:
         void Attach(NodeBase *const owner, const any argument);
         void Detach(NodeBase *const owner, const any argument);
+
+        private:
+        void Activate(const any argument);
+        void Deactivate(const any argument);
 
         protected:
         virtual void OnAttach(const any argument);
