@@ -1,8 +1,8 @@
 #include <algorithm>
 #include <any>
 #include <cassert>
-#include <execution>
 #include <functional>
+#include <iterator>
 #include <list>
 #include <optional>
 #include <variant>
@@ -33,6 +33,13 @@ namespace {
     bool contains(const std::list<T> &list, const T &item) {
         auto result = std::find(list.begin(), list.end(), item);
         return result != list.end();
+    }
+
+    template <typename T>
+    std::list<T> reverse(const std::list<T> &list) {
+        auto result = std::list<T>();
+        std::copy(list.rbegin(), list.rend(), std::back_inserter(result));
+        return result;
     }
 
 }
@@ -222,9 +229,43 @@ namespace TreeMachine {
         }
     }
 
-    void NodeBase::Activate([[maybe_unused]] const any argument) {
+    void NodeBase::Activate(const any argument) {
+        assert(this->Owner() != nullptr && "Node must have owner");
+        // assert(
+        //     (this->Owner() is TreeBase) ||
+        //     this->Parent()->Activity() == EActivity::Active ||
+        //     this->Parent()->Activity() == EActivity::Activating &&
+        //         "Node must have valid owner");
+        assert(this->Activity() == EActivity::Inactive && "Node must be inactive");
+        this->OnBeforeActivate(argument);
+        this->m_Activity = EActivity::Activating;
+        {
+            this->OnActivate(argument);
+            for (auto *child : this->m_Children) {
+                child->Activate(argument);
+            }
+        }
+        this->m_Activity = EActivity::Active;
+        this->OnAfterActivate(argument);
     }
-    void NodeBase::Deactivate([[maybe_unused]] const any argument) {
+    void NodeBase::Deactivate(const any argument) {
+        assert(this->Owner() != nullptr && "Node must have owner");
+        // assert(
+        //     (this->Owner() is TreeBase) ||
+        //     this->Parent()->Activity() == EActivity::Active ||
+        //     this->Parent()->Activity() == EActivity::Deactivating &&
+        //         "Node must have valid owner");
+        assert(this->Activity() == EActivity::Active && "Node must be active");
+        this->OnBeforeDeactivate(argument);
+        this->m_Activity = EActivity::Deactivating;
+        {
+            for (auto *child : reverse(this->m_Children)) {
+                child->Deactivate(argument);
+            }
+            this->OnDeactivate(argument);
+        }
+        this->m_Activity = EActivity::Inactive;
+        this->OnAfterDeactivate(argument);
     }
 
     void NodeBase::OnAttach([[maybe_unused]] const any argument) {
@@ -310,17 +351,15 @@ namespace TreeMachine {
         }
         return false;
     }
-    size_t NodeBase::RemoveChildren(const function<bool(NodeBase *const)> predicate, const any argument, const function<void(NodeBase *const, const any)> callback) {
-        auto children = vector<NodeBase *>();
-        for (auto *child : this->m_Children) {
+    int32_t NodeBase::RemoveChildren(const function<bool(NodeBase *const)> predicate, const any argument, const function<void(NodeBase *const, const any)> callback) {
+        int32_t count = 0;
+        for (auto *child : reverse(this->m_Children)) {
             if (predicate(child)) {
-                children.push_back(child);
+                this->RemoveChild(child, argument, callback);
+                count++;
             }
         }
-        for (auto *child : children) {
-            this->RemoveChild(child, argument, callback);
-        }
-        return children.size();
+        return count;
     }
     void NodeBase::RemoveSelf(const any argument, const function<void(NodeBase *const, const any)> callback) {
         assert(this->Owner() != nullptr && "Node must have owner");
