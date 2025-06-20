@@ -20,15 +20,17 @@ namespace TreeMachine {
     }
     void TreeBase::AddRoot(NodeBase *const root, const any argument) {
         assert(root != nullptr && "Argument 'root' must be non-null");
-        assert(root->Owner() == nullptr && "Argument 'root' must have no owner");
-        assert(root->Activity() == NodeBase::EActivity::Inactive && "Argument 'root' must be inactive");
+        assert(root->Tree() == nullptr && "Argument 'root' must have no tree");
+        assert(root->Parent() == nullptr && "Argument 'root' must have no parent");
+        assert(root->m_Activity == NodeBase::EActivity::Inactive && "Argument 'root' must be inactive");
         this->m_Root = root;
         this->m_Root->Attach(this, argument);
     }
     void TreeBase::RemoveRoot(NodeBase *const root, const any argument, const function<void(NodeBase *const, const any)> callback) {
         assert(root != nullptr && "Argument 'root' must be non-null");
-        assert(root->Owner() == this && "Argument 'root' must have owner");
-        assert(root->Activity() == NodeBase::EActivity::Active && "Argument 'root' must be active");
+        assert(root->Tree() == this && "Argument 'root' must have tree");
+        assert(root->Parent() == nullptr && "Argument 'root' must have no parent");
+        assert(root->m_Activity == NodeBase::EActivity::Active && "Argument 'root' must be active");
         this->m_Root->Detach(this, argument);
         this->m_Root = nullptr;
         if (callback) {

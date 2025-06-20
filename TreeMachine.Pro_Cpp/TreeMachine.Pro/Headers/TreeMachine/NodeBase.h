@@ -39,14 +39,9 @@ namespace TreeMachine {
         function<void(const any)> m_OnBeforeDeactivateCallback = nullptr;
         function<void(const any)> m_OnAfterDeactivateCallback = nullptr;
 
-        private:
-        [[nodiscard]] void *Owner() const;
-
         public:
         [[nodiscard]] TreeBase *Tree() const;
-
-        public:
-        [[nodiscard]] EActivity Activity() const;
+        [[nodiscard]] TreeBase *TreeRecursive() const;
 
         public:
         [[nodiscard]] bool IsRoot() const;
@@ -58,6 +53,9 @@ namespace TreeMachine {
         [[nodiscard]] list<NodeBase *> Ancestors() const;
         [[nodiscard]] list<const NodeBase *> AncestorsAndSelf() const;
         [[nodiscard]] list<NodeBase *> AncestorsAndSelf();
+
+        public:
+        [[nodiscard]] EActivity Activity() const;
 
         public:
         [[nodiscard]] list<NodeBase *> Children() const;
@@ -85,10 +83,10 @@ namespace TreeMachine {
 
         private:
         void Attach(TreeBase *const owner, const any argument);
-        void Detach(TreeBase *const owner, const any argument);
+        void Attach(NodeBase *const owner, const any argument);
 
         private:
-        void Attach(NodeBase *const owner, const any argument);
+        void Detach(TreeBase *const owner, const any argument);
         void Detach(NodeBase *const owner, const any argument);
 
         private:

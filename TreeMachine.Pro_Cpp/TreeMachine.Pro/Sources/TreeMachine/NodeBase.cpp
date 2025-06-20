@@ -45,35 +45,28 @@ namespace {
 }
 namespace TreeMachine {
 
-    [[nodiscard]] void *NodeBase::Owner() const {
-        if (auto *const tree = *get_if<TreeBase *>(&this->m_Owner)) {
-            return tree;
-        }
-        if (auto *const node = *get_if<NodeBase *>(&this->m_Owner)) {
-            return node;
-        }
-        return nullptr;
-    }
-
     [[nodiscard]] TreeBase *NodeBase::Tree() const {
         if (auto *const tree = *get_if<TreeBase *>(&this->m_Owner)) {
             return tree;
         }
-        if (const auto *const node = *get_if<NodeBase *>(&this->m_Owner)) {
-            return node->Tree();
-        }
         return nullptr;
     }
 
-    [[nodiscard]] NodeBase::EActivity NodeBase::Activity() const {
-        return this->m_Activity;
+    [[nodiscard]] TreeBase *NodeBase::TreeRecursive() const {
+        if (auto *const tree = *get_if<TreeBase *>(&this->m_Owner)) {
+            return tree;
+        }
+        if (const auto *const node = *get_if<NodeBase *>(&this->m_Owner)) {
+            return node->TreeRecursive();
+        }
+        return nullptr;
     }
 
     [[nodiscard]] bool NodeBase::IsRoot() const {
         return this->Parent() == nullptr;
     }
     [[nodiscard]] const NodeBase *NodeBase::Root() const {
-        if (auto *parent = this->Parent(); parent != nullptr) {
+        if (const auto *parent = this->Parent(); parent != nullptr) {
             return parent->Root();
         }
         return this;
@@ -113,6 +106,10 @@ namespace TreeMachine {
         auto descendants = this->Descendants();
         result.insert(result.end(), descendants.begin(), descendants.end());
         return result;
+    }
+
+    [[nodiscard]] NodeBase::EActivity NodeBase::Activity() const {
+        return this->m_Activity;
     }
 
     [[nodiscard]] list<NodeBase *> NodeBase::Children() const {
@@ -170,23 +167,41 @@ namespace TreeMachine {
 
     void NodeBase::Attach(TreeBase *const owner, const any argument) {
         assert(owner != nullptr && "Argument 'owner' must be non-null");
-        assert(this->Owner() == nullptr && "Node must have no owner");
-        assert(this->Activity() == EActivity::Inactive && "Node must be inactive");
+        assert(this->Tree() == nullptr && "Node must have no tree");
+        assert(this->Parent() == nullptr && "Node must have no parent");
+        assert(this->m_Activity == EActivity::Inactive && "Node must be inactive");
         {
             this->m_Owner = owner;
             this->OnBeforeAttach(argument);
             this->OnAttach(argument);
             this->OnAfterAttach(argument);
         }
-        {
+        if constexpr (true) { // NOLINT
             this->Activate(argument);
         }
     }
+    void NodeBase::Attach(NodeBase *const owner, const any argument) {
+        assert(owner != nullptr && "Argument 'owner' must be non-null");
+        assert(this->Tree() == nullptr && "Node must have no tree");
+        assert(this->Parent() == nullptr && "Node must have no parent");
+        assert(this->m_Activity == EActivity::Inactive && "Node must be inactive");
+        {
+            this->m_Owner = owner;
+            this->OnBeforeAttach(argument);
+            this->OnAttach(argument);
+            this->OnAfterAttach(argument);
+        }
+        if (owner->m_Activity == EActivity::Active) {
+            this->Activate(argument);
+        }
+    }
+
     void NodeBase::Detach(TreeBase *const owner, const any argument) {
         assert(owner != nullptr && "Argument 'owner' must be non-null");
-        assert(this->Owner() == owner && "Node must have owner");
-        assert(this->Activity() == EActivity::Active && "Node must be active");
-        {
+        assert(this->Tree() == owner && "Node must have tree");
+        assert(this->Parent() == nullptr && "Node must have no parent");
+        assert(this->m_Activity == EActivity::Active && "Node must be active");
+        if constexpr (true) { // NOLINT
             this->Deactivate(argument);
         }
         {
@@ -196,30 +211,15 @@ namespace TreeMachine {
             this->m_Owner = nullptr;
         }
     }
-
-    void NodeBase::Attach(NodeBase *const owner, const any argument) {
-        assert(owner != nullptr && "Argument 'owner' must be non-null");
-        assert(this->Owner() == nullptr && "Node must have no owner");
-        assert(this->Activity() == EActivity::Inactive && "Node must be inactive");
-        {
-            this->m_Owner = owner;
-            this->OnBeforeAttach(argument);
-            this->OnAttach(argument);
-            this->OnAfterAttach(argument);
-        }
-        if (owner->Activity() == EActivity::Active) {
-            this->Activate(argument);
-        } else {
-        }
-    }
     void NodeBase::Detach(NodeBase *const owner, const any argument) {
         assert(owner != nullptr && "Argument 'owner' must be non-null");
-        assert(this->Owner() == owner && "Node must have owner");
-        if (owner->Activity() == EActivity::Active) {
-            assert(this->Activity() == EActivity::Active && "Node must be active");
+        assert(this->Tree() == nullptr && "Node must have no tree");
+        assert(this->Parent() == owner && "Node must have parent");
+        if (owner->m_Activity == EActivity::Active) {
+            assert(this->m_Activity == EActivity::Active && "Node must be active");
             this->Deactivate(argument);
         } else {
-            assert(this->Activity() == EActivity::Inactive && "Node must be inactive");
+            assert(this->m_Activity == EActivity::Inactive && "Node must be inactive");
         }
         {
             this->OnBeforeDetach(argument);
@@ -230,13 +230,9 @@ namespace TreeMachine {
     }
 
     void NodeBase::Activate(const any argument) {
-        assert(this->Owner() != nullptr && "Node must have owner");
-        // assert(
-        //     (this->Owner() is TreeBase) ||
-        //     this->Parent()->Activity() == EActivity::Active ||
-        //     this->Parent()->Activity() == EActivity::Activating &&
-        //         "Node must have valid owner");
-        assert(this->Activity() == EActivity::Inactive && "Node must be inactive");
+        assert((this->Tree() != nullptr || this->Parent() != nullptr) && "Node must have owner");
+        assert((this->Tree() != nullptr || this->Parent()->m_Activity == EActivity::Active || this->Parent()->m_Activity == EActivity::Activating) && "Node must have valid owner");
+        assert(this->m_Activity == EActivity::Inactive && "Node must be inactive");
         this->OnBeforeActivate(argument);
         this->m_Activity = EActivity::Activating;
         {
@@ -249,13 +245,9 @@ namespace TreeMachine {
         this->OnAfterActivate(argument);
     }
     void NodeBase::Deactivate(const any argument) {
-        assert(this->Owner() != nullptr && "Node must have owner");
-        // assert(
-        //     (this->Owner() is TreeBase) ||
-        //     this->Parent()->Activity() == EActivity::Active ||
-        //     this->Parent()->Activity() == EActivity::Deactivating &&
-        //         "Node must have valid owner");
-        assert(this->Activity() == EActivity::Active && "Node must be active");
+        assert((this->Tree() != nullptr || this->Parent() != nullptr) && "Node must have owner");
+        assert((this->Tree() != nullptr || this->Parent()->m_Activity == EActivity::Active || this->Parent()->m_Activity == EActivity::Deactivating) && "Node must have valid owner");
+        assert(this->m_Activity == EActivity::Active && "Node must be active");
         this->OnBeforeDeactivate(argument);
         this->m_Activity = EActivity::Deactivating;
         {
@@ -322,8 +314,9 @@ namespace TreeMachine {
 
     void NodeBase::AddChild(NodeBase *const child, const any argument) {
         assert(child != nullptr && "Argument 'child' must be non-null");
-        assert(child->Owner() == nullptr && "Argument 'child' must have no owner");
-        assert(child->Activity() == EActivity::Inactive && "Argument 'child' must be inactive");
+        assert(child->Tree() == nullptr && "Argument 'child' must have no tree");
+        assert(child->Parent() == nullptr && "Argument 'child' must have no parent");
+        assert(child->m_Activity == EActivity::Inactive && "Argument 'child' must be inactive");
         assert(!contains(this->m_Children, child) && "Node must have no child");
         this->m_Children.push_back(child);
         this->Sort(this->m_Children);
@@ -331,11 +324,12 @@ namespace TreeMachine {
     }
     void NodeBase::RemoveChild(NodeBase *const child, const any argument, const function<void(NodeBase *const, const any)> callback) {
         assert(child != nullptr && "Argument 'child' must be non-null");
-        assert(child->Owner() == this && "Argument 'child' must have owner");
-        if (this->Activity() == EActivity::Active) {
-            assert(child->Activity() == EActivity::Active && "Argument 'child' must be active");
+        assert(child->Tree() == nullptr && "Argument 'child' must have no tree");
+        assert(child->Parent() == this && "Argument 'child' must have parent");
+        if (this->m_Activity == EActivity::Active) {
+            assert(child->m_Activity == EActivity::Active && "Argument 'child' must be active");
         } else {
-            assert(child->Activity() == EActivity::Inactive && "Argument 'child' must be inactive");
+            assert(child->m_Activity == EActivity::Inactive && "Argument 'child' must be inactive");
         }
         assert(contains(this->m_Children, child) && "Node must have child");
         child->Detach(this, argument);
@@ -362,10 +356,10 @@ namespace TreeMachine {
         return count;
     }
     void NodeBase::RemoveSelf(const any argument, const function<void(NodeBase *const, const any)> callback) {
-        assert(this->Owner() != nullptr && "Node must have owner");
         if (auto *parent = this->Parent(); parent != nullptr) {
             parent->RemoveChild(this, argument, callback);
         } else {
+            assert(this->Tree() != nullptr && "Node must have tree");
             this->Tree()->RemoveRoot(this, argument, callback);
         }
     }
