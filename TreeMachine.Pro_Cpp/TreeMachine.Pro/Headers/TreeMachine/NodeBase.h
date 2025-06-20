@@ -102,6 +102,16 @@ namespace TreeMachine {
         virtual void OnAfterDetach(const any argument);
 
         protected:
+        virtual void OnActivate(const any argument);
+        virtual void OnBeforeActivate(const any argument);
+        virtual void OnAfterActivate(const any argument);
+
+        protected:
+        virtual void OnDeactivate(const any argument);
+        virtual void OnBeforeDeactivate(const any argument);
+        virtual void OnAfterDeactivate(const any argument);
+
+        protected:
         virtual void AddChild(NodeBase *const child, const any argument);
         virtual void RemoveChild(NodeBase *const child, const any argument, const function<void(NodeBase *const, const any)> callback);
         bool RemoveChild(const function<bool(NodeBase *const)> predicate, const any argument, const function<void(NodeBase *const, const any)> callback);
