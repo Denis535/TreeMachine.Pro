@@ -14,34 +14,34 @@ namespace TreeMachine {
 
         public:
         void OnAttach([[maybe_unused]] const any argument) override {
-            // cout << "OnAttach" << endl;
+            cout << "OnAttach: " << typeid(*this).name() << endl;
         }
         void OnDetach([[maybe_unused]] const any argument) override {
-            // cout << "OnDetach" << endl;
+            cout << "OnDetach: " << typeid(*this).name() << endl;
         }
-        // void OnBeforeDescendantAttach(NodeBase descendant, const any argument) override {
+        // void OnBeforeDescendantAttach(NodeBase* descendant, const any argument) override {
         // }
-        // void OnAfterDescendantAttach(NodeBase descendant, const any argument) override {
+        // void OnAfterDescendantAttach(NodeBase* descendant, const any argument) override {
         // }
-        // void OnBeforeDescendantDetach(NodeBase descendant, const any argument) override {
+        // void OnBeforeDescendantDetach(NodeBase* descendant, const any argument) override {
         // }
-        // void OnAfterDescendantDetach(NodeBase descendant, const any argument) override {
+        // void OnAfterDescendantDetach(NodeBase* descendant, const any argument) override {
         // }
 
         public:
         void OnActivate([[maybe_unused]] const any argument) override {
-            cout << "OnActivate" << endl;
+            cout << "OnActivate: " << typeid(*this).name() << endl;
         }
         void OnDeactivate([[maybe_unused]] const any argument) override {
-            cout << "OnDeactivate" << endl;
+            cout << "OnDeactivate: " << typeid(*this).name() << endl;
         }
-        // void OnBeforeDescendantActivate(NodeBase descendant, any argument) override {
+        // void OnBeforeDescendantActivate(NodeBase* descendant, any argument) override {
         // }
-        // void OnAfterDescendantActivate(NodeBase descendant, any argument) override {
+        // void OnAfterDescendantActivate(NodeBase* descendant, any argument) override {
         // }
-        // void OnBeforeDescendantDeactivate(NodeBase descendant, any argument) override {
+        // void OnBeforeDescendantDeactivate(NodeBase* descendant, any argument) override {
         // }
-        // void OnAfterDescendantDeactivate(NodeBase descendant, any argument) override {
+        // void OnAfterDescendantDeactivate(NodeBase* descendant, any argument) override {
         // }
 
         public:
@@ -49,21 +49,6 @@ namespace TreeMachine {
         using NodeBase::RemoveChild;
         using NodeBase::RemoveChildren;
         using NodeBase::RemoveSelf;
-        // void AddChild(Node *const child, const any argument) {
-        //     NodeBase::AddChild(child, argument);
-        // }
-        // void RemoveChild(Node *const child, const any argument, const function<void(NodeBase *const, const any)> callback) {
-        //     NodeBase::RemoveChild(child, argument, callback);
-        // }
-        // bool RemoveChild(const function<bool(NodeBase *const)> predicate, const any argument, const function<void(NodeBase *const, const any)> callback) { // NOLINT
-        //     return NodeBase::RemoveChild(predicate, argument, callback);
-        // }
-        // int32_t RemoveChildren(const function<bool(NodeBase *const)> predicate, const any argument, const function<void(NodeBase *const, const any)> callback) { // NOLINT
-        //     return NodeBase::RemoveChildren(predicate, argument, callback);
-        // }
-        // void RemoveSelf(const any argument, const function<void(NodeBase *const, const any)> callback) { // NOLINT
-        //     NodeBase::RemoveSelf(argument, callback);
-        // }
 
         public:
         Node &operator=(const Node &other) = delete;
@@ -90,15 +75,6 @@ namespace TreeMachine {
         using TreeBase::SetRoot;
         using TreeBase::AddRoot;
         using TreeBase::RemoveRoot;
-        // void SetRoot(Node *const root, const any argument, const function<void(NodeBase *const, const any)> callback) {
-        //     TreeBase::SetRoot(root, argument, callback);
-        // }
-        // void AddRoot(Node *const root, const any argument) {
-        //     TreeBase::AddRoot(root, argument);
-        // }
-        // void RemoveRoot(const any argument, const function<void(NodeBase *const, const any)> callback) { // NOLINT
-        //     TreeBase::RemoveRoot(argument, callback);
-        // }
 
         public:
         Tree &operator=(const Tree &other) = delete;
@@ -107,17 +83,16 @@ namespace TreeMachine {
 
     TEST(Tests_00, Test) { // NOLINT
 #if defined(__clang__) && !defined(_MSC_VER)
-        cout << "Compiler: Clang" << endl;
+        SUCCEED() << "Compiler: Clang" << endl;
 #elif defined(__clang__) && defined(_MSC_VER)
-        cout << "Compiler: Clang-cl (Clang with MSVC compatibility)" << endl;
+        SUCCEED() << "Compiler: Clang-cl (Clang with MSVC compatibility)" << endl;
 #elif defined(_MSC_VER)
-        cout << "Compiler: MSVC" << endl;
+        SUCCEED() << "Compiler: MSVC" << endl;
 #elif defined(__GNUC__)
-        cout << "Compiler: GCC" << endl;
+        SUCCEED() << "Compiler: GCC" << endl;
 #else
-        cout << "Compiler: Unknown" << endl;
+        SUCCEED() << "Compiler: Unknown" << endl;
 #endif
-        SUCCEED();
     }
 
     TEST(Tests_00, Test_00) { // NOLINT
@@ -148,6 +123,32 @@ namespace TreeMachine {
         EXPECT_EQ(tree->Root(), nullptr);
 
         delete tree;
+    }
+
+    TEST(Tests_00, Test_01) { // NOLINT
+        auto *const root = new Root();
+
+        EXPECT_NE(root, nullptr);
+        EXPECT_EQ(root->Tree(), nullptr);
+        EXPECT_EQ(root->TreeRecursive(), nullptr);
+        EXPECT_EQ(root->Parent(), nullptr);
+        EXPECT_EQ(root->Activity(), NodeBase::EActivity::Inactive);
+        EXPECT_EQ(root->Children()->size(), 0);
+
+        root->AddChild(new A(), nullptr);
+        root->AddChild(new B(), nullptr);
+        EXPECT_EQ(root->Children()->size(), 2);
+        for (const auto *const child : *root->Children()) {
+            EXPECT_EQ(child->Tree(), nullptr);
+            EXPECT_EQ(child->TreeRecursive(), nullptr);
+            EXPECT_EQ(child->Parent(), root);
+            EXPECT_EQ(child->Activity(), NodeBase::EActivity::Inactive);
+            EXPECT_EQ(child->Children()->size(), 0);
+        }
+        root->RemoveChildren([]([[maybe_unused]] auto *const child) { return true; }, nullptr, [](auto *const child, [[maybe_unused]] const auto arg) { delete child; });
+        EXPECT_EQ(root->Children()->size(), 0);
+
+        delete root;
     }
 
 }
