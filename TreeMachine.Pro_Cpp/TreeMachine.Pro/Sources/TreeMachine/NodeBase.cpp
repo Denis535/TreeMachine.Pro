@@ -66,13 +66,13 @@ namespace TreeMachine {
         return this->Parent() == nullptr;
     }
     [[nodiscard]] const NodeBase *NodeBase::Root() const {
-        if (const auto *parent = this->Parent(); parent != nullptr) {
+        if (const auto *parent = this->Parent()) {
             return parent->Root();
         }
         return this;
     }
     [[nodiscard]] NodeBase *NodeBase::Root() {
-        if (auto *parent = this->Parent(); parent != nullptr) {
+        if (auto *parent = this->Parent()) {
             return parent->Root();
         }
         return this;
@@ -86,7 +86,7 @@ namespace TreeMachine {
     }
     [[nodiscard]] list<NodeBase *> NodeBase::Ancestors() const {
         auto result = list<NodeBase *>();
-        if (auto *parent = this->Parent(); parent != nullptr) {
+        if (auto *parent = this->Parent()) {
             result.push_back(parent);
             auto ancestors = parent->Ancestors();
             result.insert(result.end(), ancestors.begin(), ancestors.end());
@@ -339,7 +339,7 @@ namespace TreeMachine {
         }
     }
     bool NodeBase::RemoveChild(const function<bool(NodeBase *const)> predicate, const any argument, const function<void(NodeBase *const, const any)> callback) {
-        if (const auto child = find_last(this->m_Children, predicate); child) {
+        if (const auto child = find_last(this->m_Children, predicate)) {
             this->RemoveChild(*child, argument, callback);
             return true;
         }
@@ -356,7 +356,7 @@ namespace TreeMachine {
         return count;
     }
     void NodeBase::RemoveSelf(const any argument, const function<void(NodeBase *const, const any)> callback) {
-        if (auto *parent = this->Parent(); parent != nullptr) {
+        if (auto *parent = this->Parent()) {
             parent->RemoveChild(this, argument, callback);
         } else {
             assert(this->Tree() != nullptr && "Node must have tree");

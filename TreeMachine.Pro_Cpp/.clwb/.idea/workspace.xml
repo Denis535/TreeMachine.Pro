@@ -65,7 +65,7 @@
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="CurrentFile" />
+    <option name="selectedTabId" value="ProjectErrors" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -132,7 +132,7 @@
       <workItem from="1750332058875" duration="26116000" />
       <workItem from="1750404730278" duration="23873000" />
       <workItem from="1750486980928" duration="285000" />
-      <workItem from="1750487321171" duration="6378000" />
+      <workItem from="1750487321171" duration="6751000" />
     </task>
     <servers />
   </component>
