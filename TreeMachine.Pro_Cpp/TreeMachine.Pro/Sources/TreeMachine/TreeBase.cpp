@@ -37,5 +37,8 @@ namespace TreeMachine {
             callback(root, argument);
         }
     }
+    void TreeBase::RemoveRoot(const any argument, const function<void(NodeBase *const, const any)> callback) {
+        this->RemoveRoot(this->m_Root, argument, callback);
+    }
 
 }

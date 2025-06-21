@@ -13,22 +13,75 @@ namespace TreeMachine {
         ~Node() override = default;
 
         public:
+        void OnAttach([[maybe_unused]] const any argument) override {
+            // cout << "OnAttach" << endl;
+        }
+        void OnDetach([[maybe_unused]] const any argument) override {
+            // cout << "OnDetach" << endl;
+        }
+        // void OnBeforeDescendantAttach(NodeBase descendant, const any argument) override {
+        // }
+        // void OnAfterDescendantAttach(NodeBase descendant, const any argument) override {
+        // }
+        // void OnBeforeDescendantDetach(NodeBase descendant, const any argument) override {
+        // }
+        // void OnAfterDescendantDetach(NodeBase descendant, const any argument) override {
+        // }
+
+        public:
+        void OnActivate([[maybe_unused]] const any argument) override {
+            cout << "OnActivate" << endl;
+        }
+        void OnDeactivate([[maybe_unused]] const any argument) override {
+            cout << "OnDeactivate" << endl;
+        }
+        // void OnBeforeDescendantActivate(NodeBase descendant, any argument) override {
+        // }
+        // void OnAfterDescendantActivate(NodeBase descendant, any argument) override {
+        // }
+        // void OnBeforeDescendantDeactivate(NodeBase descendant, any argument) override {
+        // }
+        // void OnAfterDescendantDeactivate(NodeBase descendant, any argument) override {
+        // }
+
+        public:
+        void AddChild(Node *const child, const any argument) {
+            NodeBase::AddChild(child, argument);
+        }
+        void RemoveChild(Node *const child, const any argument, const function<void(NodeBase *const, const any)> callback) {
+            NodeBase::RemoveChild(child, argument, callback);
+        }
+        bool RemoveChild(const function<bool(NodeBase *const)> predicate, const any argument, const function<void(NodeBase *const, const any)> callback) { // NOLINT
+            return NodeBase::RemoveChild(predicate, argument, callback);
+        }
+        int32_t RemoveChildren(const function<bool(NodeBase *const)> predicate, const any argument, const function<void(NodeBase *const, const any)> callback) { // NOLINT
+            return NodeBase::RemoveChildren(predicate, argument, callback);
+        }
+        void RemoveSelf(const any argument, const function<void(NodeBase *const, const any)> callback) { // NOLINT
+            NodeBase::RemoveSelf(argument, callback);
+        }
+
+        public:
         Node &operator=(const Node &other) = delete;
         Node &operator=(Node &&other) = delete;
     };
-
     class Tree final : public TreeBase {
 
         public:
-        explicit Tree() {
-            TreeBase::SetRoot(new Node(), nullptr, nullptr);
-        }
+        explicit Tree() = default;
         explicit Tree(Tree &other) = delete;
         explicit Tree(Tree &&other) = delete;
-        ~Tree() override {
-            TreeBase::SetRoot(nullptr, nullptr, [](auto *root, [[maybe_unused]] auto arg) {
-                delete root;
-            });
+        ~Tree() override = default;
+
+        public:
+        void SetRoot(Node *const root, const any argument, const function<void(NodeBase *const, const any)> callback) {
+            TreeBase::SetRoot(root, argument, callback);
+        }
+        void AddRoot(Node *const root, const any argument) {
+            TreeBase::AddRoot(root, argument);
+        }
+        void RemoveRoot(const any argument, const function<void(NodeBase *const, const any)> callback) { // NOLINT
+            TreeBase::RemoveRoot(argument, callback);
         }
 
         public:
@@ -52,7 +105,10 @@ namespace TreeMachine {
     }
 
     TEST(Tests_00, Test_00) { // NOLINT
-        const auto *const tree = new Tree();
+        auto *const tree = new Tree();
+        tree->AddRoot(new Node(), nullptr);
+        tree->RemoveRoot(nullptr, [](auto *root, [[maybe_unused]] auto arg) { delete root; });
         delete tree;
     }
+
 }

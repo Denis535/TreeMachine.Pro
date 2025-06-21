@@ -46,17 +46,17 @@ namespace {
 namespace TreeMachine {
 
     [[nodiscard]] TreeBase *NodeBase::Tree() const {
-        if (auto *const *const tree = get_if<TreeBase *>(&this->m_Owner)) {
+        if (auto *const *tree = get_if<TreeBase *>(&this->m_Owner)) {
             return *tree;
         }
         return nullptr;
     }
 
     [[nodiscard]] TreeBase *NodeBase::TreeRecursive() const {
-        if (auto *const *const tree = get_if<TreeBase *>(&this->m_Owner)) {
+        if (auto *const *tree = get_if<TreeBase *>(&this->m_Owner)) {
             return *tree;
         }
-        if (const auto *const *const node = get_if<NodeBase *>(&this->m_Owner)) {
+        if (const auto *const *node = get_if<NodeBase *>(&this->m_Owner)) {
             return (*node)->TreeRecursive();
         }
         return nullptr;
@@ -79,7 +79,7 @@ namespace TreeMachine {
     }
 
     [[nodiscard]] NodeBase *NodeBase::Parent() const {
-        if (auto *const *const node = get_if<NodeBase *>(&this->m_Owner)) {
+        if (auto *const *node = get_if<NodeBase *>(&this->m_Owner)) {
             return *node;
         }
         return nullptr;
