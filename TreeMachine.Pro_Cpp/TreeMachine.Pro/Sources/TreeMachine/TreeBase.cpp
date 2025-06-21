@@ -6,18 +6,16 @@
 
 namespace TreeMachine {
 
+    TreeBase::TreeBase() {
+    }
+    TreeBase::~TreeBase() {
+        assert(this->m_Root == nullptr && "Tree must have no root");
+    }
+
     [[nodiscard]] NodeBase *TreeBase::Root() const {
         return this->m_Root;
     }
 
-    void TreeBase::SetRoot(NodeBase *const root, const any argument, const function<void(NodeBase *const, const any)> callback) {
-        if (this->m_Root != nullptr) {
-            this->RemoveRoot(this->m_Root, argument, callback);
-        }
-        if (root != nullptr) {
-            this->AddRoot(root, argument);
-        }
-    }
     void TreeBase::AddRoot(NodeBase *const root, const any argument) {
         assert(root != nullptr && "Argument 'root' must be non-null");
         assert(root->Tree() == nullptr && "Argument 'root' must have no tree");
@@ -38,6 +36,7 @@ namespace TreeMachine {
         }
     }
     void TreeBase::RemoveRoot(const any argument, const function<void(NodeBase *const, const any)> callback) {
+        assert(this->m_Root != nullptr && "Tree must have root");
         this->RemoveRoot(this->m_Root, argument, callback);
     }
 

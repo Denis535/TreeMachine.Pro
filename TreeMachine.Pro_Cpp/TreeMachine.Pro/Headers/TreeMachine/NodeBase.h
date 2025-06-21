@@ -76,10 +76,10 @@ namespace TreeMachine {
         [[nodiscard]] function<void(const any)> OnAfterDeactivateCallback() const;
 
         public:
-        explicit NodeBase() = default;
+        explicit NodeBase();
         explicit NodeBase(const NodeBase &other) = delete;
         explicit NodeBase(NodeBase &&other) = delete;
-        virtual ~NodeBase() = default;
+        virtual ~NodeBase();
 
         private:
         void Attach(TreeBase *const owner, const any argument);

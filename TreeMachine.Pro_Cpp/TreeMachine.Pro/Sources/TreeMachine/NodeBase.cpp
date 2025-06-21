@@ -45,6 +45,15 @@ namespace {
 }
 namespace TreeMachine {
 
+    NodeBase::NodeBase() {
+    }
+    NodeBase::~NodeBase() {
+        assert(this->Tree() == nullptr && "Node must have no tree");
+        assert(this->Parent() == nullptr && "Node must have no parent");
+        assert(this->m_Activity == EActivity::Inactive && "Node must be inactive");
+        assert(this->m_Children.size() == 0 && "Node must have no children");
+    }
+
     [[nodiscard]] TreeBase *NodeBase::Tree() const {
         if (auto *const *tree = get_if<TreeBase *>(&this->m_Owner)) {
             return *tree;
