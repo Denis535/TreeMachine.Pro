@@ -31,10 +31,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ba905a7-ea50-4506-9756-feebbc8a6ed4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.bazelrc" beforeDir="false" afterPath="$PROJECT_DIR$/../.bazelrc" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/runConfigurations/Build.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_00.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_00.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/NodeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/NodeBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/TreeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/TreeBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/TreeMachine.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/TreeMachine.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Sources/TreeMachine/NodeBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Sources/TreeMachine/NodeBase.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Sources/TreeMachine/TreeBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Sources/TreeMachine/TreeBase.cpp" afterDir="false" />
     </list>
@@ -45,6 +46,23 @@
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/../.." />
+  </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="CurrentFile" />
@@ -63,6 +81,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Bazel Command.Bazel test TreeMachine.Pro.Tests:tree_machine_pro_tests.executor": "Run",
+    "Bazel Command.Build (windows_x64_debug).executor": "Run",
     "Bazel Command.Build.executor": "Run",
     "Bazel Command.Test.executor": "Run",
     "ModuleVcsDetector.initialDetectionPerformed": "true",
@@ -95,9 +114,9 @@
       <recent name="D:\Projects\TreeMachine.Pro\TreeMachine.Pro_Cpp\TreeMachine.Pro.Tests\Sources\TreeMachine" />
     </key>
   </component>
-  <component name="RunManager" selected="Bazel Command.Build">
+  <component name="RunManager" selected="Bazel Command.Test">
     <list>
-      <item itemvalue="Bazel Command.Build" />
+      <item itemvalue="Bazel Command.Build (windows_x64_debug)" />
       <item itemvalue="Bazel Command.Test" />
     </list>
   </component>
@@ -111,7 +130,9 @@
       <workItem from="1750245779928" duration="9472000" />
       <workItem from="1750314754718" duration="11786000" />
       <workItem from="1750332058875" duration="26116000" />
-      <workItem from="1750404730278" duration="20760000" />
+      <workItem from="1750404730278" duration="23873000" />
+      <workItem from="1750486980928" duration="285000" />
+      <workItem from="1750487321171" duration="6378000" />
     </task>
     <servers />
   </component>

@@ -5,6 +5,7 @@ namespace TreeMachine {
     using namespace std;
 
     class Node final : public NodeBase {
+
         public:
         explicit Node() = default;
         explicit Node(Node &other) = delete;
@@ -16,15 +17,14 @@ namespace TreeMachine {
         Node &operator=(Node &&other) = delete;
     };
 
-    class Tree final : TreeBase {
+    class Tree final : public TreeBase {
+
         public:
         explicit Tree() {
             TreeBase::SetRoot(new Node(), nullptr, nullptr);
         }
-
         explicit Tree(Tree &other) = delete;
         explicit Tree(Tree &&other) = delete;
-
         ~Tree() override {
             TreeBase::SetRoot(nullptr, nullptr, [](auto *root, [[maybe_unused]] auto arg) {
                 delete root;
@@ -52,6 +52,7 @@ namespace TreeMachine {
     }
 
     TEST(Tests_00, Test_00) { // NOLINT
-        [[maybe_unused]] auto tree = Tree();
+        const auto *const tree = new Tree();
+        delete tree;
     }
 }

@@ -58,7 +58,7 @@ namespace TreeMachine {
         [[nodiscard]] EActivity Activity() const;
 
         public:
-        [[nodiscard]] list<NodeBase *> Children() const;
+        [[nodiscard]] const list<NodeBase *> *Children() const;
         [[nodiscard]] list<NodeBase *> Descendants() const;
         [[nodiscard]] list<const NodeBase *> DescendantsAndSelf() const;
         [[nodiscard]] list<NodeBase *> DescendantsAndSelf();

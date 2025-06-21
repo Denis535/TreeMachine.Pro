@@ -46,18 +46,18 @@ namespace {
 namespace TreeMachine {
 
     [[nodiscard]] TreeBase *NodeBase::Tree() const {
-        if (auto *const tree = *get_if<TreeBase *>(&this->m_Owner)) {
-            return tree;
+        if (auto *const *const tree = get_if<TreeBase *>(&this->m_Owner)) {
+            return *tree;
         }
         return nullptr;
     }
 
     [[nodiscard]] TreeBase *NodeBase::TreeRecursive() const {
-        if (auto *const tree = *get_if<TreeBase *>(&this->m_Owner)) {
-            return tree;
+        if (auto *const *const tree = get_if<TreeBase *>(&this->m_Owner)) {
+            return *tree;
         }
-        if (const auto *const node = *get_if<NodeBase *>(&this->m_Owner)) {
-            return node->TreeRecursive();
+        if (const auto *const *const node = get_if<NodeBase *>(&this->m_Owner)) {
+            return (*node)->TreeRecursive();
         }
         return nullptr;
     }
@@ -79,8 +79,8 @@ namespace TreeMachine {
     }
 
     [[nodiscard]] NodeBase *NodeBase::Parent() const {
-        if (auto *const node = *get_if<NodeBase *>(&this->m_Owner)) {
-            return node;
+        if (auto *const *const node = get_if<NodeBase *>(&this->m_Owner)) {
+            return *node;
         }
         return nullptr;
     }
@@ -112,8 +112,8 @@ namespace TreeMachine {
         return this->m_Activity;
     }
 
-    [[nodiscard]] list<NodeBase *> NodeBase::Children() const {
-        return this->m_Children;
+    [[nodiscard]] const list<NodeBase *> *NodeBase::Children() const {
+        return &this->m_Children;
     }
     [[nodiscard]] list<NodeBase *> NodeBase::Descendants() const {
         auto result = list<NodeBase *>();
