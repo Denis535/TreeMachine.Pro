@@ -348,7 +348,7 @@ namespace TreeMachine {
         }
     }
     bool NodeBase::RemoveChild(const function<bool(NodeBase *const)> predicate, const any argument, const function<void(NodeBase *const, const any)> callback) {
-        for (auto *child : reverse(this->m_Children)) {
+        for (auto *child : reverse(this->m_Children)) { // NOLINT
             if (predicate(child)) {
                 this->RemoveChild(child, argument, callback);
                 return true;
@@ -404,4 +404,5 @@ namespace TreeMachine {
     void NodeBase::OnAfterDeactivateCallback(const function<void(const any)> callback) {
         this->m_OnAfterDeactivateCallback = callback;
     }
+
 }
