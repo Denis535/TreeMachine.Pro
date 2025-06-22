@@ -7,8 +7,7 @@ namespace TreeMachine {
     class Node : public NodeBase {
 
         public:
-        explicit Node() {
-        }
+        explicit Node() = default;
         explicit Node(Node &other) = delete;
         explicit Node(Node &&other) = delete;
         ~Node() override {
@@ -72,8 +71,7 @@ namespace TreeMachine {
         using TreeBase::Root;
 
         public:
-        explicit Tree() {
-        }
+        explicit Tree() = default;
         explicit Tree(Tree &other) = delete;
         explicit Tree(Tree &&other) = delete;
         ~Tree() override {

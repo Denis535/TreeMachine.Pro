@@ -6,8 +6,7 @@
 
 namespace TreeMachine {
 
-    TreeBase::TreeBase() {
-    }
+    TreeBase::TreeBase() = default;
     TreeBase::~TreeBase() {
         assert(this->m_Root == nullptr && "Tree must have no root");
     }

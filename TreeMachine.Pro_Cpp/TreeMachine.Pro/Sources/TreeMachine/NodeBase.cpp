@@ -4,12 +4,18 @@
 #include <functional>
 #include <iterator>
 #include <list>
-#include <optional>
 #include <variant>
 #include "Headers/TreeMachine/NodeBase.h"
 #include "Headers/TreeMachine/TreeBase.h"
 
 namespace {
+
+    template <typename T>
+    std::list<T> reverse(const std::list<T> &list) {
+        auto result = std::list<T>();
+        std::copy(list.rbegin(), list.rend(), std::back_inserter(result));
+        return result;
+    }
 
     // template <typename T, typename Predicate>
     // std::optional<T> find_first(const std::list<T> &list, Predicate predicate) {
@@ -35,37 +41,29 @@ namespace {
         return result != list.end();
     }
 
-    template <typename T>
-    std::list<T> reverse(const std::list<T> &list) {
-        auto result = std::list<T>();
-        std::copy(list.rbegin(), list.rend(), std::back_inserter(result));
-        return result;
-    }
-
 }
 namespace TreeMachine {
 
-    NodeBase::NodeBase() {
-    }
+    NodeBase::NodeBase() = default;
     NodeBase::~NodeBase() {
         assert(this->Tree() == nullptr && "Node must have no tree");
         assert(this->Parent() == nullptr && "Node must have no parent");
         assert(this->m_Activity == EActivity::Inactive && "Node must be inactive");
-        assert(this->m_Children.size() == 0 && "Node must have no children");
+        assert(this->m_Children.empty() && "Node must have no children");
     }
 
     [[nodiscard]] TreeBase *NodeBase::Tree() const {
-        if (auto *const *tree = get_if<TreeBase *>(&this->m_Owner)) {
+        if (auto *const *const tree = get_if<TreeBase *>(&this->m_Owner)) {
             return *tree;
         }
         return nullptr;
     }
 
     [[nodiscard]] TreeBase *NodeBase::TreeRecursive() const {
-        if (auto *const *tree = get_if<TreeBase *>(&this->m_Owner)) {
+        if (auto *const *const tree = get_if<TreeBase *>(&this->m_Owner)) {
             return *tree;
         }
-        if (const auto *const *node = get_if<NodeBase *>(&this->m_Owner)) {
+        if (const auto *const *const node = get_if<NodeBase *>(&this->m_Owner)) {
             return (*node)->TreeRecursive();
         }
         return nullptr;
@@ -75,27 +73,27 @@ namespace TreeMachine {
         return this->Parent() == nullptr;
     }
     [[nodiscard]] const NodeBase *NodeBase::Root() const {
-        if (const auto *parent = this->Parent()) {
+        if (const auto *const parent = this->Parent()) {
             return parent->Root();
         }
         return this;
     }
     [[nodiscard]] NodeBase *NodeBase::Root() {
-        if (auto *parent = this->Parent()) {
+        if (auto *const parent = this->Parent()) {
             return parent->Root();
         }
         return this;
     }
 
     [[nodiscard]] NodeBase *NodeBase::Parent() const {
-        if (auto *const *node = get_if<NodeBase *>(&this->m_Owner)) {
+        if (auto *const *const node = get_if<NodeBase *>(&this->m_Owner)) {
             return *node;
         }
         return nullptr;
     }
     [[nodiscard]] list<NodeBase *> NodeBase::Ancestors() const {
         auto result = list<NodeBase *>();
-        if (auto *parent = this->Parent()) {
+        if (auto *const parent = this->Parent()) {
             result.push_back(parent);
             auto ancestors = parent->Ancestors();
             result.insert(result.end(), ancestors.begin(), ancestors.end());
@@ -126,7 +124,7 @@ namespace TreeMachine {
     }
     [[nodiscard]] list<NodeBase *> NodeBase::Descendants() const {
         auto result = list<NodeBase *>();
-        for (auto *child : this->m_Children) {
+        for (auto *const child : this->m_Children) {
             result.push_back(child);
             auto descendants = child->Descendants();
             result.insert(result.end(), descendants.begin(), descendants.end());
@@ -358,7 +356,7 @@ namespace TreeMachine {
     }
     int32_t NodeBase::RemoveChildren(const function<bool(NodeBase *const)> predicate, const any argument, const function<void(NodeBase *const, const any)> callback) {
         int32_t count = 0;
-        for (auto *child : reverse(this->m_Children)) {
+        for (auto *const child : reverse(this->m_Children)) {
             if (predicate(child)) {
                 this->RemoveChild(child, argument, callback);
                 count++;
@@ -367,7 +365,7 @@ namespace TreeMachine {
         return count;
     }
     void NodeBase::RemoveSelf(const any argument, const function<void(NodeBase *const, const any)> callback) {
-        if (auto *parent = this->Parent()) {
+        if (auto *const parent = this->Parent()) {
             parent->RemoveChild(this, argument, callback);
         } else {
             assert(this->Tree() != nullptr && "Node must have tree");
