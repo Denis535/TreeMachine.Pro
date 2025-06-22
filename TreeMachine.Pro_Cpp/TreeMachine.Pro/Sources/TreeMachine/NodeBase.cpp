@@ -20,14 +20,14 @@ namespace {
     //     return std::nullopt;
     // }
 
-    template <typename T, typename Predicate>
-    std::optional<T> find_last(const std::list<T> &list, const Predicate predicate) {
-        auto result = std::find_if(list.rbegin(), list.rend(), predicate);
-        if (result != list.rend()) {
-            return *result;
-        }
-        return std::nullopt;
-    }
+    // template <typename T, typename Predicate>
+    // std::optional<T> find_last(const std::list<T> &list, const Predicate predicate) {
+    //     auto result = std::find_if(list.rbegin(), list.rend(), predicate);
+    //     if (result != list.rend()) {
+    //         return *result;
+    //     }
+    //     return std::nullopt;
+    // }
 
     template <typename T>
     bool contains(const std::list<T> &list, const T &item) {
@@ -348,9 +348,11 @@ namespace TreeMachine {
         }
     }
     bool NodeBase::RemoveChild(const function<bool(NodeBase *const)> predicate, const any argument, const function<void(NodeBase *const, const any)> callback) {
-        if (const auto child = find_last(this->m_Children, predicate)) {
-            this->RemoveChild(*child, argument, callback);
-            return true;
+        for (auto *child : reverse(this->m_Children)) {
+            if (predicate(child)) {
+                this->RemoveChild(child, argument, callback);
+                return true;
+            }
         }
         return false;
     }
@@ -402,5 +404,4 @@ namespace TreeMachine {
     void NodeBase::OnAfterDeactivateCallback(const function<void(const any)> callback) {
         this->m_OnAfterDeactivateCallback = callback;
     }
-
 }
