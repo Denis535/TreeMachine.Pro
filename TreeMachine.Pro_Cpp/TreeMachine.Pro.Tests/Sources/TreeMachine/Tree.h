@@ -76,6 +76,7 @@ namespace TreeMachine {
 
         public:
         using NodeBase::AddChild;
+        using NodeBase::AddChildren;
         using NodeBase::RemoveChild;
         using NodeBase::RemoveChildren;
         using NodeBase::RemoveSelf;

@@ -91,8 +91,8 @@ namespace TreeMachine {
         }
         return nullptr;
     }
-    [[nodiscard]] list<NodeBase *> NodeBase::Ancestors() const {
-        auto result = list<NodeBase *>();
+    [[nodiscard]] vector<NodeBase *> NodeBase::Ancestors() const {
+        auto result = vector<NodeBase *>();
         if (auto *const parent = this->Parent()) {
             result.push_back(parent);
             auto ancestors = parent->Ancestors();
@@ -100,15 +100,15 @@ namespace TreeMachine {
         }
         return result;
     }
-    [[nodiscard]] list<const NodeBase *> NodeBase::AncestorsAndSelf() const {
-        auto result = list<const NodeBase *>();
+    [[nodiscard]] vector<const NodeBase *> NodeBase::AncestorsAndSelf() const {
+        auto result = vector<const NodeBase *>();
         result.push_back(this);
         auto descendants = this->Descendants();
         result.insert(result.end(), descendants.begin(), descendants.end());
         return result;
     }
-    [[nodiscard]] list<NodeBase *> NodeBase::AncestorsAndSelf() {
-        auto result = list<NodeBase *>();
+    [[nodiscard]] vector<NodeBase *> NodeBase::AncestorsAndSelf() {
+        auto result = vector<NodeBase *>();
         result.push_back(this);
         auto descendants = this->Descendants();
         result.insert(result.end(), descendants.begin(), descendants.end());
@@ -119,11 +119,11 @@ namespace TreeMachine {
         return this->m_Activity;
     }
 
-    [[nodiscard]] const list<NodeBase *> *NodeBase::Children() const {
-        return &this->m_Children;
+    [[nodiscard]] const list<NodeBase *> &NodeBase::Children() const {
+        return this->m_Children;
     }
-    [[nodiscard]] list<NodeBase *> NodeBase::Descendants() const {
-        auto result = list<NodeBase *>();
+    [[nodiscard]] vector<NodeBase *> NodeBase::Descendants() const {
+        auto result = vector<NodeBase *>();
         for (auto *const child : this->m_Children) {
             result.push_back(child);
             auto descendants = child->Descendants();
@@ -131,44 +131,44 @@ namespace TreeMachine {
         }
         return result;
     }
-    [[nodiscard]] list<const NodeBase *> NodeBase::DescendantsAndSelf() const {
-        auto result = list<const NodeBase *>();
+    [[nodiscard]] vector<const NodeBase *> NodeBase::DescendantsAndSelf() const {
+        auto result = vector<const NodeBase *>();
         result.push_back(this);
         auto descendants = this->Descendants();
         result.insert(result.end(), descendants.begin(), descendants.end());
         return result;
     }
-    [[nodiscard]] list<NodeBase *> NodeBase::DescendantsAndSelf() {
-        auto result = list<NodeBase *>();
+    [[nodiscard]] vector<NodeBase *> NodeBase::DescendantsAndSelf() {
+        auto result = vector<NodeBase *>();
         result.push_back(this);
         auto descendants = this->Descendants();
         result.insert(result.end(), descendants.begin(), descendants.end());
         return result;
     }
 
-    [[nodiscard]] function<void(const any)> NodeBase::OnBeforeAttachCallback() const {
+    [[nodiscard]] const function<void(const any)> &NodeBase::OnBeforeAttachCallback() const {
         return this->m_OnBeforeAttachCallback;
     }
-    [[nodiscard]] function<void(const any)> NodeBase::OnAfterAttachCallback() const {
+    [[nodiscard]] const function<void(const any)> &NodeBase::OnAfterAttachCallback() const {
         return this->m_OnAfterAttachCallback;
     }
-    [[nodiscard]] function<void(const any)> NodeBase::OnBeforeDetachCallback() const {
+    [[nodiscard]] const function<void(const any)> &NodeBase::OnBeforeDetachCallback() const {
         return this->m_OnBeforeDetachCallback;
     }
-    [[nodiscard]] function<void(const any)> NodeBase::OnAfterDetachCallback() const {
+    [[nodiscard]] const function<void(const any)> &NodeBase::OnAfterDetachCallback() const {
         return this->m_OnAfterDetachCallback;
     }
 
-    [[nodiscard]] function<void(const any)> NodeBase::OnBeforeActivateCallback() const {
+    [[nodiscard]] const function<void(const any)> &NodeBase::OnBeforeActivateCallback() const {
         return this->m_OnBeforeAttachCallback;
     }
-    [[nodiscard]] function<void(const any)> NodeBase::OnAfterActivateCallback() const {
+    [[nodiscard]] const function<void(const any)> &NodeBase::OnAfterActivateCallback() const {
         return this->m_OnAfterAttachCallback;
     }
-    [[nodiscard]] function<void(const any)> NodeBase::OnBeforeDeactivateCallback() const {
+    [[nodiscard]] const function<void(const any)> &NodeBase::OnBeforeDeactivateCallback() const {
         return this->m_OnBeforeDetachCallback;
     }
-    [[nodiscard]] function<void(const any)> NodeBase::OnAfterDeactivateCallback() const {
+    [[nodiscard]] const function<void(const any)> &NodeBase::OnAfterDeactivateCallback() const {
         return this->m_OnAfterDetachCallback;
     }
 
@@ -328,6 +328,11 @@ namespace TreeMachine {
         this->m_Children.push_back(child);
         this->Sort(this->m_Children);
         child->Attach(this, argument);
+    }
+    void NodeBase::AddChildren(const vector<NodeBase *> &children, const any argument) {
+        for (auto *const child : children) {
+            this->AddChild(child, argument);
+        }
     }
     void NodeBase::RemoveChild(NodeBase *const child, const any argument, const function<void(const NodeBase *const, const any)> callback) {
         assert(child != nullptr && "Argument 'child' must be non-null");

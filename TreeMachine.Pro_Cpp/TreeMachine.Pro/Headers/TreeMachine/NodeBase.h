@@ -50,30 +50,30 @@ namespace TreeMachine {
 
         public:
         [[nodiscard]] NodeBase *Parent() const;
-        [[nodiscard]] list<NodeBase *> Ancestors() const;
-        [[nodiscard]] list<const NodeBase *> AncestorsAndSelf() const;
-        [[nodiscard]] list<NodeBase *> AncestorsAndSelf();
+        [[nodiscard]] vector<NodeBase *> Ancestors() const;
+        [[nodiscard]] vector<const NodeBase *> AncestorsAndSelf() const;
+        [[nodiscard]] vector<NodeBase *> AncestorsAndSelf();
 
         public:
         [[nodiscard]] EActivity Activity() const;
 
         public:
-        [[nodiscard]] const list<NodeBase *> *Children() const;
-        [[nodiscard]] list<NodeBase *> Descendants() const;
-        [[nodiscard]] list<const NodeBase *> DescendantsAndSelf() const;
-        [[nodiscard]] list<NodeBase *> DescendantsAndSelf();
+        [[nodiscard]] const list<NodeBase *> &Children() const;
+        [[nodiscard]] vector<NodeBase *> Descendants() const;
+        [[nodiscard]] vector<const NodeBase *> DescendantsAndSelf() const;
+        [[nodiscard]] vector<NodeBase *> DescendantsAndSelf();
 
         public:
-        [[nodiscard]] function<void(const any)> OnBeforeAttachCallback() const;
-        [[nodiscard]] function<void(const any)> OnAfterAttachCallback() const;
-        [[nodiscard]] function<void(const any)> OnBeforeDetachCallback() const;
-        [[nodiscard]] function<void(const any)> OnAfterDetachCallback() const;
+        [[nodiscard]] const function<void(const any)> &OnBeforeAttachCallback() const;
+        [[nodiscard]] const function<void(const any)> &OnAfterAttachCallback() const;
+        [[nodiscard]] const function<void(const any)> &OnBeforeDetachCallback() const;
+        [[nodiscard]] const function<void(const any)> &OnAfterDetachCallback() const;
 
         public:
-        [[nodiscard]] function<void(const any)> OnBeforeActivateCallback() const;
-        [[nodiscard]] function<void(const any)> OnAfterActivateCallback() const;
-        [[nodiscard]] function<void(const any)> OnBeforeDeactivateCallback() const;
-        [[nodiscard]] function<void(const any)> OnAfterDeactivateCallback() const;
+        [[nodiscard]] const function<void(const any)> &OnBeforeActivateCallback() const;
+        [[nodiscard]] const function<void(const any)> &OnAfterActivateCallback() const;
+        [[nodiscard]] const function<void(const any)> &OnBeforeDeactivateCallback() const;
+        [[nodiscard]] const function<void(const any)> &OnAfterDeactivateCallback() const;
 
         protected:
         explicit NodeBase();
@@ -117,6 +117,7 @@ namespace TreeMachine {
 
         protected:
         virtual void AddChild(NodeBase *const child, const any argument);
+        void AddChildren(const vector<NodeBase *> &children, const any argument);
         virtual void RemoveChild(NodeBase *const child, const any argument, const function<void(const NodeBase *const, const any)> callback);
         bool RemoveChild(const function<bool(const NodeBase *const)> predicate, const any argument, const function<void(const NodeBase *const, const any)> callback);
         int32_t RemoveChildren(const function<bool(const NodeBase *const)> predicate, const any argument, const function<void(const NodeBase *const, const any)> callback);
