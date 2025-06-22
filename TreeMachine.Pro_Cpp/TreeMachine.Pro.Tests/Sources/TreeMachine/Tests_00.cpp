@@ -158,17 +158,28 @@ namespace TreeMachine {
             }
         }
         {
-            // RemoveChildren
-            root->RemoveChildren([]([[maybe_unused]] auto *const child) { return true; }, nullptr, [](auto *const child, [[maybe_unused]] const auto arg) { delete child; });
-            EXPECT_NE(root, nullptr);
-            EXPECT_EQ(root->Tree(), nullptr);
-            EXPECT_EQ(root->TreeRecursive(), nullptr);
-            EXPECT_EQ(root->Parent(), nullptr);
-            EXPECT_EQ(root->Activity(), NodeBase::EActivity::Inactive);
-            EXPECT_EQ(root->Children().size(), 0);
+            // AddRoot
+            tree->AddRoot(root, nullptr);
+            EXPECT_NE(tree->Root(), nullptr);
+            EXPECT_EQ(tree->Root()->Tree(), tree);
+            EXPECT_EQ(tree->Root()->TreeRecursive(), tree);
+            EXPECT_EQ(tree->Root()->Parent(), nullptr);
+            EXPECT_EQ(tree->Root()->Activity(), NodeBase::EActivity::Active);
+            EXPECT_EQ(tree->Root()->Children().size(), 2);
+            for (const auto *const child : tree->Root()->Children()) {
+                EXPECT_EQ(child->Tree(), nullptr);
+                EXPECT_EQ(child->TreeRecursive(), tree);
+                EXPECT_EQ(child->Parent(), tree->Root());
+                EXPECT_EQ(child->Activity(), NodeBase::EActivity::Active);
+                EXPECT_EQ(child->Children().size(), 0);
+            }
+        }
+        {
+            // RemoveRoot
+            tree->RemoveRoot(nullptr, [](auto *const root, [[maybe_unused]] const auto arg) { delete root; }); // NOLINT
+            EXPECT_EQ(tree->Root(), nullptr);
         }
 
-        delete root;
         delete tree;
     }
 
@@ -205,38 +216,17 @@ namespace TreeMachine {
             }
         }
         {
-            // AddRoot
-            tree->AddRoot(root, nullptr);
-            EXPECT_NE(tree->Root(), nullptr);
-            EXPECT_EQ(tree->Root()->Tree(), tree);
-            EXPECT_EQ(tree->Root()->TreeRecursive(), tree);
-            EXPECT_EQ(tree->Root()->Parent(), nullptr);
-            EXPECT_EQ(tree->Root()->Activity(), NodeBase::EActivity::Active);
-            EXPECT_EQ(tree->Root()->Children().size(), 2);
-            for (const auto *const child : tree->Root()->Children()) {
-                EXPECT_EQ(child->Tree(), nullptr);
-                EXPECT_EQ(child->TreeRecursive(), tree);
-                EXPECT_EQ(child->Parent(), tree->Root());
-                EXPECT_EQ(child->Activity(), NodeBase::EActivity::Active);
-                EXPECT_EQ(child->Children().size(), 0);
-            }
-        }
-        {
             // RemoveChildren
-            dynamic_cast<Root *>(tree->Root())->RemoveChildren([]([[maybe_unused]] auto *const child) { return true; }, nullptr, [](auto *const child, [[maybe_unused]] const auto arg) { delete child; });
-            EXPECT_NE(tree->Root(), nullptr);
-            EXPECT_EQ(tree->Root()->Tree(), tree);
-            EXPECT_EQ(tree->Root()->TreeRecursive(), tree);
-            EXPECT_EQ(tree->Root()->Parent(), nullptr);
-            EXPECT_EQ(tree->Root()->Activity(), NodeBase::EActivity::Active);
-            EXPECT_EQ(tree->Root()->Children().size(), 0);
-        }
-        {
-            // RemoveRoot
-            tree->RemoveRoot(nullptr, [](auto *const root, [[maybe_unused]] const auto arg) { delete root; }); // NOLINT
-            EXPECT_EQ(tree->Root(), nullptr);
+            root->RemoveChildren([]([[maybe_unused]] auto *const child) { return true; }, nullptr, [](auto *const child, [[maybe_unused]] const auto arg) { delete child; });
+            EXPECT_NE(root, nullptr);
+            EXPECT_EQ(root->Tree(), nullptr);
+            EXPECT_EQ(root->TreeRecursive(), nullptr);
+            EXPECT_EQ(root->Parent(), nullptr);
+            EXPECT_EQ(root->Activity(), NodeBase::EActivity::Inactive);
+            EXPECT_EQ(root->Children().size(), 0);
         }
 
+        delete root;
         delete tree;
     }
 
