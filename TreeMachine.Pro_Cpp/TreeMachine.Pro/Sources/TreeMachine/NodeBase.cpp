@@ -329,7 +329,7 @@ namespace TreeMachine {
         this->Sort(this->m_Children);
         child->Attach(this, argument);
     }
-    void NodeBase::RemoveChild(NodeBase *const child, const any argument, const function<void(NodeBase *const, const any)> callback) {
+    void NodeBase::RemoveChild(NodeBase *const child, const any argument, const function<void(const NodeBase *const, const any)> callback) {
         assert(child != nullptr && "Argument 'child' must be non-null");
         assert(child->Tree() == nullptr && "Argument 'child' must have no tree");
         assert(child->Parent() == this && "Argument 'child' must have parent");
@@ -345,7 +345,7 @@ namespace TreeMachine {
             callback(child, argument);
         }
     }
-    bool NodeBase::RemoveChild(const function<bool(NodeBase *const)> predicate, const any argument, const function<void(NodeBase *const, const any)> callback) {
+    bool NodeBase::RemoveChild(const function<bool(const NodeBase *const)> predicate, const any argument, const function<void(const NodeBase *const, const any)> callback) {
         for (auto *child : reverse(this->m_Children)) { // NOLINT
             if (predicate(child)) {
                 this->RemoveChild(child, argument, callback);
@@ -354,7 +354,7 @@ namespace TreeMachine {
         }
         return false;
     }
-    int32_t NodeBase::RemoveChildren(const function<bool(NodeBase *const)> predicate, const any argument, const function<void(NodeBase *const, const any)> callback) {
+    int32_t NodeBase::RemoveChildren(const function<bool(const NodeBase *const)> predicate, const any argument, const function<void(const NodeBase *const, const any)> callback) {
         int32_t count = 0;
         for (auto *const child : reverse(this->m_Children)) {
             if (predicate(child)) {
@@ -364,7 +364,7 @@ namespace TreeMachine {
         }
         return count;
     }
-    void NodeBase::RemoveSelf(const any argument, const function<void(NodeBase *const, const any)> callback) {
+    void NodeBase::RemoveSelf(const any argument, const function<void(const NodeBase *const, const any)> callback) {
         if (auto *const parent = this->Parent()) {
             parent->RemoveChild(this, argument, callback);
         } else {
@@ -373,7 +373,7 @@ namespace TreeMachine {
         }
     }
 
-    void NodeBase::Sort(list<NodeBase *> &children) {
+    void NodeBase::Sort(list<NodeBase *> &children) const {
         (void)children;
     }
 

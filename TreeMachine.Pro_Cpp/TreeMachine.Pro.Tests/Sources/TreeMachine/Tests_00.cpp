@@ -12,9 +12,9 @@ namespace TreeMachine {
         explicit Node(Node &&other) = delete;
         ~Node() override {
             this->RemoveChildren(
-                []([[maybe_unused]] auto *const child) { return true; },
+                []([[maybe_unused]] const auto *const child) { return true; },
                 nullptr,
-                [](auto *const child, [[maybe_unused]] const any arg) { delete child; });
+                [](const auto *const child, [[maybe_unused]] const any arg) { delete child; });
         }
 
         public:
@@ -78,7 +78,7 @@ namespace TreeMachine {
             if (this->Root() != nullptr) {
                 this->RemoveRoot(
                     nullptr,
-                    [](auto *const root, [[maybe_unused]] const any arg) { delete root; });
+                    [](const auto *const root, [[maybe_unused]] const any arg) { delete root; });
             }
         }
 

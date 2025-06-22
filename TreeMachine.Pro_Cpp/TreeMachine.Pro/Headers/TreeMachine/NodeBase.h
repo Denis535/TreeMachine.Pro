@@ -115,13 +115,13 @@ namespace TreeMachine {
 
         protected:
         virtual void AddChild(NodeBase *const child, const any argument);
-        virtual void RemoveChild(NodeBase *const child, const any argument, const function<void(NodeBase *const, const any)> callback);
-        bool RemoveChild(const function<bool(NodeBase *const)> predicate, const any argument, const function<void(NodeBase *const, const any)> callback);
-        int32_t RemoveChildren(const function<bool(NodeBase *const)> predicate, const any argument, const function<void(NodeBase *const, const any)> callback);
-        void RemoveSelf(const any argument, const function<void(NodeBase *const, const any)> callback);
+        virtual void RemoveChild(NodeBase *const child, const any argument, const function<void(const NodeBase *const, const any)> callback);
+        bool RemoveChild(const function<bool(const NodeBase *const)> predicate, const any argument, const function<void(const NodeBase *const, const any)> callback);
+        int32_t RemoveChildren(const function<bool(const NodeBase *const)> predicate, const any argument, const function<void(const NodeBase *const, const any)> callback);
+        void RemoveSelf(const any argument, const function<void(const NodeBase *const, const any)> callback);
 
         protected:
-        virtual void Sort(list<NodeBase *> &children);
+        virtual void Sort(list<NodeBase *> &children) const;
 
         public:
         void OnBeforeAttachCallback(const function<void(const any)> callback);

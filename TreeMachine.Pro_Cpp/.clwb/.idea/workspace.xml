@@ -33,7 +33,10 @@
     <list default="true" id="3ba905a7-ea50-4506-9756-feebbc8a6ed4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_00.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_00.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/NodeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/NodeBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/TreeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/TreeBase.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Sources/TreeMachine/NodeBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Sources/TreeMachine/NodeBase.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Sources/TreeMachine/TreeBase.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Sources/TreeMachine/TreeBase.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -131,7 +134,7 @@
       <workItem from="1750487321171" duration="8170000" />
       <workItem from="1750498914077" duration="1140000" />
       <workItem from="1750500229668" duration="21017000" />
-      <workItem from="1750580606152" duration="4051000" />
+      <workItem from="1750580606152" duration="5223000" />
     </task>
     <servers />
   </component>

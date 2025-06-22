@@ -22,8 +22,8 @@ namespace TreeMachine {
 
         protected:
         virtual void AddRoot(NodeBase *const root, const any argument);
-        virtual void RemoveRoot(NodeBase *const root, const any argument, const function<void(NodeBase *const, const any)> callback);
-        virtual void RemoveRoot(const any argument, const function<void(NodeBase *const, const any)> callback);
+        virtual void RemoveRoot(NodeBase *const root, const any argument, const function<void(const NodeBase *const, const any)> callback);
+        virtual void RemoveRoot(const any argument, const function<void(const NodeBase *const, const any)> callback);
 
         public:
         TreeBase &operator=(const TreeBase &other) = delete;

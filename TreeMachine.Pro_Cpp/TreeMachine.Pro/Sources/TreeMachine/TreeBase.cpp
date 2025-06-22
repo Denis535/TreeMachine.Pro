@@ -23,7 +23,7 @@ namespace TreeMachine {
         this->m_Root = root;
         this->m_Root->Attach(this, argument);
     }
-    void TreeBase::RemoveRoot(NodeBase *const root, const any argument, const function<void(NodeBase *const, const any)> callback) {
+    void TreeBase::RemoveRoot(NodeBase *const root, const any argument, const function<void(const NodeBase *const, const any)> callback) {
         assert(root != nullptr && "Argument 'root' must be non-null");
         assert(root->Tree() == this && "Argument 'root' must have tree");
         assert(root->Parent() == nullptr && "Argument 'root' must have no parent");
@@ -34,7 +34,7 @@ namespace TreeMachine {
             callback(root, argument);
         }
     }
-    void TreeBase::RemoveRoot(const any argument, const function<void(NodeBase *const, const any)> callback) {
+    void TreeBase::RemoveRoot(const any argument, const function<void(const NodeBase *const, const any)> callback) {
         assert(this->m_Root != nullptr && "Tree must have root");
         this->RemoveRoot(this->m_Root, argument, callback);
     }
