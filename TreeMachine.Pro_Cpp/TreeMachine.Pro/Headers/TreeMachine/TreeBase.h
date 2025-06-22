@@ -14,8 +14,10 @@ namespace TreeMachine {
         protected:
         [[nodiscard]] NodeBase *Root() const;
 
-        public:
+        protected:
         explicit TreeBase();
+
+        public:
         explicit TreeBase(const TreeBase &other) = delete;
         explicit TreeBase(TreeBase &&other) = delete;
         virtual ~TreeBase();

@@ -75,8 +75,10 @@ namespace TreeMachine {
         [[nodiscard]] function<void(const any)> OnBeforeDeactivateCallback() const;
         [[nodiscard]] function<void(const any)> OnAfterDeactivateCallback() const;
 
-        public:
+        protected:
         explicit NodeBase();
+
+        public:
         explicit NodeBase(const NodeBase &other) = delete;
         explicit NodeBase(NodeBase &&other) = delete;
         virtual ~NodeBase();
