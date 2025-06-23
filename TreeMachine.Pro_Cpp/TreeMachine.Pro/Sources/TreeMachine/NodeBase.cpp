@@ -369,6 +369,14 @@ namespace TreeMachine {
         }
         return count;
     }
+    int32_t NodeBase::RemoveChildren(const any argument, const function<void(const NodeBase *const, const any)> callback) {
+        int32_t count = 0;
+        for (auto *const child : reverse(this->m_Children)) {
+            this->RemoveChild(child, argument, callback);
+            count++;
+        }
+        return count;
+    }
     void NodeBase::RemoveSelf(const any argument, const function<void(const NodeBase *const, const any)> callback) {
         if (auto *const parent = this->Parent()) {
             parent->RemoveChild(this, argument, callback);

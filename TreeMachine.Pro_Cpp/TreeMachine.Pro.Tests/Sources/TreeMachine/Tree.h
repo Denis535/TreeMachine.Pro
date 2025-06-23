@@ -37,12 +37,11 @@ namespace TreeMachine {
         explicit Node(Node &&other) = delete;
         ~Node() override {
             NodeBase::RemoveChildren(
-                []([[maybe_unused]] const auto *const child) { return true; },
                 nullptr,
                 [](const auto *const child, [[maybe_unused]] const any arg) { delete child; });
         }
 
-        public:
+        protected:
         void OnAttach([[maybe_unused]] const any argument) override {
             cout << "OnAttach: " << typeid(*this).name() << endl;
         }
@@ -58,7 +57,7 @@ namespace TreeMachine {
         // void OnAfterDescendantDetach(NodeBase* descendant, const any argument) override {
         // }
 
-        public:
+        protected:
         void OnActivate([[maybe_unused]] const any argument) override {
             cout << "OnActivate: " << typeid(*this).name() << endl;
         }

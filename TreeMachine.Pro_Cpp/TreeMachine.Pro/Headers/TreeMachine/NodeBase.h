@@ -121,6 +121,7 @@ namespace TreeMachine {
         virtual void RemoveChild(NodeBase *const child, const any argument, const function<void(const NodeBase *const, const any)> callback);
         bool RemoveChild(const function<bool(const NodeBase *const)> predicate, const any argument, const function<void(const NodeBase *const, const any)> callback);
         int32_t RemoveChildren(const function<bool(const NodeBase *const)> predicate, const any argument, const function<void(const NodeBase *const, const any)> callback);
+        int32_t RemoveChildren(const any argument, const function<void(const NodeBase *const, const any)> callback);
         void RemoveSelf(const any argument, const function<void(const NodeBase *const, const any)> callback);
 
         protected:
