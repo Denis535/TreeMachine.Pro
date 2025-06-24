@@ -34,6 +34,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ba905a7-ea50-4506-9756-feebbc8a6ed4" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/../.clang-tidy" beforeDir="false" afterPath="$PROJECT_DIR$/../.clang-tidy" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/blazeTargetInfo.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/blazeTargetInfo.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/BUILD.bazel" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/BUILD.bazel" afterDir="false" />
@@ -43,6 +44,7 @@
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_04.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_03.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tree.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tree.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/BUILD.bazel" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/BUILD.bazel" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/NodeBase_Impl.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/NodeBase_Impl.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/TreeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/TreeBase.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/TreeMachine.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/TreeMachine.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Sources/TreeMachine/NodeBase.cpp" beforeDir="false" />
@@ -66,7 +68,7 @@
     <setting file="mock:///dummy.cpp" root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProblemsViewState">
-    <option name="selectedTabId" value="ProjectErrors" />
+    <option name="selectedTabId" value="CurrentFile" />
   </component>
   <component name="ProjectColorInfo">{
   &quot;customColor&quot;: &quot;&quot;,
@@ -148,7 +150,7 @@
       <workItem from="1750701630349" duration="1713000" />
       <workItem from="1750707619359" duration="42000" />
       <workItem from="1750707742807" duration="4903000" />
-      <workItem from="1750747478089" duration="763000" />
+      <workItem from="1750747478089" duration="1857000" />
     </task>
     <servers />
   </component>

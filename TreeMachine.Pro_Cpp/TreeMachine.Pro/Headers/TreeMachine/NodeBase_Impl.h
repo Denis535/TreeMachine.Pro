@@ -9,7 +9,7 @@
 #include "NodeBase.h"
 #include "TreeBase.h"
 
-namespace TreeMachine {
+namespace TreeMachine::Internal {
 
     template <typename T>
     std::list<T> reverse(const std::list<T> &list) {
@@ -259,7 +259,7 @@ namespace TreeMachine {
         this->OnBeforeDeactivate(argument);
         this->m_Activity = EActivity::Deactivating;
         {
-            for (auto *child : reverse(this->m_Children)) {
+            for (auto *child : Internal::reverse(this->m_Children)) {
                 child->Deactivate(argument);
             }
             this->OnDeactivate(argument);
@@ -325,7 +325,7 @@ namespace TreeMachine {
         assert(child->Tree() == nullptr && "Argument 'child' must have no tree");
         assert(child->Parent() == nullptr && "Argument 'child' must have no parent");
         assert(child->m_Activity == EActivity::Inactive && "Argument 'child' must be inactive");
-        assert(!contains(this->m_Children, child) && "Node must have no child");
+        assert(!Internal::contains(this->m_Children, child) && "Node must have no child");
         this->m_Children.push_back(child);
         this->Sort(this->m_Children);
         child->Attach(this, argument);
@@ -344,7 +344,7 @@ namespace TreeMachine {
         } else {
             assert(child->m_Activity == EActivity::Inactive && "Argument 'child' must be inactive");
         }
-        assert(contains(this->m_Children, child) && "Node must have child");
+        assert(Internal::contains(this->m_Children, child) && "Node must have child");
         child->Detach(this, argument);
         this->m_Children.remove(child);
         if (callback) {
@@ -352,7 +352,7 @@ namespace TreeMachine {
         }
     }
     inline bool NodeBase::RemoveChild(const function<bool(const NodeBase *const)> predicate, const any argument, const function<void(const NodeBase *const, const any)> callback) {
-        for (auto *child : reverse(this->m_Children)) { // NOLINT
+        for (auto *child : Internal::reverse(this->m_Children)) { // NOLINT
             if (predicate(child)) {
                 this->RemoveChild(child, argument, callback);
                 return true;
@@ -362,7 +362,7 @@ namespace TreeMachine {
     }
     inline int32_t NodeBase::RemoveChildren(const function<bool(const NodeBase *const)> predicate, const any argument, const function<void(const NodeBase *const, const any)> callback) {
         int32_t count = 0;
-        for (auto *const child : reverse(this->m_Children)) {
+        for (auto *const child : Internal::reverse(this->m_Children)) {
             if (predicate(child)) {
                 this->RemoveChild(child, argument, callback);
                 count++;
@@ -372,7 +372,7 @@ namespace TreeMachine {
     }
     inline int32_t NodeBase::RemoveChildren(const any argument, const function<void(const NodeBase *const, const any)> callback) {
         int32_t count = 0;
-        for (auto *const child : reverse(this->m_Children)) {
+        for (auto *const child : Internal::reverse(this->m_Children)) {
             this->RemoveChild(child, argument, callback);
             count++;
         }
