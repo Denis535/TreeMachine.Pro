@@ -1,16 +1,8 @@
 cc_library(
     name = "tree_machine_pro",
-    srcs = glob([
-        "Sources/*.cpp",
-        "Sources/**/*.cpp",
-    ], allow_empty = True),
-    includes = [
-        ".",
-    ],
     hdrs = glob([
-        "Headers/*.h",
         "Headers/**/*.h",
-    ], allow_empty = True),
+    ]),
     strip_include_prefix = "Headers",
     deps = [
     ],

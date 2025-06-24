@@ -4,31 +4,6 @@
 namespace TreeMachine {
     using namespace std;
 
-    class Tree final : public TreeBase {
-
-        public:
-        using TreeBase::Root;
-
-        public:
-        explicit Tree() = default;
-        explicit Tree(Tree &other) = delete;
-        explicit Tree(Tree &&other) = delete;
-        ~Tree() override {
-            if (this->Root() != nullptr) {
-                TreeBase::RemoveRoot(
-                    nullptr,
-                    [](const auto *const root, [[maybe_unused]] const any arg) { delete root; });
-            }
-        }
-
-        public:
-        using TreeBase::AddRoot;
-        using TreeBase::RemoveRoot;
-
-        public:
-        Tree &operator=(const Tree &other) = delete;
-        Tree &operator=(Tree &&other) = delete;
-    };
     class Node : public NodeBase {
 
         public:
@@ -89,5 +64,30 @@ namespace TreeMachine {
     class A final : public Node {
     };
     class B final : public Node {
+    };
+    class Tree final : public TreeBase {
+
+        public:
+        using TreeBase::Root;
+
+        public:
+        explicit Tree() = default;
+        explicit Tree(Tree &other) = delete;
+        explicit Tree(Tree &&other) = delete;
+        ~Tree() override {
+            if (this->Root() != nullptr) {
+                TreeBase::RemoveRoot(
+                    nullptr,
+                    [](const auto *const root, [[maybe_unused]] const any arg) { delete root; });
+            }
+        }
+
+        public:
+        using TreeBase::AddRoot;
+        using TreeBase::RemoveRoot;
+
+        public:
+        Tree &operator=(const Tree &other) = delete;
+        Tree &operator=(Tree &&other) = delete;
     };
 }

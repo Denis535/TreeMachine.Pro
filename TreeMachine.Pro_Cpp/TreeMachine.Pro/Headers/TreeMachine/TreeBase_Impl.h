@@ -1,21 +1,22 @@
+#pragma once
 #include <any>
 #include <cassert>
 #include <functional>
-#include "Headers/TreeMachine/NodeBase.h"
-#include "Headers/TreeMachine/TreeBase.h"
+#include "NodeBase.h"
+#include "TreeBase.h"
 
 namespace TreeMachine {
 
-    TreeBase::TreeBase() = default;
-    TreeBase::~TreeBase() {
+    inline TreeBase::TreeBase() = default;
+    inline TreeBase::~TreeBase() {
         assert(this->m_Root == nullptr && "Tree must have no root");
     }
 
-    [[nodiscard]] NodeBase *TreeBase::Root() const {
+    inline [[nodiscard]] NodeBase *TreeBase::Root() const {
         return this->m_Root;
     }
 
-    void TreeBase::AddRoot(NodeBase *const root, const any argument) {
+    inline void TreeBase::AddRoot(NodeBase *const root, const any argument) {
         assert(root != nullptr && "Argument 'root' must be non-null");
         assert(root->Tree() == nullptr && "Argument 'root' must have no tree");
         assert(root->Parent() == nullptr && "Argument 'root' must have no parent");
@@ -23,7 +24,7 @@ namespace TreeMachine {
         this->m_Root = root;
         this->m_Root->Attach(this, argument);
     }
-    void TreeBase::RemoveRoot(NodeBase *const root, const any argument, const function<void(const NodeBase *const, const any)> callback) {
+    inline void TreeBase::RemoveRoot(NodeBase *const root, const any argument, const function<void(const NodeBase *const, const any)> callback) {
         assert(root != nullptr && "Argument 'root' must be non-null");
         assert(root->Tree() == this && "Argument 'root' must have tree");
         assert(root->Parent() == nullptr && "Argument 'root' must have no parent");
@@ -34,7 +35,7 @@ namespace TreeMachine {
             callback(root, argument);
         }
     }
-    void TreeBase::RemoveRoot(const any argument, const function<void(const NodeBase *const, const any)> callback) {
+    inline void TreeBase::RemoveRoot(const any argument, const function<void(const NodeBase *const, const any)> callback) {
         assert(this->m_Root != nullptr && "Tree must have root");
         this->RemoveRoot(this->m_Root, argument, callback);
     }

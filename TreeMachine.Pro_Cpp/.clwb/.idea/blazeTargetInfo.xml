@@ -5,9 +5,6 @@
       <entry key="//TreeMachine.Pro.Tests:tree_machine_pro_tests">
         <TargetInfo compilerVersion="Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35208 for x64" configurationId="//TreeMachine.Pro.Tests:tree_machine_pro_tests" />
       </entry>
-      <entry key="//TreeMachine.Pro:tree_machine_pro">
-        <TargetInfo compilerVersion="Microsoft (R) C/C++ Optimizing Compiler Version 19.44.35208 for x64" configurationId="//TreeMachine.Pro:tree_machine_pro" />
-      </entry>
     </infoMap>
   </component>
 </project>

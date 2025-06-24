@@ -1,3 +1,4 @@
+#pragma once
 #include <algorithm>
 #include <any>
 #include <cassert>
@@ -5,10 +6,10 @@
 #include <iterator>
 #include <list>
 #include <variant>
-#include "Headers/TreeMachine/NodeBase.h"
-#include "Headers/TreeMachine/TreeBase.h"
+#include "NodeBase.h"
+#include "TreeBase.h"
 
-namespace {
+namespace TreeMachine {
 
     template <typename T>
     std::list<T> reverse(const std::list<T> &list) {
@@ -44,22 +45,22 @@ namespace {
 }
 namespace TreeMachine {
 
-    NodeBase::NodeBase() = default;
-    NodeBase::~NodeBase() {
+    inline NodeBase::NodeBase() = default;
+    inline NodeBase::~NodeBase() {
         assert(this->Tree() == nullptr && "Node must have no tree");
         assert(this->Parent() == nullptr && "Node must have no parent");
         assert(this->m_Activity == EActivity::Inactive && "Node must be inactive");
         assert(this->m_Children.empty() && "Node must have no children");
     }
 
-    [[nodiscard]] TreeBase *NodeBase::Tree() const {
+    inline [[nodiscard]] TreeBase *NodeBase::Tree() const {
         if (auto *const *const tree = get_if<TreeBase *>(&this->m_Owner)) {
             return *tree;
         }
         return nullptr;
     }
 
-    [[nodiscard]] TreeBase *NodeBase::TreeRecursive() const {
+    inline [[nodiscard]] TreeBase *NodeBase::TreeRecursive() const {
         if (auto *const *const tree = get_if<TreeBase *>(&this->m_Owner)) {
             return *tree;
         }
@@ -69,29 +70,29 @@ namespace TreeMachine {
         return nullptr;
     }
 
-    [[nodiscard]] bool NodeBase::IsRoot() const {
+    inline [[nodiscard]] bool NodeBase::IsRoot() const {
         return this->Parent() == nullptr;
     }
-    [[nodiscard]] const NodeBase *NodeBase::Root() const {
+    inline [[nodiscard]] const NodeBase *NodeBase::Root() const {
         if (const auto *const parent = this->Parent()) {
             return parent->Root();
         }
         return this;
     }
-    [[nodiscard]] NodeBase *NodeBase::Root() {
+    inline [[nodiscard]] NodeBase *NodeBase::Root() {
         if (auto *const parent = this->Parent()) {
             return parent->Root();
         }
         return this;
     }
 
-    [[nodiscard]] NodeBase *NodeBase::Parent() const {
+    inline [[nodiscard]] NodeBase *NodeBase::Parent() const {
         if (auto *const *const node = get_if<NodeBase *>(&this->m_Owner)) {
             return *node;
         }
         return nullptr;
     }
-    [[nodiscard]] vector<NodeBase *> NodeBase::Ancestors() const {
+    inline [[nodiscard]] vector<NodeBase *> NodeBase::Ancestors() const {
         auto result = vector<NodeBase *>();
         if (auto *const parent = this->Parent()) {
             result.push_back(parent);
@@ -100,14 +101,14 @@ namespace TreeMachine {
         }
         return result;
     }
-    [[nodiscard]] vector<const NodeBase *> NodeBase::AncestorsAndSelf() const {
+    inline [[nodiscard]] vector<const NodeBase *> NodeBase::AncestorsAndSelf() const {
         auto result = vector<const NodeBase *>();
         result.push_back(this);
         auto descendants = this->Descendants();
         result.insert(result.end(), descendants.begin(), descendants.end());
         return result;
     }
-    [[nodiscard]] vector<NodeBase *> NodeBase::AncestorsAndSelf() {
+    inline [[nodiscard]] vector<NodeBase *> NodeBase::AncestorsAndSelf() {
         auto result = vector<NodeBase *>();
         result.push_back(this);
         auto descendants = this->Descendants();
@@ -115,14 +116,14 @@ namespace TreeMachine {
         return result;
     }
 
-    [[nodiscard]] NodeBase::EActivity NodeBase::Activity() const {
+    inline [[nodiscard]] NodeBase::EActivity NodeBase::Activity() const {
         return this->m_Activity;
     }
 
-    [[nodiscard]] const list<NodeBase *> &NodeBase::Children() const {
+    inline [[nodiscard]] const list<NodeBase *> &NodeBase::Children() const {
         return this->m_Children;
     }
-    [[nodiscard]] vector<NodeBase *> NodeBase::Descendants() const {
+    inline [[nodiscard]] vector<NodeBase *> NodeBase::Descendants() const {
         auto result = vector<NodeBase *>();
         for (auto *const child : this->m_Children) {
             result.push_back(child);
@@ -131,14 +132,14 @@ namespace TreeMachine {
         }
         return result;
     }
-    [[nodiscard]] vector<const NodeBase *> NodeBase::DescendantsAndSelf() const {
+    inline [[nodiscard]] vector<const NodeBase *> NodeBase::DescendantsAndSelf() const {
         auto result = vector<const NodeBase *>();
         result.push_back(this);
         auto descendants = this->Descendants();
         result.insert(result.end(), descendants.begin(), descendants.end());
         return result;
     }
-    [[nodiscard]] vector<NodeBase *> NodeBase::DescendantsAndSelf() {
+    inline [[nodiscard]] vector<NodeBase *> NodeBase::DescendantsAndSelf() {
         auto result = vector<NodeBase *>();
         result.push_back(this);
         auto descendants = this->Descendants();
@@ -146,33 +147,33 @@ namespace TreeMachine {
         return result;
     }
 
-    [[nodiscard]] const function<void(const any)> &NodeBase::OnBeforeAttachCallback() const {
+    inline [[nodiscard]] const function<void(const any)> &NodeBase::OnBeforeAttachCallback() const {
         return this->m_OnBeforeAttachCallback;
     }
-    [[nodiscard]] const function<void(const any)> &NodeBase::OnAfterAttachCallback() const {
+    inline [[nodiscard]] const function<void(const any)> &NodeBase::OnAfterAttachCallback() const {
         return this->m_OnAfterAttachCallback;
     }
-    [[nodiscard]] const function<void(const any)> &NodeBase::OnBeforeDetachCallback() const {
+    inline [[nodiscard]] const function<void(const any)> &NodeBase::OnBeforeDetachCallback() const {
         return this->m_OnBeforeDetachCallback;
     }
-    [[nodiscard]] const function<void(const any)> &NodeBase::OnAfterDetachCallback() const {
+    inline [[nodiscard]] const function<void(const any)> &NodeBase::OnAfterDetachCallback() const {
         return this->m_OnAfterDetachCallback;
     }
 
-    [[nodiscard]] const function<void(const any)> &NodeBase::OnBeforeActivateCallback() const {
+    inline [[nodiscard]] const function<void(const any)> &NodeBase::OnBeforeActivateCallback() const {
         return this->m_OnBeforeAttachCallback;
     }
-    [[nodiscard]] const function<void(const any)> &NodeBase::OnAfterActivateCallback() const {
+    inline [[nodiscard]] const function<void(const any)> &NodeBase::OnAfterActivateCallback() const {
         return this->m_OnAfterAttachCallback;
     }
-    [[nodiscard]] const function<void(const any)> &NodeBase::OnBeforeDeactivateCallback() const {
+    inline [[nodiscard]] const function<void(const any)> &NodeBase::OnBeforeDeactivateCallback() const {
         return this->m_OnBeforeDetachCallback;
     }
-    [[nodiscard]] const function<void(const any)> &NodeBase::OnAfterDeactivateCallback() const {
+    inline [[nodiscard]] const function<void(const any)> &NodeBase::OnAfterDeactivateCallback() const {
         return this->m_OnAfterDetachCallback;
     }
 
-    void NodeBase::Attach(TreeBase *const owner, const any argument) {
+    inline void NodeBase::Attach(TreeBase *const owner, const any argument) {
         assert(owner != nullptr && "Argument 'owner' must be non-null");
         assert(this->Tree() == nullptr && "Node must have no tree");
         assert(this->Parent() == nullptr && "Node must have no parent");
@@ -187,7 +188,7 @@ namespace TreeMachine {
             this->Activate(argument);
         }
     }
-    void NodeBase::Attach(NodeBase *const owner, const any argument) {
+    inline void NodeBase::Attach(NodeBase *const owner, const any argument) {
         assert(owner != nullptr && "Argument 'owner' must be non-null");
         assert(this->Tree() == nullptr && "Node must have no tree");
         assert(this->Parent() == nullptr && "Node must have no parent");
@@ -203,7 +204,7 @@ namespace TreeMachine {
         }
     }
 
-    void NodeBase::Detach(TreeBase *const owner, const any argument) {
+    inline void NodeBase::Detach(TreeBase *const owner, const any argument) {
         assert(owner != nullptr && "Argument 'owner' must be non-null");
         assert(this->Tree() == owner && "Node must have tree");
         assert(this->Parent() == nullptr && "Node must have no parent");
@@ -218,7 +219,7 @@ namespace TreeMachine {
             this->m_Owner = nullptr;
         }
     }
-    void NodeBase::Detach(NodeBase *const owner, const any argument) {
+    inline void NodeBase::Detach(NodeBase *const owner, const any argument) {
         assert(owner != nullptr && "Argument 'owner' must be non-null");
         assert(this->Tree() == nullptr && "Node must have no tree");
         assert(this->Parent() == owner && "Node must have parent");
@@ -236,7 +237,7 @@ namespace TreeMachine {
         }
     }
 
-    void NodeBase::Activate(const any argument) {
+    inline void NodeBase::Activate(const any argument) {
         assert((this->Tree() != nullptr || this->Parent() != nullptr) && "Node must have owner");
         assert((this->Tree() != nullptr || this->Parent()->m_Activity == EActivity::Active || this->Parent()->m_Activity == EActivity::Activating) && "Node must have valid owner");
         assert(this->m_Activity == EActivity::Inactive && "Node must be inactive");
@@ -251,7 +252,7 @@ namespace TreeMachine {
         this->m_Activity = EActivity::Active;
         this->OnAfterActivate(argument);
     }
-    void NodeBase::Deactivate(const any argument) {
+    inline void NodeBase::Deactivate(const any argument) {
         assert((this->Tree() != nullptr || this->Parent() != nullptr) && "Node must have owner");
         assert((this->Tree() != nullptr || this->Parent()->m_Activity == EActivity::Active || this->Parent()->m_Activity == EActivity::Deactivating) && "Node must have valid owner");
         assert(this->m_Activity == EActivity::Active && "Node must be active");
@@ -267,59 +268,59 @@ namespace TreeMachine {
         this->OnAfterDeactivate(argument);
     }
 
-    void NodeBase::OnAttach([[maybe_unused]] const any argument) {
+    inline void NodeBase::OnAttach([[maybe_unused]] const any argument) {
     }
-    void NodeBase::OnBeforeAttach(const any argument) {
+    inline void NodeBase::OnBeforeAttach(const any argument) {
         if (this->m_OnBeforeAttachCallback) {
             this->m_OnBeforeAttachCallback(argument);
         }
     }
-    void NodeBase::OnAfterAttach(const any argument) {
+    inline void NodeBase::OnAfterAttach(const any argument) {
         if (this->m_OnAfterAttachCallback) {
             this->m_OnAfterAttachCallback(argument);
         }
     }
 
-    void NodeBase::OnDetach([[maybe_unused]] const any argument) {
+    inline void NodeBase::OnDetach([[maybe_unused]] const any argument) {
     }
-    void NodeBase::OnBeforeDetach(const any argument) {
+    inline void NodeBase::OnBeforeDetach(const any argument) {
         if (this->m_OnBeforeDetachCallback) {
             this->m_OnBeforeDetachCallback(argument);
         }
     }
-    void NodeBase::OnAfterDetach(const any argument) {
+    inline void NodeBase::OnAfterDetach(const any argument) {
         if (this->m_OnAfterDetachCallback) {
             this->m_OnAfterDetachCallback(argument);
         }
     }
 
-    void NodeBase::OnActivate([[maybe_unused]] const any argument) {
+    inline void NodeBase::OnActivate([[maybe_unused]] const any argument) {
     }
-    void NodeBase::OnBeforeActivate(const any argument) {
+    inline void NodeBase::OnBeforeActivate(const any argument) {
         if (this->m_OnBeforeActivateCallback) {
             this->m_OnBeforeActivateCallback(argument);
         }
     }
-    void NodeBase::OnAfterActivate(const any argument) {
+    inline void NodeBase::OnAfterActivate(const any argument) {
         if (this->m_OnAfterActivateCallback) {
             this->m_OnAfterActivateCallback(argument);
         }
     }
 
-    void NodeBase::OnDeactivate([[maybe_unused]] const any argument) {
+    inline void NodeBase::OnDeactivate([[maybe_unused]] const any argument) {
     }
-    void NodeBase::OnBeforeDeactivate(const any argument) {
+    inline void NodeBase::OnBeforeDeactivate(const any argument) {
         if (this->m_OnBeforeDeactivateCallback) {
             this->m_OnBeforeDeactivateCallback(argument);
         }
     }
-    void NodeBase::OnAfterDeactivate(const any argument) {
+    inline void NodeBase::OnAfterDeactivate(const any argument) {
         if (this->m_OnAfterDeactivateCallback) {
             this->m_OnAfterDeactivateCallback(argument);
         }
     }
 
-    void NodeBase::AddChild(NodeBase *const child, const any argument) {
+    inline void NodeBase::AddChild(NodeBase *const child, const any argument) {
         assert(child != nullptr && "Argument 'child' must be non-null");
         assert(child->Tree() == nullptr && "Argument 'child' must have no tree");
         assert(child->Parent() == nullptr && "Argument 'child' must have no parent");
@@ -329,12 +330,12 @@ namespace TreeMachine {
         this->Sort(this->m_Children);
         child->Attach(this, argument);
     }
-    void NodeBase::AddChildren(const vector<NodeBase *> &children, const any argument) {
+    inline void NodeBase::AddChildren(const vector<NodeBase *> &children, const any argument) {
         for (auto *const child : children) {
             this->AddChild(child, argument);
         }
     }
-    void NodeBase::RemoveChild(NodeBase *const child, const any argument, const function<void(const NodeBase *const, const any)> callback) {
+    inline void NodeBase::RemoveChild(NodeBase *const child, const any argument, const function<void(const NodeBase *const, const any)> callback) {
         assert(child != nullptr && "Argument 'child' must be non-null");
         assert(child->Tree() == nullptr && "Argument 'child' must have no tree");
         assert(child->Parent() == this && "Argument 'child' must have parent");
@@ -350,7 +351,7 @@ namespace TreeMachine {
             callback(child, argument);
         }
     }
-    bool NodeBase::RemoveChild(const function<bool(const NodeBase *const)> predicate, const any argument, const function<void(const NodeBase *const, const any)> callback) {
+    inline bool NodeBase::RemoveChild(const function<bool(const NodeBase *const)> predicate, const any argument, const function<void(const NodeBase *const, const any)> callback) {
         for (auto *child : reverse(this->m_Children)) { // NOLINT
             if (predicate(child)) {
                 this->RemoveChild(child, argument, callback);
@@ -359,7 +360,7 @@ namespace TreeMachine {
         }
         return false;
     }
-    int32_t NodeBase::RemoveChildren(const function<bool(const NodeBase *const)> predicate, const any argument, const function<void(const NodeBase *const, const any)> callback) {
+    inline int32_t NodeBase::RemoveChildren(const function<bool(const NodeBase *const)> predicate, const any argument, const function<void(const NodeBase *const, const any)> callback) {
         int32_t count = 0;
         for (auto *const child : reverse(this->m_Children)) {
             if (predicate(child)) {
@@ -369,7 +370,7 @@ namespace TreeMachine {
         }
         return count;
     }
-    int32_t NodeBase::RemoveChildren(const any argument, const function<void(const NodeBase *const, const any)> callback) {
+    inline int32_t NodeBase::RemoveChildren(const any argument, const function<void(const NodeBase *const, const any)> callback) {
         int32_t count = 0;
         for (auto *const child : reverse(this->m_Children)) {
             this->RemoveChild(child, argument, callback);
@@ -377,7 +378,7 @@ namespace TreeMachine {
         }
         return count;
     }
-    void NodeBase::RemoveSelf(const any argument, const function<void(const NodeBase *const, const any)> callback) {
+    inline void NodeBase::RemoveSelf(const any argument, const function<void(const NodeBase *const, const any)> callback) {
         if (auto *const parent = this->Parent()) {
             parent->RemoveChild(this, argument, callback);
         } else {
@@ -386,33 +387,33 @@ namespace TreeMachine {
         }
     }
 
-    void NodeBase::Sort(list<NodeBase *> &children) const {
+    inline void NodeBase::Sort(list<NodeBase *> &children) const {
         (void)children;
     }
 
-    void NodeBase::OnBeforeAttachCallback(const function<void(const any)> callback) {
+    inline void NodeBase::OnBeforeAttachCallback(const function<void(const any)> callback) {
         this->m_OnBeforeAttachCallback = callback;
     }
-    void NodeBase::OnAfterAttachCallback(const function<void(const any)> callback) {
+    inline void NodeBase::OnAfterAttachCallback(const function<void(const any)> callback) {
         this->m_OnAfterAttachCallback = callback;
     }
-    void NodeBase::OnBeforeDetachCallback(const function<void(const any)> callback) {
+    inline void NodeBase::OnBeforeDetachCallback(const function<void(const any)> callback) {
         this->m_OnBeforeDetachCallback = callback;
     }
-    void NodeBase::OnAfterDetachCallback(const function<void(const any)> callback) {
+    inline void NodeBase::OnAfterDetachCallback(const function<void(const any)> callback) {
         this->m_OnAfterDetachCallback = callback;
     }
 
-    void NodeBase::OnBeforeActivateCallback(const function<void(const any)> callback) {
+    inline void NodeBase::OnBeforeActivateCallback(const function<void(const any)> callback) {
         this->m_OnBeforeActivateCallback = callback;
     }
-    void NodeBase::OnAfterActivateCallback(const function<void(const any)> callback) {
+    inline void NodeBase::OnAfterActivateCallback(const function<void(const any)> callback) {
         this->m_OnAfterActivateCallback = callback;
     }
-    void NodeBase::OnBeforeDeactivateCallback(const function<void(const any)> callback) {
+    inline void NodeBase::OnBeforeDeactivateCallback(const function<void(const any)> callback) {
         this->m_OnBeforeDeactivateCallback = callback;
     }
-    void NodeBase::OnAfterDeactivateCallback(const function<void(const any)> callback) {
+    inline void NodeBase::OnAfterDeactivateCallback(const function<void(const any)> callback) {
         this->m_OnAfterDeactivateCallback = callback;
     }
 
