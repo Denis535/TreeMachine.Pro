@@ -517,7 +517,7 @@ namespace TreeMachine {
     NodeBase2<TThis>::~NodeBase2() = default;
 
     template <typename TThis>
-    void NodeBase2<TThis>::OnBeforeAttach([[maybe_unused]] const any argument) {
+    void NodeBase2<TThis>::OnBeforeAttach(const any argument) {
         // foreach (var ancestor in this.Ancestors.Reverse()) {
         //     ancestor.OnBeforeDescendantAttachEvent ?.Invoke((TThis)this, argument);
         //     ancestor.OnBeforeDescendantAttach((TThis)this, argument);
@@ -525,7 +525,7 @@ namespace TreeMachine {
         NodeBase<TThis>::OnBeforeAttach(argument);
     }
     template <typename TThis>
-    void NodeBase2<TThis>::OnAfterAttach([[maybe_unused]] const any argument) {
+    void NodeBase2<TThis>::OnAfterAttach(const any argument) {
         NodeBase<TThis>::OnAfterAttach(argument);
         // foreach (var ancestor in this.Ancestors) {
         //     ancestor.OnAfterDescendantAttach((TThis)this, argument);
@@ -533,7 +533,7 @@ namespace TreeMachine {
         // }
     }
     template <typename TThis>
-    void NodeBase2<TThis>::OnBeforeDetach([[maybe_unused]] const any argument) {
+    void NodeBase2<TThis>::OnBeforeDetach(const any argument) {
         // foreach (var ancestor in this.Ancestors.Reverse()) {
         //     ancestor.OnBeforeDescendantDetachEvent ?.Invoke((TThis)this, argument);
         //     ancestor.OnBeforeDescendantDetach((TThis)this, argument);
@@ -541,7 +541,7 @@ namespace TreeMachine {
         NodeBase<TThis>::OnBeforeDetach(argument);
     }
     template <typename TThis>
-    void NodeBase2<TThis>::OnAfterDetach([[maybe_unused]] const any argument) {
+    void NodeBase2<TThis>::OnAfterDetach(const any argument) {
         NodeBase<TThis>::OnAfterDetach(argument);
         // foreach (var ancestor in this.Ancestors) {
         //     ancestor.OnAfterDescendantDetach((TThis)this, argument);
@@ -563,7 +563,7 @@ namespace TreeMachine {
     }
 
     template <typename TThis>
-    void NodeBase2<TThis>::OnBeforeActivate([[maybe_unused]] const any argument) {
+    void NodeBase2<TThis>::OnBeforeActivate(const any argument) {
         // foreach (var ancestor in this.Ancestors.Reverse()) {
         //     ancestor.OnBeforeDescendantActivateEvent ?.Invoke((TThis)this, argument);
         //     ancestor.OnBeforeDescendantActivate((TThis)this, argument);
@@ -571,7 +571,7 @@ namespace TreeMachine {
         NodeBase<TThis>::OnBeforeActivate(argument);
     }
     template <typename TThis>
-    void NodeBase2<TThis>::OnAfterActivate([[maybe_unused]] const any argument) {
+    void NodeBase2<TThis>::OnAfterActivate(const any argument) {
         NodeBase<TThis>::OnAfterActivate(argument);
         // foreach (var ancestor in this.Ancestors) {
         //     ancestor.OnAfterDescendantActivate((TThis)this, argument);
@@ -579,7 +579,7 @@ namespace TreeMachine {
         // }
     }
     template <typename TThis>
-    void NodeBase2<TThis>::OnBeforeDeactivate([[maybe_unused]] const any argument) {
+    void NodeBase2<TThis>::OnBeforeDeactivate(const any argument) {
         // foreach (var ancestor in this.Ancestors.Reverse()) {
         //     ancestor.OnBeforeDescendantDeactivateEvent ?.Invoke((TThis)this, argument);
         //     ancestor.OnBeforeDescendantDeactivate((TThis)this, argument);
@@ -587,7 +587,7 @@ namespace TreeMachine {
         NodeBase<TThis>::OnBeforeDeactivate(argument);
     }
     template <typename TThis>
-    void NodeBase2<TThis>::OnAfterDeactivate([[maybe_unused]] const any argument) {
+    void NodeBase2<TThis>::OnAfterDeactivate(const any argument) {
         NodeBase<TThis>::OnAfterDeactivate(argument);
         // foreach (var ancestor in this.Ancestors) {
         //     ancestor.OnAfterDescendantDeactivate((TThis)this, argument);
