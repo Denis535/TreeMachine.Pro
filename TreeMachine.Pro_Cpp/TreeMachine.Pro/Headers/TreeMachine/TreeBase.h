@@ -5,8 +5,7 @@
 namespace TreeMachine {
     using namespace std;
 
-    // template <typename T, typename = typename std::enable_if<std::is_integral<T>::NodeBase>::type>
-    // template <typename T>
+    // template <typename T, enable_if_t<is_base_of_v<NodeBase, T>>>
     class TreeBase {
         friend class NodeBase;
 

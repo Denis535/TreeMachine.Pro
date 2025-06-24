@@ -323,7 +323,7 @@
     <inspection_tool class="MarkdownUnresolvedFileReference" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="MarkdownUnresolvedHeaderReference" enabled="false" level="WARNING" enabled_by_default="false" />
     <inspection_tool class="MarkdownUnresolvedLinkLabel" enabled="false" level="WARNING" enabled_by_default="false" />
-    <inspection_tool class="Misra" enabled="true" level="ERROR" enabled_by_default="true" editorAttributes="ERRORS_ATTRIBUTES">
+    <inspection_tool class="Misra" enabled="false" level="ERROR" enabled_by_default="false" editorAttributes="ERRORS_ATTRIBUTES">
       <option name="myMisraCPP2008Checks" value="clion-misra-cpp2008-*,-clion-misra-cpp2008-10-3-2,-clion-misra-cpp2008-5-3-1,-clion-misra-cpp2008-7-3-1,-clion-misra-cpp2008-7-3-4,-clion-misra-cpp2008-18-4-1,-clion-misra-cpp2008-0-1-7,-clion-misra-cpp2008-6-6-5,-clion-misra-cpp2008-5-18-1" />
       <option name="myMisraCPP2023Checks" value="clion-misra-cpp2023-*,-clion-misra-cpp2023-21-6-1,-clion-misra-cpp2023-21-6-2,-clion-misra-cpp2023-8-19-1,-clion-misra-cpp2023-19-6-1,-clion-misra-cpp2023-6-0-3,-clion-misra-cpp2023-0-1-2" />
     </inspection_tool>
