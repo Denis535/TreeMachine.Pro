@@ -10,17 +10,17 @@ namespace TreeMachine {
         auto *const a = new A();
         auto *const b = new B();
 
-        for (const auto *const node : vector<NodeBase *>{root, a, b}) {
+        for (const auto *const node : vector<Node *>{root, a, b}) {
             EXPECT_NE(node, nullptr);
             EXPECT_EQ(node->Tree(), nullptr);
             EXPECT_EQ(node->TreeRecursive(), nullptr);
             EXPECT_EQ(node->Parent(), nullptr);
-            EXPECT_EQ(node->Activity(), NodeBase::EActivity::Inactive);
+            EXPECT_EQ(node->Activity(), Node::EActivity::Inactive);
             EXPECT_EQ(node->Children().size(), 0);
         }
 
         root->OnBeforeAttachCallback([root, a, b]([[maybe_unused]] const any arg) {
-            root->AddChildren(vector<NodeBase *>{a, b}, nullptr);
+            root->AddChildren(vector<Node *>{a, b}, nullptr);
         });
         root->OnAfterDetachCallback([root]([[maybe_unused]] const any arg) {
             root->RemoveChildren(nullptr, [](auto *const child, [[maybe_unused]] const auto arg) { delete child; });
@@ -33,13 +33,13 @@ namespace TreeMachine {
             EXPECT_EQ(tree->Root()->Tree(), tree);
             EXPECT_EQ(tree->Root()->TreeRecursive(), tree);
             EXPECT_EQ(tree->Root()->Parent(), nullptr);
-            EXPECT_EQ(tree->Root()->Activity(), NodeBase::EActivity::Active);
+            EXPECT_EQ(tree->Root()->Activity(), Node::EActivity::Active);
             EXPECT_EQ(tree->Root()->Children().size(), 2);
             for (const auto *const child : tree->Root()->Children()) {
                 EXPECT_EQ(child->Tree(), nullptr);
                 EXPECT_EQ(child->TreeRecursive(), tree);
                 EXPECT_EQ(child->Parent(), tree->Root());
-                EXPECT_EQ(child->Activity(), NodeBase::EActivity::Active);
+                EXPECT_EQ(child->Activity(), Node::EActivity::Active);
                 EXPECT_EQ(child->Children().size(), 0);
             }
         }
@@ -58,17 +58,17 @@ namespace TreeMachine {
         auto *const a = new A();
         auto *const b = new B();
 
-        for (const auto *const node : vector<NodeBase *>{root, a, b}) {
+        for (const auto *const node : vector<Node *>{root, a, b}) {
             EXPECT_NE(node, nullptr);
             EXPECT_EQ(node->Tree(), nullptr);
             EXPECT_EQ(node->TreeRecursive(), nullptr);
             EXPECT_EQ(node->Parent(), nullptr);
-            EXPECT_EQ(node->Activity(), NodeBase::EActivity::Inactive);
+            EXPECT_EQ(node->Activity(), Node::EActivity::Inactive);
             EXPECT_EQ(node->Children().size(), 0);
         }
 
         root->OnAfterAttachCallback([root, a, b]([[maybe_unused]] const any arg) {
-            root->AddChildren(vector<NodeBase *>{a, b}, nullptr);
+            root->AddChildren(vector<Node *>{a, b}, nullptr);
         });
         root->OnBeforeDetachCallback([root]([[maybe_unused]] const any arg) {
             root->RemoveChildren(nullptr, [](auto *const child, [[maybe_unused]] const auto arg) { delete child; });
@@ -81,13 +81,13 @@ namespace TreeMachine {
             EXPECT_EQ(tree->Root()->Tree(), tree);
             EXPECT_EQ(tree->Root()->TreeRecursive(), tree);
             EXPECT_EQ(tree->Root()->Parent(), nullptr);
-            EXPECT_EQ(tree->Root()->Activity(), NodeBase::EActivity::Active);
+            EXPECT_EQ(tree->Root()->Activity(), Node::EActivity::Active);
             EXPECT_EQ(tree->Root()->Children().size(), 2);
             for (const auto *const child : tree->Root()->Children()) {
                 EXPECT_EQ(child->Tree(), nullptr);
                 EXPECT_EQ(child->TreeRecursive(), tree);
                 EXPECT_EQ(child->Parent(), tree->Root());
-                EXPECT_EQ(child->Activity(), NodeBase::EActivity::Active);
+                EXPECT_EQ(child->Activity(), Node::EActivity::Active);
                 EXPECT_EQ(child->Children().size(), 0);
             }
         }

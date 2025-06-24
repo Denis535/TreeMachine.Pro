@@ -5,15 +5,14 @@
 namespace TreeMachine {
     using namespace std;
 
-    // template <typename T, enable_if_t<is_base_of_v<NodeBase, T>>>
+    template <typename T>
     class TreeBase {
-        friend class NodeBase;
 
         private:
-        NodeBase *m_Root = nullptr;
+        T *m_Root = nullptr;
 
         protected:
-        [[nodiscard]] NodeBase *Root() const;
+        [[nodiscard]] T *Root() const;
 
         protected:
         explicit TreeBase();
@@ -24,9 +23,9 @@ namespace TreeMachine {
         virtual ~TreeBase();
 
         protected:
-        virtual void AddRoot(NodeBase *const root, const any argument);
-        virtual void RemoveRoot(NodeBase *const root, const any argument, const function<void(const NodeBase *const, const any)> callback);
-        virtual void RemoveRoot(const any argument, const function<void(const NodeBase *const, const any)> callback);
+        virtual void AddRoot(T *const root, const any argument);
+        virtual void RemoveRoot(T *const root, const any argument, const function<void(const T *const, const any)> callback);
+        virtual void RemoveRoot(const any argument, const function<void(const T *const, const any)> callback);
 
         public:
         TreeBase &operator=(const TreeBase &other) = delete;

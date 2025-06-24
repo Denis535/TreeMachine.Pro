@@ -4,7 +4,7 @@
 namespace TreeMachine {
     using namespace std;
 
-    class Node : public NodeBase {
+    class Node : public NodeBase<Node> {
 
         public:
         explicit Node() = default;
@@ -65,7 +65,7 @@ namespace TreeMachine {
     };
     class B final : public Node {
     };
-    class Tree final : public TreeBase {
+    class Tree final : public TreeBase<Node> {
 
         public:
         using TreeBase::Root;

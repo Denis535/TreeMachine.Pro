@@ -7,8 +7,12 @@
 namespace TreeMachine {
     using namespace std;
 
+    template <typename T>
+    class TreeBase;
+
+    template <typename TThis>
     class NodeBase {
-        friend class TreeBase;
+        friend class TreeBase<TThis>;
 
         public:
         enum class EActivity : uint8_t {
@@ -19,13 +23,13 @@ namespace TreeMachine {
         };
 
         private:
-        variant<nullptr_t, TreeBase *, NodeBase *> m_Owner = nullptr;
+        variant<nullptr_t, TreeBase<TThis> *, TThis *> m_Owner = nullptr;
 
         private:
         EActivity m_Activity = EActivity::Inactive;
 
         private:
-        list<NodeBase *> m_Children = list<NodeBase *>(0);
+        list<TThis *> m_Children = list<TThis *>(0);
 
         private:
         function<void(const any)> m_OnBeforeAttachCallback = nullptr;
@@ -40,28 +44,28 @@ namespace TreeMachine {
         function<void(const any)> m_OnAfterDeactivateCallback = nullptr;
 
         public:
-        [[nodiscard]] TreeBase *Tree() const;
-        [[nodiscard]] TreeBase *TreeRecursive() const;
+        [[nodiscard]] TreeBase<TThis> *Tree() const;
+        [[nodiscard]] TreeBase<TThis> *TreeRecursive() const;
 
         public:
         [[nodiscard]] bool IsRoot() const;
-        [[nodiscard]] const NodeBase *Root() const;
-        [[nodiscard]] NodeBase *Root();
+        [[nodiscard]] const TThis *Root() const;
+        [[nodiscard]] TThis *Root();
 
         public:
-        [[nodiscard]] NodeBase *Parent() const;
-        [[nodiscard]] vector<NodeBase *> Ancestors() const;
-        [[nodiscard]] vector<const NodeBase *> AncestorsAndSelf() const;
-        [[nodiscard]] vector<NodeBase *> AncestorsAndSelf();
+        [[nodiscard]] TThis *Parent() const;
+        [[nodiscard]] vector<TThis *> Ancestors() const;
+        [[nodiscard]] vector<const TThis *> AncestorsAndSelf() const;
+        [[nodiscard]] vector<TThis *> AncestorsAndSelf();
 
         public:
         [[nodiscard]] EActivity Activity() const;
 
         public:
-        [[nodiscard]] const list<NodeBase *> &Children() const;
-        [[nodiscard]] vector<NodeBase *> Descendants() const;
-        [[nodiscard]] vector<const NodeBase *> DescendantsAndSelf() const;
-        [[nodiscard]] vector<NodeBase *> DescendantsAndSelf();
+        [[nodiscard]] const list<TThis *> &Children() const;
+        [[nodiscard]] vector<TThis *> Descendants() const;
+        [[nodiscard]] vector<const TThis *> DescendantsAndSelf() const;
+        [[nodiscard]] vector<TThis *> DescendantsAndSelf();
 
         public:
         [[nodiscard]] const function<void(const any)> &OnBeforeAttachCallback() const;
@@ -75,21 +79,21 @@ namespace TreeMachine {
         [[nodiscard]] const function<void(const any)> &OnBeforeDeactivateCallback() const;
         [[nodiscard]] const function<void(const any)> &OnAfterDeactivateCallback() const;
 
-        protected:
+        private:
         explicit NodeBase();
-
-        public:
         explicit NodeBase(const NodeBase &other) = delete;
         explicit NodeBase(NodeBase &&other) = delete;
+
+        public:
         virtual ~NodeBase();
 
-        private:
-        void Attach(TreeBase *const owner, const any argument);
-        void Attach(NodeBase *const owner, const any argument);
+        protected:
+        void Attach(TreeBase<TThis> *const owner, const any argument);
+        void Attach(TThis *const owner, const any argument);
 
-        private:
-        void Detach(TreeBase *const owner, const any argument);
-        void Detach(NodeBase *const owner, const any argument);
+        protected:
+        void Detach(TreeBase<TThis> *const owner, const any argument);
+        void Detach(TThis *const owner, const any argument);
 
         private:
         void Activate(const any argument);
@@ -116,16 +120,16 @@ namespace TreeMachine {
         virtual void OnAfterDeactivate(const any argument);
 
         protected:
-        virtual void AddChild(NodeBase *const child, const any argument);
-        void AddChildren(const vector<NodeBase *> &children, const any argument);
-        virtual void RemoveChild(NodeBase *const child, const any argument, const function<void(const NodeBase *const, const any)> callback);
-        bool RemoveChild(const function<bool(const NodeBase *const)> predicate, const any argument, const function<void(const NodeBase *const, const any)> callback);
-        int32_t RemoveChildren(const function<bool(const NodeBase *const)> predicate, const any argument, const function<void(const NodeBase *const, const any)> callback);
-        int32_t RemoveChildren(const any argument, const function<void(const NodeBase *const, const any)> callback);
-        void RemoveSelf(const any argument, const function<void(const NodeBase *const, const any)> callback);
+        virtual void AddChild(TThis *const child, const any argument);
+        void AddChildren(const vector<TThis *> &children, const any argument);
+        virtual void RemoveChild(TThis *const child, const any argument, const function<void(const TThis *const, const any)> callback);
+        bool RemoveChild(const function<bool(const TThis *const)> predicate, const any argument, const function<void(const TThis *const, const any)> callback);
+        int32_t RemoveChildren(const function<bool(const TThis *const)> predicate, const any argument, const function<void(const TThis *const, const any)> callback);
+        int32_t RemoveChildren(const any argument, const function<void(const TThis *const, const any)> callback);
+        void RemoveSelf(const any argument, const function<void(const TThis *const, const any)> callback);
 
         protected:
-        virtual void Sort(list<NodeBase *> &children) const;
+        virtual void Sort(list<TThis *> &children) const;
 
         public:
         void OnBeforeAttachCallback(const function<void(const any)> callback);
@@ -142,5 +146,6 @@ namespace TreeMachine {
         public:
         NodeBase &operator=(const NodeBase &other) = delete;
         NodeBase &operator=(NodeBase &&other) = delete;
+        friend TThis;
     };
 }
