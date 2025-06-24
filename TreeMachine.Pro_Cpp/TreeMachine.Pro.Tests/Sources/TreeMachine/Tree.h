@@ -4,7 +4,7 @@
 namespace TreeMachine {
     using namespace std;
 
-    class Node : public NodeBase<Node> {
+    class Node : public NodeBase2<Node> {
 
         public:
         explicit Node() = default;
