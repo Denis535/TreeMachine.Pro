@@ -81,10 +81,10 @@ namespace TreeMachine {
 
         private:
         explicit NodeBase();
-        explicit NodeBase(const NodeBase &other) = delete;
-        explicit NodeBase(NodeBase &&other) = delete;
 
         public:
+        explicit NodeBase(const NodeBase &other) = delete;
+        explicit NodeBase(NodeBase &&other) = delete;
         virtual ~NodeBase();
 
         protected:
