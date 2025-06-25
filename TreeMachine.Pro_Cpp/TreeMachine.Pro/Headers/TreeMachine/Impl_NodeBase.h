@@ -85,8 +85,8 @@ namespace TreeMachine {
     vector<const TThis *> NodeBase<TThis>::AncestorsAndSelf() const {
         auto result = vector<const TThis *>();
         result.push_back(this);
-        auto descendants = this->Descendants();
-        result.insert(result.end(), descendants.begin(), descendants.end());
+        auto ancestors = this->Ancestors();
+        result.insert(result.end(), ancestors.begin(), ancestors.end());
         return result;
     }
 
@@ -94,8 +94,8 @@ namespace TreeMachine {
     vector<TThis *> NodeBase<TThis>::AncestorsAndSelf() {
         auto result = vector<TThis *>();
         result.push_back(this);
-        auto descendants = this->Descendants();
-        result.insert(result.end(), descendants.begin(), descendants.end());
+        auto ancestors = this->Ancestors();
+        result.insert(result.end(), ancestors.begin(), ancestors.end());
         return result;
     }
 
@@ -160,22 +160,22 @@ namespace TreeMachine {
 
     template <typename TThis>
     const function<void(const any)> &NodeBase<TThis>::OnBeforeActivateCallback() const {
-        return this->m_OnBeforeAttachCallback;
+        return this->m_OnBeforeActivateCallback;
     }
 
     template <typename TThis>
     const function<void(const any)> &NodeBase<TThis>::OnAfterActivateCallback() const {
-        return this->m_OnAfterAttachCallback;
+        return this->m_OnAfterActivateCallback;
     }
 
     template <typename TThis>
     const function<void(const any)> &NodeBase<TThis>::OnBeforeDeactivateCallback() const {
-        return this->m_OnBeforeDetachCallback;
+        return this->m_OnBeforeDeactivateCallback;
     }
 
     template <typename TThis>
     const function<void(const any)> &NodeBase<TThis>::OnAfterDeactivateCallback() const {
-        return this->m_OnAfterDetachCallback;
+        return this->m_OnAfterDeactivateCallback;
     }
 
     template <typename TThis>

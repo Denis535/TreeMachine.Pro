@@ -20,9 +20,9 @@ namespace TreeMachine::Internal {
     }
 
     template <typename T>
-    bool contains(const list<T> &list, const T &item) {
-        auto result = find(list.begin(), list.end(), item);
-        return result != list.end();
+    bool contains(const list<T> &source, const T &item) {
+        auto result = find(source.begin(), source.end(), item);
+        return result != source.end();
     }
 
 }
