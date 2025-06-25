@@ -37,22 +37,6 @@ namespace System.TreeMachine {
                 this.Activate( argument );
             }
         }
-        internal void Detach(ITree<TThis> owner, object? argument) {
-            Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
-            Assert.Operation.Valid( $"Node {this} must have {owner} owner", this.Owner == owner );
-            Assert.Operation.Valid( $"Node {this} must be active", this.Activity == Activity_.Active );
-            {
-                this.Deactivate( argument );
-            }
-            {
-                this.OnBeforeDetach( argument );
-                this.OnDetach( argument );
-                this.OnAfterDetach( argument );
-                this.Owner = null;
-            }
-        }
-
-        // Attach
         internal void Attach(TThis owner, object? argument) {
             Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
             Assert.Operation.Valid( $"Node {this} must have no owner", this.Owner == null );
@@ -66,6 +50,22 @@ namespace System.TreeMachine {
             if (owner.Activity == Activity_.Active) {
                 this.Activate( argument );
             } else {
+            }
+        }
+
+        // Detach
+        internal void Detach(ITree<TThis> owner, object? argument) {
+            Assert.Argument.NotNull( $"Argument 'owner' must be non-null", owner != null );
+            Assert.Operation.Valid( $"Node {this} must have {owner} owner", this.Owner == owner );
+            Assert.Operation.Valid( $"Node {this} must be active", this.Activity == Activity_.Active );
+            {
+                this.Deactivate( argument );
+            }
+            {
+                this.OnBeforeDetach( argument );
+                this.OnDetach( argument );
+                this.OnAfterDetach( argument );
+                this.Owner = null;
             }
         }
         internal void Detach(TThis owner, object? argument) {

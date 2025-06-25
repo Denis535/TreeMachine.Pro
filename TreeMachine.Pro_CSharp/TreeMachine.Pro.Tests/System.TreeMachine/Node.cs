@@ -76,6 +76,9 @@
         public new void AddChild(Node child, object? argument) {
             base.AddChild( child, argument );
         }
+        public new void AddChildren(Node[] children, object? argument) {
+            base.AddChildren( children, argument );
+        }
         public new void RemoveChild(Node child, object? argument, Action<Node, object?>? callback) {
             base.RemoveChild( child, argument, callback );
         }

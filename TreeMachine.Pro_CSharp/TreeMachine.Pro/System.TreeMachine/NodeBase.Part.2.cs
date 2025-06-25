@@ -52,6 +52,12 @@ namespace System.TreeMachine {
             this.Sort( this.children );
             child.Attach( (TThis) this, argument );
         }
+        protected virtual void AddChildren(TThis[] children, object? argument) {
+            Assert.Argument.NotNull( $"Argument 'children' must be non-null", children != null );
+            foreach (var child in children) {
+                this.AddChild( child, argument );
+            }
+        }
         protected virtual void RemoveChild(TThis child, object? argument, Action<TThis, object?>? callback) {
             Assert.Argument.NotNull( $"Argument 'child' must be non-null", child != null );
             Assert.Argument.Valid( $"Argument 'child' ({child}) must have {this} owner", child.Owner == this );
