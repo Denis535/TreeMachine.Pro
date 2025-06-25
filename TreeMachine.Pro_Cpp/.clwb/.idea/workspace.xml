@@ -33,6 +33,7 @@
     <list default="true" id="3ba905a7-ea50-4506-9756-feebbc8a6ed4" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/aspects/tools/CreateAar_deploy.jar" beforeDir="false" afterPath="$PROJECT_DIR$/aspects/tools/CreateAar_deploy.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../MODULE.bazel" beforeDir="false" afterPath="$PROJECT_DIR$/../MODULE.bazel" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Impl_NodeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Impl_NodeBase.h" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Impl_NodeBase2.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Impl_NodeBase2.h" afterDir="false" />
@@ -150,7 +151,7 @@
       <workItem from="1750831746123" duration="37000" />
       <workItem from="1750831925855" duration="18929000" />
       <workItem from="1750857408802" duration="2579000" />
-      <workItem from="1750860457123" duration="2079000" />
+      <workItem from="1750860457123" duration="2263000" />
     </task>
     <servers />
   </component>
