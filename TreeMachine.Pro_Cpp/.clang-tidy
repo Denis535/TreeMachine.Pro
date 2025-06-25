@@ -13,9 +13,9 @@ Checks: >
   hicpp-*,
 
   google-*,
+  -google-build-using-namespace,
   -google-readability-namespace-comments,
   -google-readability-avoid-underscore-in-googletest-name,
-  -google-build-using-namespace,
 
   readability-*,
   -readability-identifier-length,
