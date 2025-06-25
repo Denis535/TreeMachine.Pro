@@ -2,7 +2,6 @@
 #include <any>
 #include <cassert>
 #include <functional>
-#include "NodeBase.h"
 #include "TreeBase.h"
 
 namespace TreeMachine {
@@ -18,7 +17,7 @@ namespace TreeMachine {
     }
 
     template <typename T>
-    [[nodiscard]] T *TreeBase<T>::Root() const {
+    T *TreeBase<T>::Root() const {
         return this->m_Root;
     }
 

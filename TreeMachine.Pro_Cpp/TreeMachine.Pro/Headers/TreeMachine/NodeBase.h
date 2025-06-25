@@ -90,8 +90,6 @@ namespace TreeMachine {
         protected:
         void Attach(TreeBase<TThis> *const owner, const any argument);
         void Attach(TThis *const owner, const any argument);
-
-        protected:
         void Detach(TreeBase<TThis> *const owner, const any argument);
         void Detach(TThis *const owner, const any argument);
 
@@ -100,29 +98,25 @@ namespace TreeMachine {
         void Deactivate(const any argument);
 
         protected:
-        virtual void OnAttach(const any argument);
-        virtual void OnBeforeAttach(const any argument);
-        virtual void OnAfterAttach(const any argument);
+        virtual void OnAttach(const any argument);       // overriding methods must invoke base implementation
+        virtual void OnBeforeAttach(const any argument); // overriding methods must invoke base implementation
+        virtual void OnAfterAttach(const any argument);  // overriding methods must invoke base implementation
+        virtual void OnDetach(const any argument);       // overriding methods must invoke base implementation
+        virtual void OnBeforeDetach(const any argument); // overriding methods must invoke base implementation
+        virtual void OnAfterDetach(const any argument);  // overriding methods must invoke base implementation
 
         protected:
-        virtual void OnDetach(const any argument);
-        virtual void OnBeforeDetach(const any argument);
-        virtual void OnAfterDetach(const any argument);
+        virtual void OnActivate(const any argument);         // overriding methods must invoke base implementation
+        virtual void OnBeforeActivate(const any argument);   // overriding methods must invoke base implementation
+        virtual void OnAfterActivate(const any argument);    // overriding methods must invoke base implementation
+        virtual void OnDeactivate(const any argument);       // overriding methods must invoke base implementation
+        virtual void OnBeforeDeactivate(const any argument); // overriding methods must invoke base implementation
+        virtual void OnAfterDeactivate(const any argument);  // overriding methods must invoke base implementation
 
         protected:
-        virtual void OnActivate(const any argument);
-        virtual void OnBeforeActivate(const any argument);
-        virtual void OnAfterActivate(const any argument);
-
-        protected:
-        virtual void OnDeactivate(const any argument);
-        virtual void OnBeforeDeactivate(const any argument);
-        virtual void OnAfterDeactivate(const any argument);
-
-        protected:
-        virtual void AddChild(TThis *const child, const any argument);
+        virtual void AddChild(TThis *const child, const any argument); // overriding methods must invoke base implementation
         void AddChildren(const vector<TThis *> &children, const any argument);
-        virtual void RemoveChild(TThis *const child, const any argument, const function<void(const TThis *const, const any)> callback);
+        virtual void RemoveChild(TThis *const child, const any argument, const function<void(const TThis *const, const any)> callback); // overriding methods must invoke base implementation
         bool RemoveChild(const function<bool(const TThis *const)> predicate, const any argument, const function<void(const TThis *const, const any)> callback);
         int32_t RemoveChildren(const function<bool(const TThis *const)> predicate, const any argument, const function<void(const TThis *const, const any)> callback);
         int32_t RemoveChildren(const any argument, const function<void(const TThis *const, const any)> callback);
@@ -146,80 +140,5 @@ namespace TreeMachine {
         public:
         NodeBase &operator=(const NodeBase &other) = delete;
         NodeBase &operator=(NodeBase &&other) = delete;
-    };
-    template <typename TThis>
-    class NodeBase2 : public NodeBase<TThis> {
-
-        private:
-        function<void(TThis, const any)> m_OnBeforeDescendantAttachCallback;
-        function<void(TThis, const any)> m_OnAfterDescendantAttachCallback;
-        function<void(TThis, const any)> m_OnBeforeDescendantDetachCallback;
-        function<void(TThis, const any)> m_OnAfterDescendantDetachCallback;
-
-        private:
-        function<void(TThis, const any)> m_OnBeforeDescendantActivateCallback;
-        function<void(TThis, const any)> m_OnAfterDescendantActivateCallback;
-        function<void(TThis, const any)> m_OnBeforeDescendantDeactivateCallback;
-        function<void(TThis, const any)> m_OnAfterDescendantDeactivateCallback;
-
-        public:
-        function<void(TThis, const any)> &OnBeforeDescendantAttachCallback();
-        function<void(TThis, const any)> &OnAfterDescendantAttachCallback();
-        function<void(TThis, const any)> &OnBeforeDescendantDetachCallback();
-        function<void(TThis, const any)> &OnAfterDescendantDetachCallback();
-
-        public:
-        function<void(TThis, const any)> &OnBeforeDescendantActivateCallback();
-        function<void(TThis, const any)> &OnAfterDescendantActivateCallback();
-        function<void(TThis, const any)> &OnBeforeDescendantDeactivateCallback();
-        function<void(TThis, const any)> &OnAfterDescendantDeactivateCallback();
-
-        protected:
-        explicit NodeBase2();
-
-        public:
-        explicit NodeBase2(const NodeBase2 &other) = delete;
-        explicit NodeBase2(NodeBase2 &&other) = delete;
-        ~NodeBase2() override;
-
-        protected:
-        void OnBeforeAttach(const any argument) override;
-        void OnAfterAttach(const any argument) override;
-        void OnBeforeDetach(const any argument) override;
-        void OnAfterDetach(const any argument) override;
-
-        protected:
-        virtual void OnBeforeDescendantAttach(TThis descendant, const any argument);
-        virtual void OnAfterDescendantAttach(TThis descendant, const any argument);
-        virtual void OnBeforeDescendantDetach(TThis descendant, const any argument);
-        virtual void OnAfterDescendantDetach(TThis descendant, const any argument);
-
-        protected:
-        void OnBeforeActivate(const any argument) override;
-        void OnAfterActivate(const any argument) override;
-        void OnBeforeDeactivate(const any argument) override;
-        void OnAfterDeactivate(const any argument) override;
-
-        protected:
-        virtual void OnBeforeDescendantActivate(TThis descendant, const any argument);
-        virtual void OnAfterDescendantActivate(TThis descendant, const any argument);
-        virtual void OnBeforeDescendantDeactivate(TThis descendant, const any argument);
-        virtual void OnAfterDescendantDeactivate(TThis descendant, const any argument);
-
-        public:
-        void OnBeforeDescendantAttachCallback(function<void(TThis, const any)> callback);
-        void OnAfterDescendantAttachCallback(function<void(TThis, const any)> callback);
-        void OnBeforeDescendantDetachCallback(function<void(TThis, const any)> callback);
-        void OnAfterDescendantDetachCallback(function<void(TThis, const any)> callback);
-
-        public:
-        void OnBeforeDescendantActivateCallback(function<void(TThis, const any)> callback);
-        void OnAfterDescendantActivateCallback(function<void(TThis, const any)> callback);
-        void OnBeforeDescendantDeactivateCallback(function<void(TThis, const any)> callback);
-        void OnAfterDescendantDeactivateCallback(function<void(TThis, const any)> callback);
-
-        public:
-        NodeBase2 &operator=(const NodeBase2 &other) = delete;
-        NodeBase2 &operator=(NodeBase2 &&other) = delete;
     };
 }

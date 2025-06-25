@@ -23,9 +23,9 @@ namespace TreeMachine {
         virtual ~TreeBase();
 
         protected:
-        virtual void AddRoot(T *const root, const any argument);
-        virtual void RemoveRoot(T *const root, const any argument, const function<void(const T *const, const any)> callback);
-        virtual void RemoveRoot(const any argument, const function<void(const T *const, const any)> callback);
+        virtual void AddRoot(T *const root, const any argument);                                                              // overriding methods must invoke base implementation
+        virtual void RemoveRoot(T *const root, const any argument, const function<void(const T *const, const any)> callback); // overriding methods must invoke base implementation
+        void RemoveRoot(const any argument, const function<void(const T *const, const any)> callback);
 
         public:
         TreeBase &operator=(const TreeBase &other) = delete;

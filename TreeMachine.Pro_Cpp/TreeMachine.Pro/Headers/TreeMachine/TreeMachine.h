@@ -1,6 +1,8 @@
 #pragma once
 #include "NodeBase.h"
+#include "NodeBase2.h"
 #include "TreeBase.h"
 
-#include "NodeBase_Impl.h"
-#include "TreeBase_Impl.h"
+#include "Impl_NodeBase.h"
+#include "Impl_NodeBase2.h"
+#include "Impl_TreeBase.h"
