@@ -52,7 +52,7 @@ namespace System.TreeMachine {
             this.Sort( this.children );
             child.Attach( (TThis) this, argument );
         }
-        protected virtual void RemoveChild(TThis child, object? argument, Action<TThis>? callback) {
+        protected virtual void RemoveChild(TThis child, object? argument, Action<TThis, object?>? callback) {
             Assert.Argument.NotNull( $"Argument 'child' must be non-null", child != null );
             Assert.Argument.Valid( $"Argument 'child' ({child}) must have {this} owner", child.Owner == this );
             if (this.Activity == Activity_.Active) {
@@ -63,9 +63,9 @@ namespace System.TreeMachine {
             Assert.Operation.Valid( $"Node {this} must have {child} child", this.Children.Contains( child ) );
             child.Detach( (TThis) this, argument );
             this.children.Remove( child );
-            callback?.Invoke( child );
+            callback?.Invoke( child, argument );
         }
-        protected bool RemoveChild(Func<TThis, bool> predicate, object? argument, Action<TThis>? callback) {
+        protected bool RemoveChild(Func<TThis, bool> predicate, object? argument, Action<TThis, object?>? callback) {
             var child = this.Children.LastOrDefault( predicate );
             if (child != null) {
                 this.RemoveChild( child, argument, callback );
@@ -73,21 +73,21 @@ namespace System.TreeMachine {
             }
             return false;
         }
-        protected int RemoveChildren(Func<TThis, bool> predicate, object? argument, Action<TThis>? callback) {
+        protected int RemoveChildren(Func<TThis, bool> predicate, object? argument, Action<TThis, object?>? callback) {
             var children = this.Children.Reverse().Where( predicate ).ToList();
             foreach (var child in children) {
                 this.RemoveChild( child, argument, callback );
             }
             return children.Count;
         }
-        protected int RemoveChildren(object? argument, Action<TThis>? callback) {
+        protected int RemoveChildren(object? argument, Action<TThis, object?>? callback) {
             var children = this.Children.Reverse().ToList();
             foreach (var child in children) {
                 this.RemoveChild( child, argument, callback );
             }
             return children.Count;
         }
-        protected void RemoveSelf(object? argument, Action<TThis>? callback) {
+        protected void RemoveSelf(object? argument, Action<TThis, object?>? callback) {
             if (this.Parent != null) {
                 this.Parent.RemoveChild( (TThis) this, argument, callback );
             } else {

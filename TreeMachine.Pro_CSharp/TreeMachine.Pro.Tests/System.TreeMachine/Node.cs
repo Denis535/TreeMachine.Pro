@@ -76,19 +76,19 @@
         public new void AddChild(Node child, object? argument) {
             base.AddChild( child, argument );
         }
-        public new void RemoveChild(Node child, object? argument, Action<Node>? callback) {
+        public new void RemoveChild(Node child, object? argument, Action<Node, object?>? callback) {
             base.RemoveChild( child, argument, callback );
         }
-        public new bool RemoveChild(Func<Node, bool> predicate, object? argument, Action<Node>? callback) {
+        public new bool RemoveChild(Func<Node, bool> predicate, object? argument, Action<Node, object?>? callback) {
             return base.RemoveChild( predicate, argument, callback );
         }
-        public new int RemoveChildren(Func<Node, bool> predicate, object? argument, Action<Node>? callback) {
+        public new int RemoveChildren(Func<Node, bool> predicate, object? argument, Action<Node, object?>? callback) {
             return base.RemoveChildren( predicate, argument, callback );
         }
-        public new int RemoveChildren(object? argument, Action<Node>? callback) {
+        public new int RemoveChildren(object? argument, Action<Node, object?>? callback) {
             return base.RemoveChildren( argument, callback );
         }
-        public new void RemoveSelf(object? argument, Action<Node>? callback) {
+        public new void RemoveSelf(object? argument, Action<Node, object?>? callback) {
             base.RemoveSelf( argument, callback );
         }
 

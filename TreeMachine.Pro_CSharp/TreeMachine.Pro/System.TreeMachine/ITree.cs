@@ -11,8 +11,8 @@ namespace System.TreeMachine {
 
         // AddRoot
         protected void AddRoot(T root, object? argument);
-        protected internal void RemoveRoot(T root, object? argument, Action<T>? callback);
-        protected void RemoveRoot(object? argument, Action<T>? callback);
+        protected internal void RemoveRoot(T root, object? argument, Action<T, object?>? callback);
+        protected void RemoveRoot(object? argument, Action<T, object?>? callback);
 
         // Helpers
         protected static void AddRoot(ITree<T> tree, T root, object? argument) {
@@ -25,7 +25,7 @@ namespace System.TreeMachine {
             tree.Root = root;
             tree.Root.Attach( tree, argument );
         }
-        protected static void RemoveRoot(ITree<T> tree, T root, object? argument, Action<T>? callback) {
+        protected static void RemoveRoot(ITree<T> tree, T root, object? argument, Action<T, object?>? callback) {
             Assert.Argument.NotNull( $"Argument 'tree' must be non-null", tree != null );
             Assert.Argument.Valid( $"Argument 'tree' ({tree}) must have {root} root", tree.Root == root );
             Assert.Argument.NotNull( $"Argument 'root' must be non-null", root != null );
@@ -34,11 +34,11 @@ namespace System.TreeMachine {
             Assert.Operation.Valid( $"Tree {tree} must have root", tree.Root != null );
             tree.Root.Detach( tree, argument );
             tree.Root = null;
-            callback?.Invoke( root );
+            callback?.Invoke( root, argument );
         }
-        protected static void RemoveRoot(ITree<T> tree, object? argument, Action<T>? callback) {
+        protected static void RemoveRoot(ITree<T> tree, object? argument, Action<T, object?>? callback) {
             Assert.Operation.Valid( $"Tree {tree} must have root", tree.Root != null );
-            RemoveRoot( tree, tree.Root, argument, callback );
+            tree.RemoveRoot( tree.Root, argument, callback );
         }
 
     }
