@@ -98,7 +98,7 @@ namespace System.TreeMachine {
                 this.Parent.RemoveChild( (TThis) this, argument, callback );
             } else {
                 Assert.Operation.Valid( $"Node {this} must have tree", this.Tree != null );
-                this.Tree!.RemoveRoot( (TThis) this, argument, callback );
+                this.Tree.RemoveRoot( (TThis) this, argument, callback );
             }
         }
 
