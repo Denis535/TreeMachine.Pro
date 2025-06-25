@@ -19,7 +19,8 @@ namespace System.TreeMachine {
             Assert.Argument.NotNull( $"Argument 'tree' must be non-null", tree != null );
             Assert.Argument.Valid( $"Argument 'tree' ({tree}) must have no {tree.Root} root", tree.Root == null );
             Assert.Argument.NotNull( $"Argument 'root' must be non-null", root != null );
-            Assert.Argument.Valid( $"Argument 'root' ({root}) must have no owner", root.Owner == null );
+            Assert.Argument.Valid( $"Argument 'root' ({root}) must have no tree", root.Tree == null );
+            Assert.Argument.Valid( $"Argument 'root' ({root}) must have no parent", root.Parent == null );
             Assert.Argument.Valid( $"Argument 'root' ({root}) must be inactive", root.Activity == NodeBase<T>.Activity_.Inactive );
             tree.Root = root;
             tree.Root.Attach( tree, argument );
@@ -28,7 +29,8 @@ namespace System.TreeMachine {
             Assert.Argument.NotNull( $"Argument 'tree' must be non-null", tree != null );
             Assert.Argument.Valid( $"Argument 'tree' ({tree}) must have {root} root", tree.Root == root );
             Assert.Argument.NotNull( $"Argument 'root' must be non-null", root != null );
-            Assert.Argument.Valid( $"Argument 'root' ({root}) must have {tree} owner", root.Owner == tree );
+            Assert.Argument.Valid( $"Argument 'root' ({root}) must have {tree} tree", root.Tree == tree );
+            Assert.Argument.Valid( $"Argument 'root' ({root}) must have no parent", root.Parent == null );
             Assert.Argument.Valid( $"Argument 'root' ({root}) must be active", root.Activity == NodeBase<T>.Activity_.Active );
             tree.Root.Detach( tree, argument );
             tree.Root = null;

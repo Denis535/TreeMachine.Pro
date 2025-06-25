@@ -15,14 +15,14 @@ public interface ITree<T> where T : notnull, NodeBase<T> {
 }
 public abstract partial class NodeBase<TThis> where TThis : notnull, NodeBase<TThis> {
 
-    internal object? Owner { get; private set; }
+    private object? Owner { get; set; }
     public ITree<TThis>? Tree { get; }
     public ITree<TThis>? TreeRecursive { get; }
 
-    public event Action<object?>? OnBeforeAttachEvent;
-    public event Action<object?>? OnAfterAttachEvent;
-    public event Action<object?>? OnBeforeDetachEvent;
-    public event Action<object?>? OnAfterDetachEvent;
+    public event Action<object?>? OnBeforeAttachCallback;
+    public event Action<object?>? OnAfterAttachCallback;
+    public event Action<object?>? OnBeforeDetachCallback;
+    public event Action<object?>? OnAfterDetachCallback;
 
     public NodeBase();
 
@@ -76,10 +76,10 @@ public abstract partial class NodeBase<TThis> {
 
     public Activity_ Activity { get; private set; }
 
-    public event Action<object?>? OnBeforeActivateEvent;
-    public event Action<object?>? OnAfterActivateEvent;
-    public event Action<object?>? OnBeforeDeactivateEvent;
-    public event Action<object?>? OnAfterDeactivateEvent;
+    public event Action<object?>? OnBeforeActivateCallback;
+    public event Action<object?>? OnAfterActivateCallback;
+    public event Action<object?>? OnBeforeDeactivateCallback;
+    public event Action<object?>? OnAfterDeactivateCallback;
 
     //public NodeBase();
 

@@ -8,16 +8,16 @@ namespace System.TreeMachine {
     public abstract class NodeBase2<TThis> : NodeBase<TThis> where TThis : notnull, NodeBase2<TThis> {
 
         // OnDescendantAttach
-        public event Action<TThis, object?>? OnBeforeDescendantAttachEvent;
-        public event Action<TThis, object?>? OnAfterDescendantAttachEvent;
-        public event Action<TThis, object?>? OnBeforeDescendantDetachEvent;
-        public event Action<TThis, object?>? OnAfterDescendantDetachEvent;
+        public event Action<TThis, object?>? OnBeforeDescendantAttachCallback;
+        public event Action<TThis, object?>? OnAfterDescendantAttachCallback;
+        public event Action<TThis, object?>? OnBeforeDescendantDetachCallback;
+        public event Action<TThis, object?>? OnAfterDescendantDetachCallback;
 
         // OnDescendantActivate
-        public event Action<TThis, object?>? OnBeforeDescendantActivateEvent;
-        public event Action<TThis, object?>? OnAfterDescendantActivateEvent;
-        public event Action<TThis, object?>? OnBeforeDescendantDeactivateEvent;
-        public event Action<TThis, object?>? OnAfterDescendantDeactivateEvent;
+        public event Action<TThis, object?>? OnBeforeDescendantActivateCallback;
+        public event Action<TThis, object?>? OnAfterDescendantActivateCallback;
+        public event Action<TThis, object?>? OnBeforeDescendantDeactivateCallback;
+        public event Action<TThis, object?>? OnAfterDescendantDeactivateCallback;
 
         // Constructor
         public NodeBase2() {
@@ -26,7 +26,7 @@ namespace System.TreeMachine {
         // OnAttach
         protected override void OnBeforeAttach(object? argument) {
             foreach (var ancestor in this.Ancestors.Reverse()) {
-                ancestor.OnBeforeDescendantAttachEvent?.Invoke( (TThis) this, argument );
+                ancestor.OnBeforeDescendantAttachCallback?.Invoke( (TThis) this, argument );
                 ancestor.OnBeforeDescendantAttach( (TThis) this, argument );
             }
             base.OnBeforeAttach( argument );
@@ -35,12 +35,12 @@ namespace System.TreeMachine {
             base.OnAfterAttach( argument );
             foreach (var ancestor in this.Ancestors) {
                 ancestor.OnAfterDescendantAttach( (TThis) this, argument );
-                ancestor.OnAfterDescendantAttachEvent?.Invoke( (TThis) this, argument );
+                ancestor.OnAfterDescendantAttachCallback?.Invoke( (TThis) this, argument );
             }
         }
         protected override void OnBeforeDetach(object? argument) {
             foreach (var ancestor in this.Ancestors.Reverse()) {
-                ancestor.OnBeforeDescendantDetachEvent?.Invoke( (TThis) this, argument );
+                ancestor.OnBeforeDescendantDetachCallback?.Invoke( (TThis) this, argument );
                 ancestor.OnBeforeDescendantDetach( (TThis) this, argument );
             }
             base.OnBeforeDetach( argument );
@@ -49,7 +49,7 @@ namespace System.TreeMachine {
             base.OnAfterDetach( argument );
             foreach (var ancestor in this.Ancestors) {
                 ancestor.OnAfterDescendantDetach( (TThis) this, argument );
-                ancestor.OnAfterDescendantDetachEvent?.Invoke( (TThis) this, argument );
+                ancestor.OnAfterDescendantDetachCallback?.Invoke( (TThis) this, argument );
             }
         }
 
@@ -62,7 +62,7 @@ namespace System.TreeMachine {
         // OnActivate
         protected override void OnBeforeActivate(object? argument) {
             foreach (var ancestor in this.Ancestors.Reverse()) {
-                ancestor.OnBeforeDescendantActivateEvent?.Invoke( (TThis) this, argument );
+                ancestor.OnBeforeDescendantActivateCallback?.Invoke( (TThis) this, argument );
                 ancestor.OnBeforeDescendantActivate( (TThis) this, argument );
             }
             base.OnBeforeActivate( argument );
@@ -71,12 +71,12 @@ namespace System.TreeMachine {
             base.OnAfterActivate( argument );
             foreach (var ancestor in this.Ancestors) {
                 ancestor.OnAfterDescendantActivate( (TThis) this, argument );
-                ancestor.OnAfterDescendantActivateEvent?.Invoke( (TThis) this, argument );
+                ancestor.OnAfterDescendantActivateCallback?.Invoke( (TThis) this, argument );
             }
         }
         protected override void OnBeforeDeactivate(object? argument) {
             foreach (var ancestor in this.Ancestors.Reverse()) {
-                ancestor.OnBeforeDescendantDeactivateEvent?.Invoke( (TThis) this, argument );
+                ancestor.OnBeforeDescendantDeactivateCallback?.Invoke( (TThis) this, argument );
                 ancestor.OnBeforeDescendantDeactivate( (TThis) this, argument );
             }
             base.OnBeforeDeactivate( argument );
@@ -85,7 +85,7 @@ namespace System.TreeMachine {
             base.OnAfterDeactivate( argument );
             foreach (var ancestor in this.Ancestors) {
                 ancestor.OnAfterDescendantDeactivate( (TThis) this, argument );
-                ancestor.OnAfterDescendantDeactivateEvent?.Invoke( (TThis) this, argument );
+                ancestor.OnAfterDescendantDeactivateCallback?.Invoke( (TThis) this, argument );
             }
         }
 

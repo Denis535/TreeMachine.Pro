@@ -13,10 +13,10 @@ namespace System.TreeMachine {
             var a = new A();
             var b = new B();
 
-            root.OnBeforeAttachEvent += arg => {
+            root.OnBeforeAttachCallback += arg => {
                 root.AddChildren( [ a, b ], null );
             };
-            root.OnAfterDetachEvent += arg => {
+            root.OnAfterDetachCallback += arg => {
                 root.RemoveChildren( null, null );
             };
 
@@ -51,10 +51,10 @@ namespace System.TreeMachine {
             var a = new A();
             var b = new B();
 
-            root.OnAfterAttachEvent += arg => {
+            root.OnAfterAttachCallback += arg => {
                 root.AddChildren( [ a, b ], null );
             };
-            root.OnBeforeDetachEvent += arg => {
+            root.OnBeforeDetachCallback += arg => {
                 root.RemoveChildren( null, null );
             };
 

@@ -17,10 +17,10 @@ namespace System.TreeMachine {
         public Activity_ Activity { get; private set; } = Activity_.Inactive;
 
         // OnActivate
-        public event Action<object?>? OnBeforeActivateEvent;
-        public event Action<object?>? OnAfterActivateEvent;
-        public event Action<object?>? OnBeforeDeactivateEvent;
-        public event Action<object?>? OnAfterDeactivateEvent;
+        public event Action<object?>? OnBeforeActivateCallback;
+        public event Action<object?>? OnAfterActivateCallback;
+        public event Action<object?>? OnBeforeDeactivateCallback;
+        public event Action<object?>? OnAfterDeactivateCallback;
 
         // Constructor
         //public NodeBase() {
@@ -28,8 +28,8 @@ namespace System.TreeMachine {
 
         // Activate
         private void Activate(object? argument) {
-            Assert.Operation.Valid( $"Node {this} must have owner", this.Owner != null );
-            Assert.Operation.Valid( $"Node {this} must have valid owner", (this.Owner is ITree<TThis>) || ((NodeBase<TThis>) this.Owner).Activity is Activity_.Active or Activity_.Activating );
+            Assert.Operation.Valid( $"Node {this} must have owner", this.Tree != null || this.Parent != null );
+            Assert.Operation.Valid( $"Node {this} must have valid owner", this.Tree != null || this.Parent!.Activity is Activity_.Active or Activity_.Activating );
             Assert.Operation.Valid( $"Node {this} must be inactive", this.Activity == Activity_.Inactive );
             this.OnBeforeActivate( argument );
             this.Activity = Activity_.Activating;
@@ -43,8 +43,8 @@ namespace System.TreeMachine {
             this.OnAfterActivate( argument );
         }
         private void Deactivate(object? argument) {
-            Assert.Operation.Valid( $"Node {this} must have owner", this.Owner != null );
-            Assert.Operation.Valid( $"Node {this} must have valid owner", (this.Owner is ITree<TThis>) || ((NodeBase<TThis>) this.Owner).Activity is Activity_.Active or Activity_.Deactivating );
+            Assert.Operation.Valid( $"Node {this} must have owner", this.Tree != null || this.Parent != null );
+            Assert.Operation.Valid( $"Node {this} must have valid owner", this.Tree != null || this.Parent!.Activity is Activity_.Active or Activity_.Deactivating );
             Assert.Operation.Valid( $"Node {this} must be active", this.Activity == Activity_.Active );
             this.OnBeforeDeactivate( argument );
             this.Activity = Activity_.Deactivating;
@@ -61,19 +61,19 @@ namespace System.TreeMachine {
         // OnActivate
         protected abstract void OnActivate(object? argument);
         protected virtual void OnBeforeActivate(object? argument) {
-            this.OnBeforeActivateEvent?.Invoke( argument );
+            this.OnBeforeActivateCallback?.Invoke( argument );
         }
         protected virtual void OnAfterActivate(object? argument) {
-            this.OnAfterActivateEvent?.Invoke( argument );
+            this.OnAfterActivateCallback?.Invoke( argument );
         }
 
         // OnDeactivate
         protected abstract void OnDeactivate(object? argument);
         protected virtual void OnBeforeDeactivate(object? argument) {
-            this.OnBeforeDeactivateEvent?.Invoke( argument );
+            this.OnBeforeDeactivateCallback?.Invoke( argument );
         }
         protected virtual void OnAfterDeactivate(object? argument) {
-            this.OnAfterDeactivateEvent?.Invoke( argument );
+            this.OnAfterDeactivateCallback?.Invoke( argument );
         }
 
     }

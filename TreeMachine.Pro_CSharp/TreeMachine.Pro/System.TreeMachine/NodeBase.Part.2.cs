@@ -45,7 +45,8 @@ namespace System.TreeMachine {
         // AddChild
         protected virtual void AddChild(TThis child, object? argument) {
             Assert.Argument.NotNull( $"Argument 'child' must be non-null", child != null );
-            Assert.Argument.Valid( $"Argument 'child' ({child}) must have no owner", child.Owner == null );
+            Assert.Argument.Valid( $"Argument 'child' ({child}) must have no {child.Tree} tree", child.Tree == null );
+            Assert.Argument.Valid( $"Argument 'child' ({child}) must have no {child.Parent} parent", child.Parent == null );
             Assert.Argument.Valid( $"Argument 'child' ({child}) must be inactive", child.Activity == Activity_.Inactive );
             Assert.Operation.Valid( $"Node {this} must have no {child} child", !this.Children.Contains( child ) );
             this.children.Add( child );
@@ -60,7 +61,7 @@ namespace System.TreeMachine {
         }
         protected virtual void RemoveChild(TThis child, object? argument, Action<TThis, object?>? callback) {
             Assert.Argument.NotNull( $"Argument 'child' must be non-null", child != null );
-            Assert.Argument.Valid( $"Argument 'child' ({child}) must have {this} owner", child.Owner == this );
+            Assert.Argument.Valid( $"Argument 'child' ({child}) must have {this} parent", child.Parent == this );
             if (this.Activity == Activity_.Active) {
                 Assert.Argument.Valid( $"Argument 'child' ({child}) must be active", child.Activity == Activity_.Active );
             } else {
