@@ -37,7 +37,7 @@ namespace TreeMachine {
         assert(root->Tree() == this && "Argument 'root' must have tree");
         assert(root->Parent() == nullptr && "Argument 'root' must have no parent");
         assert(root->m_Activity == NodeBase<T>::EActivity::Active && "Argument 'root' must be active");
-        assert(this->m_Root != nullptr && "Tree must have root");
+        assert(this->m_Root == root && "Tree must have root");
         this->m_Root->Detach(this, argument);
         this->m_Root = nullptr;
         if (callback) {

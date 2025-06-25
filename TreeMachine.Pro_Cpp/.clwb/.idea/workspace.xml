@@ -31,12 +31,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ba905a7-ea50-4506-9756-feebbc8a6ed4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../../TreeMachine.Pro_CSharp/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../../TreeMachine.Pro_CSharp/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../TreeMachine.Pro_CSharp/TreeMachine.Pro.Tests/System.TreeMachine/Node.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../TreeMachine.Pro_CSharp/TreeMachine.Pro.Tests/System.TreeMachine/Node.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../TreeMachine.Pro_CSharp/TreeMachine.Pro.Tests/System.TreeMachine/Tests_00.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../TreeMachine.Pro_CSharp/TreeMachine.Pro.Tests/System.TreeMachine/Tests_00.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../TreeMachine.Pro_CSharp/TreeMachine.Pro/System.TreeMachine/NodeBase.Part.1.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../TreeMachine.Pro_CSharp/TreeMachine.Pro/System.TreeMachine/NodeBase.Part.1.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../../TreeMachine.Pro_CSharp/TreeMachine.Pro/System.TreeMachine/NodeBase.Part.2.cs" beforeDir="false" afterPath="$PROJECT_DIR$/../../TreeMachine.Pro_CSharp/TreeMachine.Pro/System.TreeMachine/NodeBase.Part.2.cs" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Impl_NodeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Impl_NodeBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Impl_TreeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Impl_TreeBase.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -144,6 +140,7 @@
       <workItem from="1750860457123" duration="2841000" />
       <workItem from="1750870873532" duration="365000" />
       <workItem from="1750872544740" duration="157000" />
+      <workItem from="1750878662506" duration="1054000" />
     </task>
     <servers />
   </component>

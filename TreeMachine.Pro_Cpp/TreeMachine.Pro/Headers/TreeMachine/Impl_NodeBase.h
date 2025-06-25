@@ -357,6 +357,7 @@ namespace TreeMachine {
     }
     template <typename TThis>
     void NodeBase<TThis>::AddChildren(const vector<TThis *> &children, const any argument) {
+        assert(&children != nullptr && "Argument 'children' must be non-null");
         for (auto *const child : children) {
             this->AddChild(child, argument);
         }
@@ -380,7 +381,7 @@ namespace TreeMachine {
     }
     template <typename TThis>
     bool NodeBase<TThis>::RemoveChild(const function<bool(const TThis *const)> predicate, const any argument, const function<void(const TThis *const, const any)> callback) {
-        for (auto *child : reverse(this->m_Children)) { // NOLINT
+        for (auto *const child : reverse(this->m_Children)) {
             if (predicate(child)) {
                 this->RemoveChild(child, argument, callback);
                 return true;
