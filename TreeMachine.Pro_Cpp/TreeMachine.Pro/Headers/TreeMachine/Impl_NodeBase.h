@@ -3,33 +3,10 @@
 #include <any>
 #include <cassert>
 #include <functional>
-#include <iterator>
 #include <list>
 #include <variant>
 #include "NodeBase.h"
 
-namespace TreeMachine::Internal {
-
-    template <typename T>
-    vector<T> reverse(const vector<T> &list) {
-        auto result = std::vector<T>();
-        copy(list.rbegin(), list.rend(), back_inserter(result));
-        return result;
-    }
-    template <typename T>
-    list<T> reverse(const list<T> &list) {
-        auto result = std::list<T>();
-        copy(list.rbegin(), list.rend(), back_inserter(result));
-        return result;
-    }
-
-    template <typename T>
-    bool contains(const list<T> &list, const T &item) {
-        auto result = find(list.begin(), list.end(), item);
-        return result != list.end();
-    }
-
-}
 namespace TreeMachine {
 
     template <typename TThis>
