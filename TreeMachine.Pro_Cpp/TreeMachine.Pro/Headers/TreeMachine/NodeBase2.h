@@ -9,28 +9,28 @@ namespace TreeMachine {
     class NodeBase2 : public NodeBase<TThis> {
 
         private:
-        function<void(TThis, const any)> m_OnBeforeDescendantAttachCallback;
-        function<void(TThis, const any)> m_OnAfterDescendantAttachCallback;
-        function<void(TThis, const any)> m_OnBeforeDescendantDetachCallback;
-        function<void(TThis, const any)> m_OnAfterDescendantDetachCallback;
+        function<void(TThis *, const any)> m_OnBeforeDescendantAttachCallback;
+        function<void(TThis *, const any)> m_OnAfterDescendantAttachCallback;
+        function<void(TThis *, const any)> m_OnBeforeDescendantDetachCallback;
+        function<void(TThis *, const any)> m_OnAfterDescendantDetachCallback;
 
         private:
-        function<void(TThis, const any)> m_OnBeforeDescendantActivateCallback;
-        function<void(TThis, const any)> m_OnAfterDescendantActivateCallback;
-        function<void(TThis, const any)> m_OnBeforeDescendantDeactivateCallback;
-        function<void(TThis, const any)> m_OnAfterDescendantDeactivateCallback;
+        function<void(TThis *, const any)> m_OnBeforeDescendantActivateCallback;
+        function<void(TThis *, const any)> m_OnAfterDescendantActivateCallback;
+        function<void(TThis *, const any)> m_OnBeforeDescendantDeactivateCallback;
+        function<void(TThis *, const any)> m_OnAfterDescendantDeactivateCallback;
 
         public:
-        [[nodiscard]] const function<void(TThis, const any)> &OnBeforeDescendantAttachCallback();
-        [[nodiscard]] const function<void(TThis, const any)> &OnAfterDescendantAttachCallback();
-        [[nodiscard]] const function<void(TThis, const any)> &OnBeforeDescendantDetachCallback();
-        [[nodiscard]] const function<void(TThis, const any)> &OnAfterDescendantDetachCallback();
+        [[nodiscard]] const function<void(TThis *, const any)> &OnBeforeDescendantAttachCallback();
+        [[nodiscard]] const function<void(TThis *, const any)> &OnAfterDescendantAttachCallback();
+        [[nodiscard]] const function<void(TThis *, const any)> &OnBeforeDescendantDetachCallback();
+        [[nodiscard]] const function<void(TThis *, const any)> &OnAfterDescendantDetachCallback();
 
         public:
-        [[nodiscard]] const function<void(TThis, const any)> &OnBeforeDescendantActivateCallback();
-        [[nodiscard]] const function<void(TThis, const any)> &OnAfterDescendantActivateCallback();
-        [[nodiscard]] const function<void(TThis, const any)> &OnBeforeDescendantDeactivateCallback();
-        [[nodiscard]] const function<void(TThis, const any)> &OnAfterDescendantDeactivateCallback();
+        [[nodiscard]] const function<void(TThis *, const any)> &OnBeforeDescendantActivateCallback();
+        [[nodiscard]] const function<void(TThis *, const any)> &OnAfterDescendantActivateCallback();
+        [[nodiscard]] const function<void(TThis *, const any)> &OnBeforeDescendantDeactivateCallback();
+        [[nodiscard]] const function<void(TThis *, const any)> &OnAfterDescendantDeactivateCallback();
 
         protected:
         explicit NodeBase2();
@@ -65,16 +65,16 @@ namespace TreeMachine {
         virtual void OnAfterDescendantDeactivate(TThis *descendant, const any argument);
 
         public:
-        void OnBeforeDescendantAttachCallback(function<void(TThis, const any)> callback);
-        void OnAfterDescendantAttachCallback(function<void(TThis, const any)> callback);
-        void OnBeforeDescendantDetachCallback(function<void(TThis, const any)> callback);
-        void OnAfterDescendantDetachCallback(function<void(TThis, const any)> callback);
+        void OnBeforeDescendantAttachCallback(function<void(TThis *, const any)> callback);
+        void OnAfterDescendantAttachCallback(function<void(TThis *, const any)> callback);
+        void OnBeforeDescendantDetachCallback(function<void(TThis *, const any)> callback);
+        void OnAfterDescendantDetachCallback(function<void(TThis *, const any)> callback);
 
         public:
-        void OnBeforeDescendantActivateCallback(function<void(TThis, const any)> callback);
-        void OnAfterDescendantActivateCallback(function<void(TThis, const any)> callback);
-        void OnBeforeDescendantDeactivateCallback(function<void(TThis, const any)> callback);
-        void OnAfterDescendantDeactivateCallback(function<void(TThis, const any)> callback);
+        void OnBeforeDescendantActivateCallback(function<void(TThis *, const any)> callback);
+        void OnAfterDescendantActivateCallback(function<void(TThis *, const any)> callback);
+        void OnBeforeDescendantDeactivateCallback(function<void(TThis *, const any)> callback);
+        void OnAfterDescendantDeactivateCallback(function<void(TThis *, const any)> callback);
 
         public:
         NodeBase2 &operator=(const NodeBase2 &other) = delete;

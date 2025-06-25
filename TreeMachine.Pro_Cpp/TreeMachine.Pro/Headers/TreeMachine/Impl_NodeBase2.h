@@ -6,36 +6,36 @@
 namespace TreeMachine {
 
     template <typename TThis>
-    const function<void(TThis, const any)> &NodeBase2<TThis>::OnBeforeDescendantAttachCallback() {
+    const function<void(TThis *, const any)> &NodeBase2<TThis>::OnBeforeDescendantAttachCallback() {
         return this->m_OnBeforeDescendantAttachCallback;
     }
     template <typename TThis>
-    const function<void(TThis, const any)> &NodeBase2<TThis>::OnAfterDescendantAttachCallback() {
+    const function<void(TThis *, const any)> &NodeBase2<TThis>::OnAfterDescendantAttachCallback() {
         return this->m_OnAfterDescendantAttachCallback;
     }
     template <typename TThis>
-    const function<void(TThis, const any)> &NodeBase2<TThis>::OnBeforeDescendantDetachCallback() {
+    const function<void(TThis *, const any)> &NodeBase2<TThis>::OnBeforeDescendantDetachCallback() {
         return this->m_OnBeforeDescendantDetachCallback;
     }
     template <typename TThis>
-    const function<void(TThis, const any)> &NodeBase2<TThis>::OnAfterDescendantDetachCallback() {
+    const function<void(TThis *, const any)> &NodeBase2<TThis>::OnAfterDescendantDetachCallback() {
         return this->m_OnAfterDescendantDetachCallback;
     }
 
     template <typename TThis>
-    const function<void(TThis, const any)> &NodeBase2<TThis>::OnBeforeDescendantActivateCallback() {
+    const function<void(TThis *, const any)> &NodeBase2<TThis>::OnBeforeDescendantActivateCallback() {
         return this->m_OnBeforeDescendantActivateCallback;
     }
     template <typename TThis>
-    const function<void(TThis, const any)> &NodeBase2<TThis>::OnAfterDescendantActivateCallback() {
+    const function<void(TThis *, const any)> &NodeBase2<TThis>::OnAfterDescendantActivateCallback() {
         return this->m_OnAfterDescendantActivateCallback;
     }
     template <typename TThis>
-    const function<void(TThis, const any)> &NodeBase2<TThis>::OnBeforeDescendantDeactivateCallback() {
+    const function<void(TThis *, const any)> &NodeBase2<TThis>::OnBeforeDescendantDeactivateCallback() {
         return this->m_OnBeforeDescendantDeactivateCallback;
     }
     template <typename TThis>
-    const function<void(TThis, const any)> &NodeBase2<TThis>::OnAfterDescendantDeactivateCallback() {
+    const function<void(TThis *, const any)> &NodeBase2<TThis>::OnAfterDescendantDeactivateCallback() {
         return this->m_OnAfterDescendantDeactivateCallback;
     }
 
@@ -54,20 +54,24 @@ namespace TreeMachine {
 
     template <typename TThis>
     void NodeBase2<TThis>::OnBeforeAttach(const any argument) {
-        // foreach (var ancestor in this.Ancestors.Reverse()) {
-        //     ancestor.OnBeforeDescendantAttachEvent ?.Invoke((TThis)this, argument);
-        //     ancestor.OnBeforeDescendantAttach((TThis)this, argument);
-        // }
+        for (auto *const ancestor : Internal::reverse(this->Ancestors())) {
+            if (ancestor->m_OnBeforeDescendantAttachCallback) {
+                ancestor->m_OnBeforeDescendantAttachCallback(static_cast<TThis *>(this), argument);
+            }
+            // ancestor->OnBeforeDescendantAttach(static_cast<TThis *>(this), argument);
+        }
         NodeBase<TThis>::OnBeforeAttach(argument);
     }
 
     template <typename TThis>
     void NodeBase2<TThis>::OnAfterAttach(const any argument) {
         NodeBase<TThis>::OnAfterAttach(argument);
-        // foreach (var ancestor in this.Ancestors) {
-        //     ancestor.OnAfterDescendantAttach((TThis)this, argument);
-        //     ancestor.OnAfterDescendantAttachEvent ?.Invoke((TThis)this, argument);
-        // }
+        for (auto *const ancestor : this->Ancestors()) {
+            // ancestor->OnAfterDescendantAttach(static_cast<TThis *>(this), argument);
+            if (ancestor->m_OnAfterDescendantAttachCallback) {
+                ancestor->m_OnAfterDescendantAttachCallback(static_cast<TThis *>(this), argument);
+            }
+        }
     }
 
     template <typename TThis>
@@ -77,20 +81,24 @@ namespace TreeMachine {
 
     template <typename TThis>
     void NodeBase2<TThis>::OnBeforeDetach(const any argument) {
-        // foreach (var ancestor in this.Ancestors.Reverse()) {
-        //     ancestor.OnBeforeDescendantDetachEvent ?.Invoke((TThis)this, argument);
-        //     ancestor.OnBeforeDescendantDetach((TThis)this, argument);
-        // }
+        for (auto *const ancestor : Internal::reverse(this->Ancestors())) {
+            if (ancestor->m_OnBeforeDescendantDetachCallback) {
+                ancestor->m_OnBeforeDescendantDetachCallback(static_cast<TThis *>(this), argument);
+            }
+            // ancestor->OnBeforeDescendantDetach(static_cast<TThis *>(this), argument);
+        }
         NodeBase<TThis>::OnBeforeDetach(argument);
     }
 
     template <typename TThis>
     void NodeBase2<TThis>::OnAfterDetach(const any argument) {
         NodeBase<TThis>::OnAfterDetach(argument);
-        // foreach (var ancestor in this.Ancestors) {
-        //     ancestor.OnAfterDescendantDetach((TThis)this, argument);
-        //     ancestor.OnAfterDescendantDetachEvent ?.Invoke((TThis)this, argument);
-        // }
+        for (auto *const ancestor : this->Ancestors()) {
+            // ancestor->OnAfterDescendantDetach(static_cast<TThis *>(this), argument);
+            if (ancestor->m_OnAfterDescendantDetachCallback) {
+                ancestor->m_OnAfterDescendantDetachCallback(static_cast<TThis *>(this), argument);
+            }
+        }
     }
 
     template <typename TThis>
@@ -116,20 +124,24 @@ namespace TreeMachine {
 
     template <typename TThis>
     void NodeBase2<TThis>::OnBeforeActivate(const any argument) {
-        // foreach (var ancestor in this.Ancestors.Reverse()) {
-        //     ancestor.OnBeforeDescendantActivateEvent ?.Invoke((TThis)this, argument);
-        //     ancestor.OnBeforeDescendantActivate((TThis)this, argument);
-        // }
+        for (auto *const ancestor : Internal::reverse(this->Ancestors())) {
+            if (ancestor->m_OnBeforeDescendantActivateCallback) {
+                ancestor->m_OnBeforeDescendantActivateCallback(static_cast<TThis *>(this), argument);
+            }
+            // ancestor.OnBeforeDescendantActivate(static_cast<TThis *>(this), argument);
+        }
         NodeBase<TThis>::OnBeforeActivate(argument);
     }
 
     template <typename TThis>
     void NodeBase2<TThis>::OnAfterActivate(const any argument) {
         NodeBase<TThis>::OnAfterActivate(argument);
-        // foreach (var ancestor in this.Ancestors) {
-        //     ancestor.OnAfterDescendantActivate((TThis)this, argument);
-        //     ancestor.OnAfterDescendantActivateEvent ?.Invoke((TThis)this, argument);
-        // }
+        for (auto *const ancestor : this->Ancestors()) {
+            // ancestor.OnAfterDescendantActivate(static_cast<TThis *>(this), argument);
+            if (ancestor->m_OnAfterDescendantActivateCallback) {
+                ancestor->m_OnAfterDescendantActivateCallback(static_cast<TThis *>(this), argument);
+            }
+        }
     }
 
     template <typename TThis>
@@ -139,20 +151,24 @@ namespace TreeMachine {
 
     template <typename TThis>
     void NodeBase2<TThis>::OnBeforeDeactivate(const any argument) {
-        // foreach (var ancestor in this.Ancestors.Reverse()) {
-        //     ancestor.OnBeforeDescendantDeactivateEvent ?.Invoke((TThis)this, argument);
-        //     ancestor.OnBeforeDescendantDeactivate((TThis)this, argument);
-        // }
+        for (auto *const ancestor : Internal::reverse(this->Ancestors())) {
+            if (ancestor->m_OnBeforeDescendantDeactivateCallback) {
+                ancestor->m_OnBeforeDescendantDeactivateCallback(static_cast<TThis *>(this), argument);
+            }
+            // ancestor.OnBeforeDescendantDeactivate(static_cast<TThis *>(this), argument);
+        }
         NodeBase<TThis>::OnBeforeDeactivate(argument);
     }
 
     template <typename TThis>
     void NodeBase2<TThis>::OnAfterDeactivate(const any argument) {
         NodeBase<TThis>::OnAfterDeactivate(argument);
-        // foreach (var ancestor in this.Ancestors) {
-        //     ancestor.OnAfterDescendantDeactivate((TThis)this, argument);
-        //     ancestor.OnAfterDescendantDeactivateEvent ?.Invoke((TThis)this, argument);
-        // }
+        for (auto *const ancestor : this->Ancestors()) {
+            // ancestor->OnAfterDescendantDeactivate(static_cast<TThis *>(this), argument);
+            if (ancestor->m_OnAfterDescendantDeactivateCallback) {
+                ancestor->m_OnAfterDescendantDeactivateCallback(static_cast<TThis *>(this), argument);
+            }
+        }
     }
 
     template <typename TThis>
@@ -172,36 +188,36 @@ namespace TreeMachine {
     }
 
     template <typename TThis>
-    void NodeBase2<TThis>::OnBeforeDescendantAttachCallback(function<void(TThis, const any)> callback) {
+    void NodeBase2<TThis>::OnBeforeDescendantAttachCallback(function<void(TThis *, const any)> callback) {
         this->m_OnBeforeDescendantAttachCallback = callback;
     }
     template <typename TThis>
-    void NodeBase2<TThis>::OnAfterDescendantAttachCallback(function<void(TThis, const any)> callback) {
+    void NodeBase2<TThis>::OnAfterDescendantAttachCallback(function<void(TThis *, const any)> callback) {
         this->m_OnAfterDescendantAttachCallback = callback;
     }
     template <typename TThis>
-    void NodeBase2<TThis>::OnBeforeDescendantDetachCallback(function<void(TThis, const any)> callback) {
+    void NodeBase2<TThis>::OnBeforeDescendantDetachCallback(function<void(TThis *, const any)> callback) {
         this->m_OnBeforeDescendantDetachCallback = callback;
     }
     template <typename TThis>
-    void NodeBase2<TThis>::OnAfterDescendantDetachCallback(function<void(TThis, const any)> callback) {
+    void NodeBase2<TThis>::OnAfterDescendantDetachCallback(function<void(TThis *, const any)> callback) {
         this->m_OnAfterDescendantDetachCallback = callback;
     }
 
     template <typename TThis>
-    void NodeBase2<TThis>::OnBeforeDescendantActivateCallback(function<void(TThis, const any)> callback) {
+    void NodeBase2<TThis>::OnBeforeDescendantActivateCallback(function<void(TThis *, const any)> callback) {
         this->m_OnBeforeDescendantActivateCallback = callback;
     }
     template <typename TThis>
-    void NodeBase2<TThis>::OnAfterDescendantActivateCallback(function<void(TThis, const any)> callback) {
+    void NodeBase2<TThis>::OnAfterDescendantActivateCallback(function<void(TThis *, const any)> callback) {
         this->m_OnAfterDescendantActivateCallback = callback;
     }
     template <typename TThis>
-    void NodeBase2<TThis>::OnBeforeDescendantDeactivateCallback(function<void(TThis, const any)> callback) {
+    void NodeBase2<TThis>::OnBeforeDescendantDeactivateCallback(function<void(TThis *, const any)> callback) {
         this->m_OnBeforeDescendantDeactivateCallback = callback;
     }
     template <typename TThis>
-    void NodeBase2<TThis>::OnAfterDescendantDeactivateCallback(function<void(TThis, const any)> callback) {
+    void NodeBase2<TThis>::OnAfterDescendantDeactivateCallback(function<void(TThis *, const any)> callback) {
         this->m_OnAfterDescendantDeactivateCallback = callback;
     }
 

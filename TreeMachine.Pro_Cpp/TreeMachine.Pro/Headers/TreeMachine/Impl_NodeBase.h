@@ -11,6 +11,12 @@
 namespace TreeMachine::Internal {
 
     template <typename T>
+    vector<T> reverse(const vector<T> &list) {
+        auto result = std::vector<T>();
+        copy(list.rbegin(), list.rend(), back_inserter(result));
+        return result;
+    }
+    template <typename T>
     list<T> reverse(const list<T> &list) {
         auto result = std::list<T>();
         copy(list.rbegin(), list.rend(), back_inserter(result));
@@ -89,7 +95,7 @@ namespace TreeMachine {
 
     template <typename TThis>
     vector<TThis *> NodeBase<TThis>::Ancestors() const {
-        auto result = vector<NodeBase *>();
+        auto result = vector<TThis *>();
         if (auto *const parent = this->Parent()) {
             result.push_back(parent);
             auto ancestors = parent->Ancestors();
@@ -100,7 +106,7 @@ namespace TreeMachine {
 
     template <typename TThis>
     vector<const TThis *> NodeBase<TThis>::AncestorsAndSelf() const {
-        auto result = vector<const NodeBase *>();
+        auto result = vector<const TThis *>();
         result.push_back(this);
         auto descendants = this->Descendants();
         result.insert(result.end(), descendants.begin(), descendants.end());
@@ -109,7 +115,7 @@ namespace TreeMachine {
 
     template <typename TThis>
     vector<TThis *> NodeBase<TThis>::AncestorsAndSelf() {
-        auto result = vector<NodeBase *>();
+        auto result = vector<TThis *>();
         result.push_back(this);
         auto descendants = this->Descendants();
         result.insert(result.end(), descendants.begin(), descendants.end());
