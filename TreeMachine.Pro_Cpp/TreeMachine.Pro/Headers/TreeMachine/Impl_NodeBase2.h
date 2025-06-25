@@ -4,6 +4,7 @@
 #include "NodeBase2.h"
 
 namespace TreeMachine {
+    using namespace TreeMachine::Internal;
 
     template <typename TThis>
     const function<void(TThis *const, const any)> &NodeBase2<TThis>::OnBeforeDescendantAttachCallback() {
@@ -54,7 +55,7 @@ namespace TreeMachine {
 
     template <typename TThis>
     void NodeBase2<TThis>::OnBeforeAttach(const any argument) {
-        for (auto *const ancestor : Internal::reverse(this->Ancestors())) {
+        for (auto *const ancestor : reverse(this->Ancestors())) {
             if (ancestor->m_OnBeforeDescendantAttachCallback) {
                 ancestor->m_OnBeforeDescendantAttachCallback(static_cast<TThis *>(this), argument);
             }
@@ -81,7 +82,7 @@ namespace TreeMachine {
 
     template <typename TThis>
     void NodeBase2<TThis>::OnBeforeDetach(const any argument) {
-        for (auto *const ancestor : Internal::reverse(this->Ancestors())) {
+        for (auto *const ancestor : reverse(this->Ancestors())) {
             if (ancestor->m_OnBeforeDescendantDetachCallback) {
                 ancestor->m_OnBeforeDescendantDetachCallback(static_cast<TThis *>(this), argument);
             }
@@ -124,7 +125,7 @@ namespace TreeMachine {
 
     template <typename TThis>
     void NodeBase2<TThis>::OnBeforeActivate(const any argument) {
-        for (auto *const ancestor : Internal::reverse(this->Ancestors())) {
+        for (auto *const ancestor : reverse(this->Ancestors())) {
             if (ancestor->m_OnBeforeDescendantActivateCallback) {
                 ancestor->m_OnBeforeDescendantActivateCallback(static_cast<TThis *>(this), argument);
             }
@@ -151,7 +152,7 @@ namespace TreeMachine {
 
     template <typename TThis>
     void NodeBase2<TThis>::OnBeforeDeactivate(const any argument) {
-        for (auto *const ancestor : Internal::reverse(this->Ancestors())) {
+        for (auto *const ancestor : reverse(this->Ancestors())) {
             if (ancestor->m_OnBeforeDescendantDeactivateCallback) {
                 ancestor->m_OnBeforeDescendantDeactivateCallback(static_cast<TThis *>(this), argument);
             }

@@ -8,6 +8,7 @@
 #include "NodeBase.h"
 
 namespace TreeMachine {
+    using namespace TreeMachine::Internal;
 
     template <typename TThis>
     NodeBase<TThis>::NodeBase() {
@@ -270,7 +271,7 @@ namespace TreeMachine {
         this->OnBeforeDeactivate(argument);
         this->m_Activity = EActivity::Deactivating;
         {
-            for (auto *child : Internal::reverse(this->m_Children)) {
+            for (auto *child : reverse(this->m_Children)) {
                 child->Deactivate(argument);
             }
             this->OnDeactivate(argument);
@@ -349,7 +350,7 @@ namespace TreeMachine {
         assert(child->Tree() == nullptr && "Argument 'child' must have no tree");
         assert(child->Parent() == nullptr && "Argument 'child' must have no parent");
         assert(child->m_Activity == EActivity::Inactive && "Argument 'child' must be inactive");
-        assert(!Internal::contains(this->m_Children, child) && "Node must have no child");
+        assert(!contains(this->m_Children, child) && "Node must have no child");
         this->m_Children.push_back(child);
         this->Sort(this->m_Children);
         child->Attach(static_cast<TThis *>(this), argument);
@@ -370,7 +371,7 @@ namespace TreeMachine {
         } else {
             assert(child->m_Activity == EActivity::Inactive && "Argument 'child' must be inactive");
         }
-        assert(Internal::contains(this->m_Children, child) && "Node must have child");
+        assert(contains(this->m_Children, child) && "Node must have child");
         child->Detach(static_cast<TThis *>(this), argument);
         this->m_Children.remove(child);
         if (callback) {
@@ -379,7 +380,7 @@ namespace TreeMachine {
     }
     template <typename TThis>
     bool NodeBase<TThis>::RemoveChild(const function<bool(const TThis *const)> predicate, const any argument, const function<void(const TThis *const, const any)> callback) {
-        for (auto *child : Internal::reverse(this->m_Children)) { // NOLINT
+        for (auto *child : reverse(this->m_Children)) { // NOLINT
             if (predicate(child)) {
                 this->RemoveChild(child, argument, callback);
                 return true;
@@ -390,7 +391,7 @@ namespace TreeMachine {
     template <typename TThis>
     int32_t NodeBase<TThis>::RemoveChildren(const function<bool(const TThis *const)> predicate, const any argument, const function<void(const TThis *const, const any)> callback) {
         int32_t count = 0;
-        for (auto *const child : Internal::reverse(this->m_Children)) {
+        for (auto *const child : reverse(this->m_Children)) {
             if (predicate(child)) {
                 this->RemoveChild(child, argument, callback);
                 count++;
@@ -401,7 +402,7 @@ namespace TreeMachine {
     template <typename TThis>
     int32_t NodeBase<TThis>::RemoveChildren(const any argument, const function<void(const TThis *const, const any)> callback) {
         int32_t count = 0;
-        for (auto *const child : Internal::reverse(this->m_Children)) {
+        for (auto *const child : reverse(this->m_Children)) {
             this->RemoveChild(child, argument, callback);
             count++;
         }
