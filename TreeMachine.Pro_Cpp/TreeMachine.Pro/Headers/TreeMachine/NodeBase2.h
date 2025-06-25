@@ -5,12 +5,6 @@
 namespace TreeMachine {
     using namespace std;
 
-    template <typename T>
-    class TreeBase;
-
-    template <typename T>
-    class NodeBase;
-
     template <typename TThis>
     class NodeBase2 : public NodeBase<TThis> {
 
@@ -47,28 +41,28 @@ namespace TreeMachine {
         ~NodeBase2() override;
 
         protected:
-        void OnAttach(const any argument) override;                                  // overriding methods must invoke base implementation
-        void OnBeforeAttach(const any argument) override;                            // overriding methods must invoke base implementation
-        void OnAfterAttach(const any argument) override;                             // overriding methods must invoke base implementation
-        void OnDetach(const any argument) override;                                  // overriding methods must invoke base implementation
-        void OnBeforeDetach(const any argument) override;                            // overriding methods must invoke base implementation
-        void OnAfterDetach(const any argument) override;                             // overriding methods must invoke base implementation
-        virtual void OnBeforeDescendantAttach(TThis descendant, const any argument); // overriding methods must invoke base implementation
-        virtual void OnAfterDescendantAttach(TThis descendant, const any argument);  // overriding methods must invoke base implementation
-        virtual void OnBeforeDescendantDetach(TThis descendant, const any argument); // overriding methods must invoke base implementation
-        virtual void OnAfterDescendantDetach(TThis descendant, const any argument);  // overriding methods must invoke base implementation
+        void OnAttach(const any argument) override;       // overriding methods must invoke base implementation
+        void OnBeforeAttach(const any argument) override; // overriding methods must invoke base implementation
+        void OnAfterAttach(const any argument) override;  // overriding methods must invoke base implementation
+        void OnDetach(const any argument) override;       // overriding methods must invoke base implementation
+        void OnBeforeDetach(const any argument) override; // overriding methods must invoke base implementation
+        void OnAfterDetach(const any argument) override;  // overriding methods must invoke base implementation
+        virtual void OnBeforeDescendantAttach(TThis *descendant, const any argument);
+        virtual void OnAfterDescendantAttach(TThis *descendant, const any argument);
+        virtual void OnBeforeDescendantDetach(TThis *descendant, const any argument);
+        virtual void OnAfterDescendantDetach(TThis *descendant, const any argument);
 
         protected:
-        void OnActivate(const any argument) override;                                    // overriding methods must invoke base implementation
-        void OnBeforeActivate(const any argument) override;                              // overriding methods must invoke base implementation
-        void OnAfterActivate(const any argument) override;                               // overriding methods must invoke base implementation
-        void OnDeactivate(const any argument) override;                                  // overriding methods must invoke base implementation
-        void OnBeforeDeactivate(const any argument) override;                            // overriding methods must invoke base implementation
-        void OnAfterDeactivate(const any argument) override;                             // overriding methods must invoke base implementation
-        virtual void OnBeforeDescendantActivate(TThis descendant, const any argument);   // overriding methods must invoke base implementation
-        virtual void OnAfterDescendantActivate(TThis descendant, const any argument);    // overriding methods must invoke base implementation
-        virtual void OnBeforeDescendantDeactivate(TThis descendant, const any argument); // overriding methods must invoke base implementation
-        virtual void OnAfterDescendantDeactivate(TThis descendant, const any argument);  // overriding methods must invoke base implementation
+        void OnActivate(const any argument) override;         // overriding methods must invoke base implementation
+        void OnBeforeActivate(const any argument) override;   // overriding methods must invoke base implementation
+        void OnAfterActivate(const any argument) override;    // overriding methods must invoke base implementation
+        void OnDeactivate(const any argument) override;       // overriding methods must invoke base implementation
+        void OnBeforeDeactivate(const any argument) override; // overriding methods must invoke base implementation
+        void OnAfterDeactivate(const any argument) override;  // overriding methods must invoke base implementation
+        virtual void OnBeforeDescendantActivate(TThis *descendant, const any argument);
+        virtual void OnAfterDescendantActivate(TThis *descendant, const any argument);
+        virtual void OnBeforeDescendantDeactivate(TThis *descendant, const any argument);
+        virtual void OnAfterDescendantDeactivate(TThis *descendant, const any argument);
 
         public:
         void OnBeforeDescendantAttachCallback(function<void(TThis, const any)> callback);

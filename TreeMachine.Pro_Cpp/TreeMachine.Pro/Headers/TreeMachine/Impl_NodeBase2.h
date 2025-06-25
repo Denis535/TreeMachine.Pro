@@ -94,19 +94,19 @@ namespace TreeMachine {
     }
 
     template <typename TThis>
-    void NodeBase2<TThis>::OnBeforeDescendantAttach([[maybe_unused]] TThis descendant, [[maybe_unused]] const any argument) {
+    void NodeBase2<TThis>::OnBeforeDescendantAttach([[maybe_unused]] TThis *descendant, [[maybe_unused]] const any argument) {
     }
 
     template <typename TThis>
-    void NodeBase2<TThis>::OnAfterDescendantAttach([[maybe_unused]] TThis descendant, [[maybe_unused]] const any argument) {
+    void NodeBase2<TThis>::OnAfterDescendantAttach([[maybe_unused]] TThis *descendant, [[maybe_unused]] const any argument) {
     }
 
     template <typename TThis>
-    void NodeBase2<TThis>::OnBeforeDescendantDetach([[maybe_unused]] TThis descendant, [[maybe_unused]] const any argument) {
+    void NodeBase2<TThis>::OnBeforeDescendantDetach([[maybe_unused]] TThis *descendant, [[maybe_unused]] const any argument) {
     }
 
     template <typename TThis>
-    void NodeBase2<TThis>::OnAfterDescendantDetach([[maybe_unused]] TThis descendant, [[maybe_unused]] const any argument) {
+    void NodeBase2<TThis>::OnAfterDescendantDetach([[maybe_unused]] TThis *descendant, [[maybe_unused]] const any argument) {
     }
 
     template <typename TThis>
@@ -156,19 +156,19 @@ namespace TreeMachine {
     }
 
     template <typename TThis>
-    void NodeBase2<TThis>::OnBeforeDescendantActivate([[maybe_unused]] TThis descendant, [[maybe_unused]] const any argument) {
+    void NodeBase2<TThis>::OnBeforeDescendantActivate([[maybe_unused]] TThis *descendant, [[maybe_unused]] const any argument) {
     }
 
     template <typename TThis>
-    void NodeBase2<TThis>::OnAfterDescendantActivate([[maybe_unused]] TThis descendant, [[maybe_unused]] const any argument) {
+    void NodeBase2<TThis>::OnAfterDescendantActivate([[maybe_unused]] TThis *descendant, [[maybe_unused]] const any argument) {
     }
 
     template <typename TThis>
-    void NodeBase2<TThis>::OnBeforeDescendantDeactivate([[maybe_unused]] TThis descendant, [[maybe_unused]] const any argument) {
+    void NodeBase2<TThis>::OnBeforeDescendantDeactivate([[maybe_unused]] TThis *descendant, [[maybe_unused]] const any argument) {
     }
 
     template <typename TThis>
-    void NodeBase2<TThis>::OnAfterDescendantDeactivate([[maybe_unused]] TThis descendant, [[maybe_unused]] const any argument) {
+    void NodeBase2<TThis>::OnAfterDescendantDeactivate([[maybe_unused]] TThis *descendant, [[maybe_unused]] const any argument) {
     }
 
     template <typename TThis>
