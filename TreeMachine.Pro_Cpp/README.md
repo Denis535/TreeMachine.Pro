@@ -1,6 +1,15 @@
 # Overview
 The library that allows you to easily implement a tree structure.
 
+## TreeBase
+The base class for implementing tree structure.
+
+## NodeBase
+The base class for tree node.
+
+## NodeBase2
+The extended base class of tree node.
+
 # Reference
 ```
 namespace TreeMachine {
