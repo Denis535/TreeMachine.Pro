@@ -1,6 +1,7 @@
 #pragma once
 #include <any>
 #include <functional>
+#include "Helpers.h"
 #include "NodeBase2.h"
 
 namespace TreeMachine {

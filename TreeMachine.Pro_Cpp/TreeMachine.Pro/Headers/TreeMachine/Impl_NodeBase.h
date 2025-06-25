@@ -5,6 +5,7 @@
 #include <functional>
 #include <list>
 #include <variant>
+#include "Helpers.h"
 #include "NodeBase.h"
 
 namespace TreeMachine {
