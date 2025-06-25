@@ -80,11 +80,18 @@ namespace System.TreeMachine {
             }
             return children.Count;
         }
+        protected int RemoveChildren(object? argument, Action<TThis>? callback) {
+            var children = this.Children.Reverse().ToList();
+            foreach (var child in children) {
+                this.RemoveChild( child, argument, callback );
+            }
+            return children.Count;
+        }
         protected void RemoveSelf(object? argument, Action<TThis>? callback) {
-            Assert.Operation.Valid( $"Node {this} must have owner", this.Owner != null );
             if (this.Parent != null) {
                 this.Parent.RemoveChild( (TThis) this, argument, callback );
             } else {
+                Assert.Operation.Valid( $"Node {this} must have tree", this.Tree != null );
                 this.Tree!.RemoveRoot( (TThis) this, argument, callback );
             }
         }

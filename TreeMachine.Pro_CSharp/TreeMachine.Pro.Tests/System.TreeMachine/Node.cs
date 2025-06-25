@@ -85,6 +85,9 @@
         public new int RemoveChildren(Func<Node, bool> predicate, object? argument, Action<Node>? callback) {
             return base.RemoveChildren( predicate, argument, callback );
         }
+        public new int RemoveChildren(object? argument, Action<Node>? callback) {
+            return base.RemoveChildren( argument, callback );
+        }
         public new void RemoveSelf(object? argument, Action<Node>? callback) {
             base.RemoveSelf( argument, callback );
         }

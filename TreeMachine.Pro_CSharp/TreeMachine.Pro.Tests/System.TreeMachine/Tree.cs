@@ -13,15 +13,15 @@
         public Tree() {
         }
 
-        // SetRoot
-        public void SetRoot(Node? root, object? argument, Action<Node>? callback) {
-            ITree<Node>.SetRoot( this, root, argument, callback );
-        }
+        // AddRoot
         public void AddRoot(Node root, object? argument) {
             ITree<Node>.AddRoot( this, root, argument );
         }
         public void RemoveRoot(Node root, object? argument, Action<Node>? callback) {
             ITree<Node>.RemoveRoot( this, root, argument, callback );
+        }
+        public void RemoveRoot(object? argument, Action<Node>? callback) {
+            ITree<Node>.RemoveRoot( this, argument, callback );
         }
 
     }

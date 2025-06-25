@@ -9,7 +9,8 @@ namespace System.TreeMachine {
         // Owner
         internal object? Owner { get; private set; }
         // Tree
-        public ITree<TThis>? Tree => (this.Owner as ITree<TThis>) ?? (this.Owner as NodeBase<TThis>)?.Tree;
+        public ITree<TThis>? Tree => this.Owner as ITree<TThis>;
+        public ITree<TThis>? TreeRecursive => (this.Owner as ITree<TThis>) ?? (this.Owner as NodeBase<TThis>)?.TreeRecursive;
 
         // OnAttach
         public event Action<object?>? OnBeforeAttachEvent;

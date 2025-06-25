@@ -8,15 +8,16 @@ public interface ITree<T> where T : notnull, NodeBase<T> {
 
     protected T? Root { get; set; }
 
-    protected void SetRoot(T? root, object? argument, Action<T>? callback);
     protected void AddRoot(T root, object? argument);
     protected internal void RemoveRoot(T root, object? argument, Action<T>? callback);
+    protected void RemoveRoot(object? argument, Action<T>? callback);
 
 }
 public abstract partial class NodeBase<TThis> where TThis : notnull, NodeBase<TThis> {
 
     internal object? Owner { get; private set; }
     public ITree<TThis>? Tree { get; }
+    public ITree<TThis>? TreeRecursive { get; }
 
     public event Action<object?>? OnBeforeAttachEvent;
     public event Action<object?>? OnAfterAttachEvent;
@@ -59,6 +60,7 @@ public abstract partial class NodeBase<TThis> {
     protected virtual void RemoveChild(TThis child, object? argument, Action<TThis>? callback);
     protected bool RemoveChild(Func<TThis, bool> predicate, object? argument, Action<TThis>? callback);
     protected int RemoveChildren(Func<TThis, bool> predicate, object? argument, Action<TThis>? callback);
+    protected int RemoveChildren(object? argument, Action<TThis>? callback);
     protected void RemoveSelf(object? argument, Action<TThis>? callback);
 
     protected virtual void Sort(List<TThis> children);
