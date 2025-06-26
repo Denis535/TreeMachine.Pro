@@ -31,11 +31,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ba905a7-ea50-4506-9756-feebbc8a6ed4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Helpers.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Helpers.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Impl_NodeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Impl_NodeBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Impl_NodeBase2.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Impl_NodeBase2.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Impl_TreeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Impl_TreeBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/TreeMachine.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/TreeMachine.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_00.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_00.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_03.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_03.cpp" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -143,7 +141,8 @@
       <workItem from="1750860457123" duration="2841000" />
       <workItem from="1750870873532" duration="365000" />
       <workItem from="1750872544740" duration="157000" />
-      <workItem from="1750878662506" duration="1688000" />
+      <workItem from="1750878662506" duration="1928000" />
+      <workItem from="1750919079291" duration="799000" />
     </task>
     <servers />
   </component>
