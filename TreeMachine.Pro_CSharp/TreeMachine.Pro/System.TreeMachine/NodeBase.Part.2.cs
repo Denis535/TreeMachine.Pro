@@ -53,7 +53,7 @@ namespace System.TreeMachine {
             this.Sort( this.children );
             child.Attach( (TThis) this, argument );
         }
-        protected virtual void AddChildren(TThis[] children, object? argument) {
+        protected void AddChildren(TThis[] children, object? argument) {
             Assert.Argument.NotNull( $"Argument 'children' must be non-null", children != null );
             foreach (var child in children) {
                 this.AddChild( child, argument );
