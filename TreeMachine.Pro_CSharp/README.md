@@ -49,6 +49,7 @@ public abstract partial class NodeBase<TThis> {
     //public NodeBase();
 
     protected virtual void AddChild(TThis child, object? argument);
+    protected void AddChildren(TThis[] children, object? argument);
     protected virtual void RemoveChild(TThis child, object? argument, Action<TThis, object?>? callback);
     protected bool RemoveChild(Func<TThis, bool> predicate, object? argument, Action<TThis, object?>? callback);
     protected int RemoveChildren(Func<TThis, bool> predicate, object? argument, Action<TThis, object?>? callback);
