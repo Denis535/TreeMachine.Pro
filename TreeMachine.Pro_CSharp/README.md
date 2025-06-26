@@ -9,15 +9,13 @@ public interface ITree<T> where T : notnull, NodeBase<T> {
     protected T? Root { get; set; }
 
     protected void AddRoot(T root, object? argument);
-    protected internal void RemoveRoot(T root, object? argument, Action<T, object?>? callback);
+    protected void RemoveRoot(T root, object? argument, Action<T, object?>? callback);
     protected void RemoveRoot(object? argument, Action<T, object?>? callback);
 
 }
 public abstract partial class NodeBase<TThis> where TThis : notnull, NodeBase<TThis> {
 
-    private object? Owner { get; set; }
     public ITree<TThis>? Tree { get; }
-    public ITree<TThis>? TreeRecursive { get; }
 
     public event Action<object?>? OnBeforeAttachCallback;
     public event Action<object?>? OnAfterAttachCallback;
@@ -25,12 +23,6 @@ public abstract partial class NodeBase<TThis> where TThis : notnull, NodeBase<TT
     public event Action<object?>? OnAfterDetachCallback;
 
     public NodeBase();
-
-    internal void Attach(ITree<TThis> owner, object? argument);
-    internal void Attach(TThis owner, object? argument);
-
-    internal void Detach(ITree<TThis> owner, object? argument);
-    internal void Detach(TThis owner, object? argument);
 
     protected abstract void OnAttach(object? argument);
     protected virtual void OnBeforeAttach(object? argument);
@@ -74,7 +66,7 @@ public abstract partial class NodeBase<TThis> {
         Deactivating,
     }
 
-    public Activity_ Activity { get; private set; }
+    public Activity_ Activity { get; }
 
     public event Action<object?>? OnBeforeActivateCallback;
     public event Action<object?>? OnAfterActivateCallback;
@@ -82,9 +74,6 @@ public abstract partial class NodeBase<TThis> {
     public event Action<object?>? OnAfterDeactivateCallback;
 
     //public NodeBase();
-
-    private void Activate(object? argument);
-    private void Deactivate(object? argument);
 
     protected abstract void OnActivate(object? argument);
     protected virtual void OnBeforeActivate(object? argument);

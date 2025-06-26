@@ -17,8 +17,8 @@ namespace System.TreeMachine {
                 root.AddChildren( [ a, b ], null );
                 Assert.That( root.Children.Count, Is.EqualTo( 2 ) );
                 foreach (var child in root.Children) {
+                    Assert.That( child.Tree_NoRecursive, Is.Null );
                     Assert.That( child.Tree, Is.Null );
-                    Assert.That( child.TreeRecursive, Is.Null );
                     Assert.That( child.Parent, Is.EqualTo( root ) );
                     Assert.That( child.Activity, Is.EqualTo( Node.Activity_.Inactive ) );
                     Assert.That( child.Children.Count, Is.EqualTo( 0 ) );

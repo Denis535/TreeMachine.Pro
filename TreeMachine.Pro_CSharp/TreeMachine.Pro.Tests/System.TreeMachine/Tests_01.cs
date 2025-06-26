@@ -25,14 +25,14 @@ namespace System.TreeMachine {
                 // tree.AddRoot root
                 tree.AddRoot( root, null );
                 Assert.That( tree.Root, Is.EqualTo( root ) );
+                Assert.That( tree.Root.Tree_NoRecursive, Is.EqualTo( tree ) );
                 Assert.That( tree.Root.Tree, Is.EqualTo( tree ) );
-                Assert.That( tree.Root.TreeRecursive, Is.EqualTo( tree ) );
                 Assert.That( tree.Root.Parent, Is.Null );
                 Assert.That( tree.Root.Activity, Is.EqualTo( Node.Activity_.Active ) );
                 Assert.That( tree.Root.Children.Count, Is.EqualTo( 2 ) );
                 foreach (var child in tree.Root.Children) {
-                    Assert.That( child.Tree, Is.Null );
-                    Assert.That( child.TreeRecursive, Is.EqualTo( tree ) );
+                    Assert.That( child.Tree_NoRecursive, Is.Null );
+                    Assert.That( child.Tree, Is.EqualTo( tree ) );
                     Assert.That( child.Parent, Is.EqualTo( tree.Root ) );
                     Assert.That( child.Activity, Is.EqualTo( Node.Activity_.Active ) );
                     Assert.That( child.Children.Count, Is.EqualTo( 0 ) );
@@ -63,14 +63,14 @@ namespace System.TreeMachine {
                 // tree.AddRoot root
                 tree.AddRoot( root, null );
                 Assert.That( tree.Root, Is.EqualTo( root ) );
+                Assert.That( tree.Root.Tree_NoRecursive, Is.EqualTo( tree ) );
                 Assert.That( tree.Root.Tree, Is.EqualTo( tree ) );
-                Assert.That( tree.Root.TreeRecursive, Is.EqualTo( tree ) );
                 Assert.That( tree.Root.Parent, Is.Null );
                 Assert.That( tree.Root.Activity, Is.EqualTo( Node.Activity_.Active ) );
                 Assert.That( tree.Root.Children.Count, Is.EqualTo( 2 ) );
                 foreach (var child in tree.Root.Children) {
-                    Assert.That( child.Tree, Is.Null );
-                    Assert.That( child.TreeRecursive, Is.EqualTo( tree ) );
+                    Assert.That( child.Tree_NoRecursive, Is.Null );
+                    Assert.That( child.Tree, Is.EqualTo( tree ) );
                     Assert.That( child.Parent, Is.EqualTo( tree.Root ) );
                     Assert.That( child.Activity, Is.EqualTo( Node.Activity_.Active ) );
                     Assert.That( child.Children.Count, Is.EqualTo( 0 ) );

@@ -45,7 +45,7 @@ namespace System.TreeMachine {
         // AddChild
         protected virtual void AddChild(TThis child, object? argument) {
             Assert.Argument.NotNull( $"Argument 'child' must be non-null", child != null );
-            Assert.Argument.Valid( $"Argument 'child' ({child}) must have no {child.Tree} tree", child.Tree == null );
+            Assert.Argument.Valid( $"Argument 'child' ({child}) must have no {child.Tree_NoRecursive} tree", child.Tree_NoRecursive == null );
             Assert.Argument.Valid( $"Argument 'child' ({child}) must have no {child.Parent} parent", child.Parent == null );
             Assert.Argument.Valid( $"Argument 'child' ({child}) must be inactive", child.Activity == Activity_.Inactive );
             Assert.Operation.Valid( $"Node {this} must have no {child} child", !this.Children.Contains( child ) );
@@ -98,8 +98,8 @@ namespace System.TreeMachine {
             if (this.Parent != null) {
                 this.Parent.RemoveChild( (TThis) this, argument, callback );
             } else {
-                Assert.Operation.Valid( $"Node {this} must have tree", this.Tree != null );
-                this.Tree.RemoveRoot( (TThis) this, argument, callback );
+                Assert.Operation.Valid( $"Node {this} must have tree", this.Tree_NoRecursive != null );
+                this.Tree_NoRecursive.RemoveRoot( (TThis) this, argument, callback );
             }
         }
 
