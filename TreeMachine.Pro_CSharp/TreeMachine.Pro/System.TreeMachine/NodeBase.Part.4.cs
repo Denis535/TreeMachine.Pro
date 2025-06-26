@@ -18,6 +18,14 @@ namespace System.TreeMachine {
             this.Sort( this.children );
             child.Attach( (TThis) this, argument );
         }
+        protected void AddChildren(TThis[] children, object? argument) {
+            Assert.Argument.NotNull( $"Argument 'children' must be non-null", children != null );
+            foreach (var child in children) {
+                this.AddChild( child, argument );
+            }
+        }
+
+        // RemoveChild
         protected virtual void RemoveChild(TThis child, object? argument, Action<TThis, object?>? callback) {
             Assert.Argument.NotNull( $"Argument 'child' must be non-null", child != null );
             Assert.Argument.Valid( $"Argument 'child' ({child}) must have {this} parent", child.Parent == this );
@@ -38,14 +46,6 @@ namespace System.TreeMachine {
                 return true;
             }
             return false;
-        }
-
-        // AddChildren
-        protected void AddChildren(TThis[] children, object? argument) {
-            Assert.Argument.NotNull( $"Argument 'children' must be non-null", children != null );
-            foreach (var child in children) {
-                this.AddChild( child, argument );
-            }
         }
         protected int RemoveChildren(Func<TThis, bool> predicate, object? argument, Action<TThis, object?>? callback) {
             var children = this.Children.Reverse().Where( predicate ).ToList();

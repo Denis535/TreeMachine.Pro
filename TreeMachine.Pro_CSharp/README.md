@@ -27,8 +27,7 @@ public abstract partial class NodeBase<TThis> where TThis : notnull, NodeBase<TT
     public IEnumerable<TThis> Descendants { get; }
     public IEnumerable<TThis> DescendantsAndSelf { get; }
 
-    public NodeBase() {
-    }
+    public NodeBase();
 
 }
 public abstract partial class NodeBase<TThis> {
@@ -66,13 +65,11 @@ public abstract partial class NodeBase<TThis> {
 public abstract partial class NodeBase<TThis> {
 
     protected virtual void AddChild(TThis child, object? argument);
+    protected void AddChildren(TThis[] children, object? argument);
     protected virtual void RemoveChild(TThis child, object? argument, Action<TThis, object?>? callback);
     protected bool RemoveChild(Func<TThis, bool> predicate, object? argument, Action<TThis, object?>? callback);
-
-    protected void AddChildren(TThis[] children, object? argument);
     protected int RemoveChildren(Func<TThis, bool> predicate, object? argument, Action<TThis, object?>? callback);
     protected int RemoveChildren(object? argument, Action<TThis, object?>? callback);
-
     protected void RemoveSelf(object? argument, Action<TThis, object?>? callback);
 
     protected virtual void Sort(List<TThis> children);
