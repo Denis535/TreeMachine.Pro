@@ -6,25 +6,12 @@ namespace System.TreeMachine {
     using System.Text;
 
     public abstract partial class NodeBase<TThis> {
-        public enum Activity_ {
-            Inactive,
-            Activating,
-            Active,
-            Deactivating,
-        }
-
-        // Activity
-        public Activity_ Activity { get; private set; } = Activity_.Inactive;
 
         // OnActivate
         public event Action<object?>? OnBeforeActivateCallback;
         public event Action<object?>? OnAfterActivateCallback;
         public event Action<object?>? OnBeforeDeactivateCallback;
         public event Action<object?>? OnAfterDeactivateCallback;
-
-        // Constructor
-        //public NodeBase() {
-        //}
 
         // Activate
         private void Activate(object? argument) {
@@ -42,6 +29,8 @@ namespace System.TreeMachine {
             this.Activity = Activity_.Active;
             this.OnAfterActivate( argument );
         }
+
+        // Deactivate
         private void Deactivate(object? argument) {
             Assert.Operation.Valid( $"Node {this} must have owner", this.Tree_NoRecursive != null || this.Parent != null );
             Assert.Operation.Valid( $"Node {this} must have valid owner", this.Tree_NoRecursive != null || this.Parent!.Activity is Activity_.Active or Activity_.Deactivating );

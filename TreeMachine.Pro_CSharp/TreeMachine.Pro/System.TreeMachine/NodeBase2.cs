@@ -5,19 +5,13 @@ namespace System.TreeMachine {
     using System.Linq;
     using System.Text;
 
-    public abstract class NodeBase2<TThis> : NodeBase<TThis> where TThis : notnull, NodeBase2<TThis> {
+    public abstract partial class NodeBase2<TThis> : NodeBase<TThis> where TThis : notnull, NodeBase2<TThis> {
 
         // OnDescendantAttach
         public event Action<TThis, object?>? OnBeforeDescendantAttachCallback;
         public event Action<TThis, object?>? OnAfterDescendantAttachCallback;
         public event Action<TThis, object?>? OnBeforeDescendantDetachCallback;
         public event Action<TThis, object?>? OnAfterDescendantDetachCallback;
-
-        // OnDescendantActivate
-        public event Action<TThis, object?>? OnBeforeDescendantActivateCallback;
-        public event Action<TThis, object?>? OnAfterDescendantActivateCallback;
-        public event Action<TThis, object?>? OnBeforeDescendantDeactivateCallback;
-        public event Action<TThis, object?>? OnAfterDescendantDeactivateCallback;
 
         // Constructor
         public NodeBase2() {
@@ -58,6 +52,15 @@ namespace System.TreeMachine {
         protected abstract void OnAfterDescendantAttach(TThis descendant, object? argument);
         protected abstract void OnBeforeDescendantDetach(TThis descendant, object? argument);
         protected abstract void OnAfterDescendantDetach(TThis descendant, object? argument);
+
+    }
+    public abstract partial class NodeBase2<TThis> {
+
+        // OnDescendantActivate
+        public event Action<TThis, object?>? OnBeforeDescendantActivateCallback;
+        public event Action<TThis, object?>? OnAfterDescendantActivateCallback;
+        public event Action<TThis, object?>? OnBeforeDescendantDeactivateCallback;
+        public event Action<TThis, object?>? OnAfterDescendantDeactivateCallback;
 
         // OnActivate
         protected override void OnBeforeActivate(object? argument) {
