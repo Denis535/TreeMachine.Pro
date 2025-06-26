@@ -6,7 +6,7 @@
 #include <list>
 #include <variant>
 #include "Helpers.h"
-#include "NodeBase.h"
+#include "../NodeBase.h"
 
 namespace TreeMachine {
     using namespace TreeMachine::Internal;

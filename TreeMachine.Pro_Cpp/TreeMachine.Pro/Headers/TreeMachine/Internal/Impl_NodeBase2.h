@@ -2,7 +2,7 @@
 #include <any>
 #include <functional>
 #include "Helpers.h"
-#include "NodeBase2.h"
+#include "../NodeBase2.h"
 
 namespace TreeMachine {
     using namespace TreeMachine::Internal;

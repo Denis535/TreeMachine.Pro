@@ -34,6 +34,11 @@
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_00.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_00.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_03.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_03.cpp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Helpers.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Internal/Helpers.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Impl_NodeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Internal/Impl_NodeBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Impl_NodeBase2.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Internal/Impl_NodeBase2.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Impl_TreeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Internal/Impl_TreeBase.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/TreeMachine.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/TreeMachine.h" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -104,6 +109,7 @@
       <recent name="D:\Projects\TreeMachine.Pro\TreeMachine.Pro_Cpp\TreeMachine.Pro.Tests\Sources\TreeMachine" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Projects\TreeMachine.Pro\TreeMachine.Pro_Cpp\TreeMachine.Pro\Headers\TreeMachine\Internal" />
       <recent name="D:\Projects\TreeMachine.Pro\TreeMachine.Pro_Cpp\TreeMachine.Pro\Headers\TreeMachine" />
       <recent name="D:\Projects\TreeMachine.Pro\TreeMachine.Pro_Cpp\TreeMachine.Pro.Tests\Sources\TreeMachine" />
     </key>
@@ -142,7 +148,7 @@
       <workItem from="1750870873532" duration="365000" />
       <workItem from="1750872544740" duration="157000" />
       <workItem from="1750878662506" duration="1928000" />
-      <workItem from="1750919079291" duration="799000" />
+      <workItem from="1750919079291" duration="1064000" />
     </task>
     <servers />
   </component>
