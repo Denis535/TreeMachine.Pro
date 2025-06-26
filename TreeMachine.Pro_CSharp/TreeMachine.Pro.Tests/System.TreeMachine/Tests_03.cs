@@ -3,6 +3,7 @@ namespace System.TreeMachine {
     using System.Collections.Generic;
     using System.Text;
     using NUnit.Framework;
+    using Assert = NUnit.Framework.Assert;
 
     public class Tests_03 {
 

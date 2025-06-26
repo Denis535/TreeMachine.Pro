@@ -51,6 +51,10 @@
         <TargetsForTfmSpecificContentInPackage>$(TargetsForTfmSpecificContentInPackage);IncludeContent</TargetsForTfmSpecificContentInPackage>
     </PropertyGroup>
 
+    <ItemGroup>
+        <InternalsVisibleTo Include="$(AssemblyName).Tests" />
+    </ItemGroup>
+
     <!--Clean-->
     <ItemGroup>
         <Clean Include="$(PackageOutputPath)\*.nupkg" />
