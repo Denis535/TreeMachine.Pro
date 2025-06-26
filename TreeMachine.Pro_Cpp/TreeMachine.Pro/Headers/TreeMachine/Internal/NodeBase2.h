@@ -1,8 +1,8 @@
 #pragma once
 #include <any>
 #include <functional>
-#include "Helpers.h"
 #include "../NodeBase2.h"
+#include "Helpers.h"
 
 namespace TreeMachine {
     using namespace TreeMachine::Internal;

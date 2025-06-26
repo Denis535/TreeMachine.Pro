@@ -2,8 +2,8 @@
 #include <any>
 #include <cassert>
 #include <functional>
-#include "Helpers.h"
 #include "../TreeBase.h"
+#include "Helpers.h"
 
 namespace TreeMachine {
 

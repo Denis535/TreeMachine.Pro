@@ -55,6 +55,7 @@
     <setting file="mock:///AIAssistantSnippet.." root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///AIAssistantSnippet.." root0="SKIP_HIGHLIGHTING" />
     <setting file="mock:///AIAssistantSnippet.." root0="SKIP_HIGHLIGHTING" />
+    <setting file="mock:///AIAssistantSnippet.." root0="SKIP_HIGHLIGHTING" />
   </component>
   <component name="ProblemsViewState">
     <option name="selectedTabId" value="ProjectErrors" />
@@ -148,7 +149,7 @@
       <workItem from="1750870873532" duration="365000" />
       <workItem from="1750872544740" duration="157000" />
       <workItem from="1750878662506" duration="1928000" />
-      <workItem from="1750919079291" duration="1427000" />
+      <workItem from="1750919079291" duration="2037000" />
     </task>
     <servers />
   </component>

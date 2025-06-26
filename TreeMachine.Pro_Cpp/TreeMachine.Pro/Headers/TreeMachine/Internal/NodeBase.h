@@ -5,8 +5,9 @@
 #include <functional>
 #include <list>
 #include <variant>
-#include "Helpers.h"
+#include <vector>
 #include "../NodeBase.h"
+#include "Helpers.h"
 
 namespace TreeMachine {
     using namespace TreeMachine::Internal;
