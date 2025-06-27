@@ -89,18 +89,6 @@ namespace TreeMachine {
         explicit NodeBase(NodeBase &&other) = delete;
         virtual ~NodeBase();
 
-        public:
-        void OnBeforeAttachCallback(const function<void(const any)> callback);
-        void OnAfterAttachCallback(const function<void(const any)> callback);
-        void OnBeforeDetachCallback(const function<void(const any)> callback);
-        void OnAfterDetachCallback(const function<void(const any)> callback);
-
-        public:
-        void OnBeforeActivateCallback(const function<void(const any)> callback);
-        void OnAfterActivateCallback(const function<void(const any)> callback);
-        void OnBeforeDeactivateCallback(const function<void(const any)> callback);
-        void OnAfterDeactivateCallback(const function<void(const any)> callback);
-
         private:
         void Attach(TreeBase<TThis> *const tree, const any argument);
         void Attach(TThis *const parent, const any argument);
@@ -138,6 +126,18 @@ namespace TreeMachine {
 
         protected:
         virtual void Sort(list<TThis *> &children) const;
+
+        public:
+        void OnBeforeAttachCallback(const function<void(const any)> callback);
+        void OnAfterAttachCallback(const function<void(const any)> callback);
+        void OnBeforeDetachCallback(const function<void(const any)> callback);
+        void OnAfterDetachCallback(const function<void(const any)> callback);
+
+        public:
+        void OnBeforeActivateCallback(const function<void(const any)> callback);
+        void OnAfterActivateCallback(const function<void(const any)> callback);
+        void OnBeforeDeactivateCallback(const function<void(const any)> callback);
+        void OnAfterDeactivateCallback(const function<void(const any)> callback);
 
         public:
         NodeBase &operator=(const NodeBase &other) = delete;
