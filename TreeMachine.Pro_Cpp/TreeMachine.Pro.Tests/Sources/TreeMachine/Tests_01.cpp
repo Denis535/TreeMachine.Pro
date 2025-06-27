@@ -12,10 +12,10 @@ namespace TreeMachine {
 
         for (const auto *const node : vector<Node *>{root, a, b}) {
             EXPECT_NE(node, nullptr);
-            EXPECT_EQ(node->Tree(), nullptr);
+            EXPECT_EQ(node->Tree_NoRecursive(), nullptr);
             EXPECT_EQ(node->TreeRecursive(), nullptr);
             EXPECT_EQ(node->Parent(), nullptr);
-            EXPECT_EQ(node->Activity(), Node::EActivity::Inactive);
+            EXPECT_EQ(node->Activity(), Node::Activity_::Inactive);
             EXPECT_EQ(node->Children().size(), 0);
         }
 
@@ -30,16 +30,16 @@ namespace TreeMachine {
             // AddRoot
             tree->AddRoot(root, nullptr);
             EXPECT_NE(tree->Root(), nullptr);
-            EXPECT_EQ(tree->Root()->Tree(), tree);
+            EXPECT_EQ(tree->Root()->Tree_NoRecursive(), tree);
             EXPECT_EQ(tree->Root()->TreeRecursive(), tree);
             EXPECT_EQ(tree->Root()->Parent(), nullptr);
-            EXPECT_EQ(tree->Root()->Activity(), Node::EActivity::Active);
+            EXPECT_EQ(tree->Root()->Activity(), Node::Activity_::Active);
             EXPECT_EQ(tree->Root()->Children().size(), 2);
             for (const auto *const child : tree->Root()->Children()) {
-                EXPECT_EQ(child->Tree(), nullptr);
+                EXPECT_EQ(child->Tree_NoRecursive(), nullptr);
                 EXPECT_EQ(child->TreeRecursive(), tree);
                 EXPECT_EQ(child->Parent(), tree->Root());
-                EXPECT_EQ(child->Activity(), Node::EActivity::Active);
+                EXPECT_EQ(child->Activity(), Node::Activity_::Active);
                 EXPECT_EQ(child->Children().size(), 0);
             }
         }
@@ -60,10 +60,10 @@ namespace TreeMachine {
 
         for (const auto *const node : vector<Node *>{root, a, b}) {
             EXPECT_NE(node, nullptr);
-            EXPECT_EQ(node->Tree(), nullptr);
+            EXPECT_EQ(node->Tree_NoRecursive(), nullptr);
             EXPECT_EQ(node->TreeRecursive(), nullptr);
             EXPECT_EQ(node->Parent(), nullptr);
-            EXPECT_EQ(node->Activity(), Node::EActivity::Inactive);
+            EXPECT_EQ(node->Activity(), Node::Activity_::Inactive);
             EXPECT_EQ(node->Children().size(), 0);
         }
 
@@ -78,16 +78,16 @@ namespace TreeMachine {
             // AddRoot
             tree->AddRoot(root, nullptr);
             EXPECT_NE(tree->Root(), nullptr);
-            EXPECT_EQ(tree->Root()->Tree(), tree);
+            EXPECT_EQ(tree->Root()->Tree_NoRecursive(), tree);
             EXPECT_EQ(tree->Root()->TreeRecursive(), tree);
             EXPECT_EQ(tree->Root()->Parent(), nullptr);
-            EXPECT_EQ(tree->Root()->Activity(), Node::EActivity::Active);
+            EXPECT_EQ(tree->Root()->Activity(), Node::Activity_::Active);
             EXPECT_EQ(tree->Root()->Children().size(), 2);
             for (const auto *const child : tree->Root()->Children()) {
-                EXPECT_EQ(child->Tree(), nullptr);
+                EXPECT_EQ(child->Tree_NoRecursive(), nullptr);
                 EXPECT_EQ(child->TreeRecursive(), tree);
                 EXPECT_EQ(child->Parent(), tree->Root());
-                EXPECT_EQ(child->Activity(), Node::EActivity::Active);
+                EXPECT_EQ(child->Activity(), Node::Activity_::Active);
                 EXPECT_EQ(child->Children().size(), 0);
             }
         }

@@ -13,33 +13,20 @@ namespace TreeMachine {
     using namespace TreeMachine::Internal;
 
     template <typename TThis>
-    NodeBase<TThis>::NodeBase() {
-        static_assert(is_base_of_v<NodeBase, TThis>);
-    }
-
-    template <typename TThis>
-    NodeBase<TThis>::~NodeBase() {
-        assert(this->Tree() == nullptr && "Node must have no tree");
-        assert(this->Parent() == nullptr && "Node must have no parent");
-        assert(this->m_Activity == EActivity::Inactive && "Node must be inactive");
-        assert(this->m_Children.empty() && "Node must have no children");
-    }
-
-    template <typename TThis>
-    TreeBase<TThis> *NodeBase<TThis>::Tree() const {
-        if (auto *const *const tree = get_if<TreeBase<TThis> *>(&this->m_Owner)) {
-            return *tree;
-        }
-        return nullptr;
-    }
-
-    template <typename TThis>
     TreeBase<TThis> *NodeBase<TThis>::TreeRecursive() const {
         if (auto *const *const tree = get_if<TreeBase<TThis> *>(&this->m_Owner)) {
             return *tree;
         }
         if (const auto *const *const node = get_if<TThis *>(&this->m_Owner)) {
             return (*node)->TreeRecursive();
+        }
+        return nullptr;
+    }
+
+    template <typename TThis>
+    TreeBase<TThis> *NodeBase<TThis>::Tree_NoRecursive() const {
+        if (auto *const *const tree = get_if<TreeBase<TThis> *>(&this->m_Owner)) {
+            return *tree;
         }
         return nullptr;
     }
@@ -103,7 +90,7 @@ namespace TreeMachine {
     }
 
     template <typename TThis>
-    typename NodeBase<TThis>::EActivity NodeBase<TThis>::Activity() const {
+    typename NodeBase<TThis>::Activity_ NodeBase<TThis>::Activity() const {
         return this->m_Activity;
     }
 
@@ -182,13 +169,66 @@ namespace TreeMachine {
     }
 
     template <typename TThis>
-    void NodeBase<TThis>::Attach(TreeBase<TThis> *const owner, const any argument) {
-        assert(owner != nullptr && "Argument 'owner' must be non-null");
-        assert(this->Tree() == nullptr && "Node must have no tree");
+    NodeBase<TThis>::NodeBase() {
+        static_assert(is_base_of_v<NodeBase, TThis>);
+    }
+
+    template <typename TThis>
+    NodeBase<TThis>::~NodeBase() {
+        assert(this->Tree_NoRecursive() == nullptr && "Node must have no tree");
         assert(this->Parent() == nullptr && "Node must have no parent");
-        assert(this->m_Activity == EActivity::Inactive && "Node must be inactive");
+        assert(this->m_Activity == Activity_::Inactive && "Node must be inactive");
+        assert(this->m_Children.empty() && "Node must have no children");
+    }
+
+    template <typename TThis>
+    void NodeBase<TThis>::OnBeforeAttachCallback(const function<void(const any)> callback) {
+        this->m_OnBeforeAttachCallback = callback;
+    }
+
+    template <typename TThis>
+    void NodeBase<TThis>::OnAfterAttachCallback(const function<void(const any)> callback) {
+        this->m_OnAfterAttachCallback = callback;
+    }
+
+    template <typename TThis>
+    void NodeBase<TThis>::OnBeforeDetachCallback(const function<void(const any)> callback) {
+        this->m_OnBeforeDetachCallback = callback;
+    }
+
+    template <typename TThis>
+    void NodeBase<TThis>::OnAfterDetachCallback(const function<void(const any)> callback) {
+        this->m_OnAfterDetachCallback = callback;
+    }
+
+    template <typename TThis>
+    void NodeBase<TThis>::OnBeforeActivateCallback(const function<void(const any)> callback) {
+        this->m_OnBeforeActivateCallback = callback;
+    }
+
+    template <typename TThis>
+    void NodeBase<TThis>::OnAfterActivateCallback(const function<void(const any)> callback) {
+        this->m_OnAfterActivateCallback = callback;
+    }
+
+    template <typename TThis>
+    void NodeBase<TThis>::OnBeforeDeactivateCallback(const function<void(const any)> callback) {
+        this->m_OnBeforeDeactivateCallback = callback;
+    }
+
+    template <typename TThis>
+    void NodeBase<TThis>::OnAfterDeactivateCallback(const function<void(const any)> callback) {
+        this->m_OnAfterDeactivateCallback = callback;
+    }
+
+    template <typename TThis>
+    void NodeBase<TThis>::Attach(TreeBase<TThis> *const tree, const any argument) {
+        assert(tree != nullptr && "Argument 'tree' must be non-null");
+        assert(this->Tree_NoRecursive() == nullptr && "Node must have no tree");
+        assert(this->Parent() == nullptr && "Node must have no parent");
+        assert(this->m_Activity == Activity_::Inactive && "Node must be inactive");
         {
-            this->m_Owner = owner;
+            this->m_Owner = tree;
             this->OnBeforeAttach(argument);
             this->OnAttach(argument);
             this->OnAfterAttach(argument);
@@ -198,28 +238,28 @@ namespace TreeMachine {
         }
     }
     template <typename TThis>
-    void NodeBase<TThis>::Attach(TThis *const owner, const any argument) {
-        assert(owner != nullptr && "Argument 'owner' must be non-null");
-        assert(this->Tree() == nullptr && "Node must have no tree");
+    void NodeBase<TThis>::Attach(TThis *const parent, const any argument) {
+        assert(parent != nullptr && "Argument 'parent' must be non-null");
+        assert(this->Tree_NoRecursive() == nullptr && "Node must have no tree");
         assert(this->Parent() == nullptr && "Node must have no parent");
-        assert(this->m_Activity == EActivity::Inactive && "Node must be inactive");
+        assert(this->m_Activity == Activity_::Inactive && "Node must be inactive");
         {
-            this->m_Owner = owner;
+            this->m_Owner = parent;
             this->OnBeforeAttach(argument);
             this->OnAttach(argument);
             this->OnAfterAttach(argument);
         }
-        if (owner->m_Activity == EActivity::Active) {
+        if (parent->m_Activity == Activity_::Active) {
             this->Activate(argument);
         }
     }
 
     template <typename TThis>
-    void NodeBase<TThis>::Detach(TreeBase<TThis> *const owner, const any argument) {
-        assert(owner != nullptr && "Argument 'owner' must be non-null");
-        assert(this->Tree() == owner && "Node must have tree");
+    void NodeBase<TThis>::Detach(TreeBase<TThis> *const tree, const any argument) {
+        assert(tree != nullptr && "Argument 'tree' must be non-null");
+        assert(this->Tree_NoRecursive() == tree && "Node must have tree");
         assert(this->Parent() == nullptr && "Node must have no parent");
-        assert(this->m_Activity == EActivity::Active && "Node must be active");
+        assert(this->m_Activity == Activity_::Active && "Node must be active");
         if constexpr (true) { // NOLINT
             this->Deactivate(argument);
         }
@@ -231,15 +271,15 @@ namespace TreeMachine {
         }
     }
     template <typename TThis>
-    void NodeBase<TThis>::Detach(TThis *const owner, const any argument) {
-        assert(owner != nullptr && "Argument 'owner' must be non-null");
-        assert(this->Tree() == nullptr && "Node must have no tree");
-        assert(this->Parent() == owner && "Node must have parent");
-        if (owner->m_Activity == EActivity::Active) {
-            assert(this->m_Activity == EActivity::Active && "Node must be active");
+    void NodeBase<TThis>::Detach(TThis *const parent, const any argument) {
+        assert(parent != nullptr && "Argument 'parent' must be non-null");
+        assert(this->Tree_NoRecursive() == nullptr && "Node must have no tree");
+        assert(this->Parent() == parent && "Node must have parent");
+        if (parent->m_Activity == Activity_::Active) {
+            assert(this->m_Activity == Activity_::Active && "Node must be active");
             this->Deactivate(argument);
         } else {
-            assert(this->m_Activity == EActivity::Inactive && "Node must be inactive");
+            assert(this->m_Activity == Activity_::Inactive && "Node must be inactive");
         }
         {
             this->OnBeforeDetach(argument);
@@ -251,34 +291,34 @@ namespace TreeMachine {
 
     template <typename TThis>
     void NodeBase<TThis>::Activate(const any argument) {
-        assert((this->Tree() != nullptr || this->Parent() != nullptr) && "Node must have owner");
-        assert((this->Tree() != nullptr || this->Parent()->m_Activity == EActivity::Active || this->Parent()->m_Activity == EActivity::Activating) && "Node must have valid owner");
-        assert(this->m_Activity == EActivity::Inactive && "Node must be inactive");
+        assert((this->Tree_NoRecursive() != nullptr || this->Parent() != nullptr) && "Node must have owner");
+        assert((this->Tree_NoRecursive() != nullptr || this->Parent()->m_Activity == Activity_::Active || this->Parent()->m_Activity == Activity_::Activating) && "Node must have valid owner");
+        assert(this->m_Activity == Activity_::Inactive && "Node must be inactive");
         this->OnBeforeActivate(argument);
-        this->m_Activity = EActivity::Activating;
+        this->m_Activity = Activity_::Activating;
         {
             this->OnActivate(argument);
             for (auto *child : this->m_Children) {
                 child->Activate(argument);
             }
         }
-        this->m_Activity = EActivity::Active;
+        this->m_Activity = Activity_::Active;
         this->OnAfterActivate(argument);
     }
     template <typename TThis>
     void NodeBase<TThis>::Deactivate(const any argument) {
-        assert((this->Tree() != nullptr || this->Parent() != nullptr) && "Node must have owner");
-        assert((this->Tree() != nullptr || this->Parent()->m_Activity == EActivity::Active || this->Parent()->m_Activity == EActivity::Deactivating) && "Node must have valid owner");
-        assert(this->m_Activity == EActivity::Active && "Node must be active");
+        assert((this->Tree_NoRecursive() != nullptr || this->Parent() != nullptr) && "Node must have owner");
+        assert((this->Tree_NoRecursive() != nullptr || this->Parent()->m_Activity == Activity_::Active || this->Parent()->m_Activity == Activity_::Deactivating) && "Node must have valid owner");
+        assert(this->m_Activity == Activity_::Active && "Node must be active");
         this->OnBeforeDeactivate(argument);
-        this->m_Activity = EActivity::Deactivating;
+        this->m_Activity = Activity_::Deactivating;
         {
             for (auto *child : reverse(this->m_Children)) {
                 child->Deactivate(argument);
             }
             this->OnDeactivate(argument);
         }
-        this->m_Activity = EActivity::Inactive;
+        this->m_Activity = Activity_::Inactive;
         this->OnAfterDeactivate(argument);
     }
 
@@ -349,9 +389,9 @@ namespace TreeMachine {
     template <typename TThis>
     void NodeBase<TThis>::AddChild(TThis *const child, const any argument) {
         assert(child != nullptr && "Argument 'child' must be non-null");
-        assert(child->Tree() == nullptr && "Argument 'child' must have no tree");
+        assert(child->Tree_NoRecursive() == nullptr && "Argument 'child' must have no tree");
         assert(child->Parent() == nullptr && "Argument 'child' must have no parent");
-        assert(child->m_Activity == EActivity::Inactive && "Argument 'child' must be inactive");
+        assert(child->m_Activity == Activity_::Inactive && "Argument 'child' must be inactive");
         assert(!contains(this->m_Children, child) && "Node must have no child");
         this->m_Children.push_back(child);
         this->Sort(this->m_Children);
@@ -367,12 +407,12 @@ namespace TreeMachine {
     template <typename TThis>
     void NodeBase<TThis>::RemoveChild(TThis *const child, const any argument, const function<void(const TThis *const, const any)> callback) {
         assert(child != nullptr && "Argument 'child' must be non-null");
-        assert(child->Tree() == nullptr && "Argument 'child' must have no tree");
+        assert(child->Tree_NoRecursive() == nullptr && "Argument 'child' must have no tree");
         assert(child->Parent() == this && "Argument 'child' must have parent");
-        if (this->m_Activity == EActivity::Active) {
-            assert(child->m_Activity == EActivity::Active && "Argument 'child' must be active");
+        if (this->m_Activity == Activity_::Active) {
+            assert(child->m_Activity == Activity_::Active && "Argument 'child' must be active");
         } else {
-            assert(child->m_Activity == EActivity::Inactive && "Argument 'child' must be inactive");
+            assert(child->m_Activity == Activity_::Inactive && "Argument 'child' must be inactive");
         }
         assert(contains(this->m_Children, child) && "Node must have child");
         child->Detach(static_cast<TThis *>(this), argument);
@@ -416,48 +456,14 @@ namespace TreeMachine {
         if (auto *const parent = this->Parent()) {
             parent->RemoveChild(this, argument, callback);
         } else {
-            assert(this->Tree() != nullptr && "Node must have tree");
-            this->Tree()->RemoveRoot(this, argument, callback);
+            assert(this->Tree_NoRecursive() != nullptr && "Node must have tree");
+            this->Tree_NoRecursive()->RemoveRoot(this, argument, callback);
         }
     }
 
     template <typename TThis>
     void NodeBase<TThis>::Sort(list<TThis *> &children) const {
         (void)children;
-    }
-
-    template <typename TThis>
-    void NodeBase<TThis>::OnBeforeAttachCallback(const function<void(const any)> callback) {
-        this->m_OnBeforeAttachCallback = callback;
-    }
-    template <typename TThis>
-    void NodeBase<TThis>::OnAfterAttachCallback(const function<void(const any)> callback) {
-        this->m_OnAfterAttachCallback = callback;
-    }
-    template <typename TThis>
-    void NodeBase<TThis>::OnBeforeDetachCallback(const function<void(const any)> callback) {
-        this->m_OnBeforeDetachCallback = callback;
-    }
-    template <typename TThis>
-    void NodeBase<TThis>::OnAfterDetachCallback(const function<void(const any)> callback) {
-        this->m_OnAfterDetachCallback = callback;
-    }
-
-    template <typename TThis>
-    void NodeBase<TThis>::OnBeforeActivateCallback(const function<void(const any)> callback) {
-        this->m_OnBeforeActivateCallback = callback;
-    }
-    template <typename TThis>
-    void NodeBase<TThis>::OnAfterActivateCallback(const function<void(const any)> callback) {
-        this->m_OnAfterActivateCallback = callback;
-    }
-    template <typename TThis>
-    void NodeBase<TThis>::OnBeforeDeactivateCallback(const function<void(const any)> callback) {
-        this->m_OnBeforeDeactivateCallback = callback;
-    }
-    template <typename TThis>
-    void NodeBase<TThis>::OnAfterDeactivateCallback(const function<void(const any)> callback) {
-        this->m_OnAfterDeactivateCallback = callback;
     }
 
 }

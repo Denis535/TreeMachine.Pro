@@ -25,9 +25,9 @@ namespace TreeMachine {
     template <typename T>
     void TreeBase<T>::AddRoot(T *const root, const any argument) {
         assert(root != nullptr && "Argument 'root' must be non-null");
-        assert(root->Tree() == nullptr && "Argument 'root' must have no tree");
+        assert(root->Tree_NoRecursive() == nullptr && "Argument 'root' must have no tree");
         assert(root->Parent() == nullptr && "Argument 'root' must have no parent");
-        assert(root->m_Activity == NodeBase<T>::EActivity::Inactive && "Argument 'root' must be inactive");
+        assert(root->m_Activity == NodeBase<T>::Activity_::Inactive && "Argument 'root' must be inactive");
         assert(this->m_Root == nullptr && "Tree must have no root");
         this->m_Root = root;
         this->m_Root->Attach(this, argument);
@@ -35,9 +35,9 @@ namespace TreeMachine {
     template <typename T>
     void TreeBase<T>::RemoveRoot(T *const root, const any argument, const function<void(const T *const, const any)> callback) {
         assert(root != nullptr && "Argument 'root' must be non-null");
-        assert(root->Tree() == this && "Argument 'root' must have tree");
+        assert(root->Tree_NoRecursive() == this && "Argument 'root' must have tree");
         assert(root->Parent() == nullptr && "Argument 'root' must have no parent");
-        assert(root->m_Activity == NodeBase<T>::EActivity::Active && "Argument 'root' must be active");
+        assert(root->m_Activity == NodeBase<T>::Activity_::Active && "Argument 'root' must be active");
         assert(this->m_Root == root && "Tree must have root");
         this->m_Root->Detach(this, argument);
         this->m_Root = nullptr;

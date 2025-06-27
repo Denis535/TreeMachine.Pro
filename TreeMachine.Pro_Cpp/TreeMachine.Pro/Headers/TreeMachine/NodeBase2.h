@@ -40,6 +40,18 @@ namespace TreeMachine {
         explicit NodeBase2(NodeBase2 &&other) = delete;
         ~NodeBase2() override;
 
+        public:
+        void OnBeforeDescendantAttachCallback(const function<void(TThis *const, const any)> callback);
+        void OnAfterDescendantAttachCallback(const function<void(TThis *const, const any)> callback);
+        void OnBeforeDescendantDetachCallback(const function<void(TThis *const, const any)> callback);
+        void OnAfterDescendantDetachCallback(const function<void(TThis *const, const any)> callback);
+
+        public:
+        void OnBeforeDescendantActivateCallback(const function<void(TThis *const, const any)> callback);
+        void OnAfterDescendantActivateCallback(const function<void(TThis *const, const any)> callback);
+        void OnBeforeDescendantDeactivateCallback(const function<void(TThis *const, const any)> callback);
+        void OnAfterDescendantDeactivateCallback(const function<void(TThis *const, const any)> callback);
+
         protected:
         void OnAttach(const any argument) override;       // overriding methods must invoke base implementation
         void OnBeforeAttach(const any argument) override; // overriding methods must invoke base implementation
@@ -63,18 +75,6 @@ namespace TreeMachine {
         virtual void OnAfterDescendantActivate(TThis *const descendant, const any argument);
         virtual void OnBeforeDescendantDeactivate(TThis *const descendant, const any argument);
         virtual void OnAfterDescendantDeactivate(TThis *const descendant, const any argument);
-
-        public:
-        void OnBeforeDescendantAttachCallback(const function<void(TThis *const, const any)> callback);
-        void OnAfterDescendantAttachCallback(const function<void(TThis *const, const any)> callback);
-        void OnBeforeDescendantDetachCallback(const function<void(TThis *const, const any)> callback);
-        void OnAfterDescendantDetachCallback(const function<void(TThis *const, const any)> callback);
-
-        public:
-        void OnBeforeDescendantActivateCallback(const function<void(TThis *const, const any)> callback);
-        void OnAfterDescendantActivateCallback(const function<void(TThis *const, const any)> callback);
-        void OnBeforeDescendantDeactivateCallback(const function<void(TThis *const, const any)> callback);
-        void OnAfterDescendantDeactivateCallback(const function<void(TThis *const, const any)> callback);
 
         public:
         NodeBase2 &operator=(const NodeBase2 &other) = delete;

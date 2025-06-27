@@ -50,6 +50,40 @@ namespace TreeMachine {
     NodeBase2<TThis>::~NodeBase2() = default;
 
     template <typename TThis>
+    void NodeBase2<TThis>::OnBeforeDescendantAttachCallback(const function<void(TThis *const, const any)> callback) {
+        this->m_OnBeforeDescendantAttachCallback = callback;
+    }
+    template <typename TThis>
+    void NodeBase2<TThis>::OnAfterDescendantAttachCallback(const function<void(TThis *const, const any)> callback) {
+        this->m_OnAfterDescendantAttachCallback = callback;
+    }
+    template <typename TThis>
+    void NodeBase2<TThis>::OnBeforeDescendantDetachCallback(const function<void(TThis *const, const any)> callback) {
+        this->m_OnBeforeDescendantDetachCallback = callback;
+    }
+    template <typename TThis>
+    void NodeBase2<TThis>::OnAfterDescendantDetachCallback(const function<void(TThis *const, const any)> callback) {
+        this->m_OnAfterDescendantDetachCallback = callback;
+    }
+
+    template <typename TThis>
+    void NodeBase2<TThis>::OnBeforeDescendantActivateCallback(const function<void(TThis *const, const any)> callback) {
+        this->m_OnBeforeDescendantActivateCallback = callback;
+    }
+    template <typename TThis>
+    void NodeBase2<TThis>::OnAfterDescendantActivateCallback(const function<void(TThis *const, const any)> callback) {
+        this->m_OnAfterDescendantActivateCallback = callback;
+    }
+    template <typename TThis>
+    void NodeBase2<TThis>::OnBeforeDescendantDeactivateCallback(const function<void(TThis *const, const any)> callback) {
+        this->m_OnBeforeDescendantDeactivateCallback = callback;
+    }
+    template <typename TThis>
+    void NodeBase2<TThis>::OnAfterDescendantDeactivateCallback(const function<void(TThis *const, const any)> callback) {
+        this->m_OnAfterDescendantDeactivateCallback = callback;
+    }
+
+    template <typename TThis>
     void NodeBase2<TThis>::OnAttach(const any argument) {
         NodeBase<TThis>::OnAttach(argument);
     }
@@ -187,40 +221,6 @@ namespace TreeMachine {
 
     template <typename TThis>
     void NodeBase2<TThis>::OnAfterDescendantDeactivate([[maybe_unused]] TThis *const descendant, [[maybe_unused]] const any argument) {
-    }
-
-    template <typename TThis>
-    void NodeBase2<TThis>::OnBeforeDescendantAttachCallback(const function<void(TThis *const, const any)> callback) {
-        this->m_OnBeforeDescendantAttachCallback = callback;
-    }
-    template <typename TThis>
-    void NodeBase2<TThis>::OnAfterDescendantAttachCallback(const function<void(TThis *const, const any)> callback) {
-        this->m_OnAfterDescendantAttachCallback = callback;
-    }
-    template <typename TThis>
-    void NodeBase2<TThis>::OnBeforeDescendantDetachCallback(const function<void(TThis *const, const any)> callback) {
-        this->m_OnBeforeDescendantDetachCallback = callback;
-    }
-    template <typename TThis>
-    void NodeBase2<TThis>::OnAfterDescendantDetachCallback(const function<void(TThis *const, const any)> callback) {
-        this->m_OnAfterDescendantDetachCallback = callback;
-    }
-
-    template <typename TThis>
-    void NodeBase2<TThis>::OnBeforeDescendantActivateCallback(const function<void(TThis *const, const any)> callback) {
-        this->m_OnBeforeDescendantActivateCallback = callback;
-    }
-    template <typename TThis>
-    void NodeBase2<TThis>::OnAfterDescendantActivateCallback(const function<void(TThis *const, const any)> callback) {
-        this->m_OnAfterDescendantActivateCallback = callback;
-    }
-    template <typename TThis>
-    void NodeBase2<TThis>::OnBeforeDescendantDeactivateCallback(const function<void(TThis *const, const any)> callback) {
-        this->m_OnBeforeDescendantDeactivateCallback = callback;
-    }
-    template <typename TThis>
-    void NodeBase2<TThis>::OnAfterDescendantDeactivateCallback(const function<void(TThis *const, const any)> callback) {
-        this->m_OnAfterDescendantDeactivateCallback = callback;
     }
 
 }
