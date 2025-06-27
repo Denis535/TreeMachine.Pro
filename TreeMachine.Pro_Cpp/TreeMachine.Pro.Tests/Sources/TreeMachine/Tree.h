@@ -41,16 +41,16 @@ namespace TreeMachine {
         }
 
         protected:
-        void OnBeforeDescendantAttach(Node *descendant, const any argument) override {
+        void OnBeforeDescendantAttach(Node *const descendant, const any argument) override {
             NodeBase2::OnBeforeDescendantAttach(descendant, argument);
         }
-        void OnAfterDescendantAttach(Node *descendant, const any argument) override {
+        void OnAfterDescendantAttach(Node *const descendant, const any argument) override {
             NodeBase2::OnAfterDescendantAttach(descendant, argument);
         }
-        void OnBeforeDescendantDetach(Node *descendant, const any argument) override {
+        void OnBeforeDescendantDetach(Node *const descendant, const any argument) override {
             NodeBase2::OnBeforeDescendantDetach(descendant, argument);
         }
-        void OnAfterDescendantDetach(Node *descendant, const any argument) override {
+        void OnAfterDescendantDetach(Node *const descendant, const any argument) override {
             NodeBase2::OnAfterDescendantDetach(descendant, argument);
         }
 
@@ -79,16 +79,16 @@ namespace TreeMachine {
         }
 
         protected:
-        void OnBeforeDescendantActivate(Node *descendant, const any argument) override {
+        void OnBeforeDescendantActivate(Node *const descendant, const any argument) override {
             NodeBase2::OnBeforeDescendantActivate(descendant, argument);
         }
-        void OnAfterDescendantActivate(Node *descendant, const any argument) override {
+        void OnAfterDescendantActivate(Node *const descendant, const any argument) override {
             NodeBase2::OnAfterDescendantActivate(descendant, argument);
         }
-        void OnBeforeDescendantDeactivate(Node *descendant, const any argument) override {
+        void OnBeforeDescendantDeactivate(Node *const descendant, const any argument) override {
             NodeBase2::OnBeforeDescendantDeactivate(descendant, argument);
         }
-        void OnAfterDescendantDeactivate(Node *descendant, const any argument) override {
+        void OnAfterDescendantDeactivate(Node *const descendant, const any argument) override {
             NodeBase2::OnAfterDescendantDeactivate(descendant, argument);
         }
 

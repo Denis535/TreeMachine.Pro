@@ -44,7 +44,7 @@ namespace TreeMachine {
         function<void(const any)> m_OnAfterDeactivateCallback = nullptr;
 
         public:
-        [[nodiscard]] TreeBase<TThis> *TreeRecursive() const;
+        [[nodiscard]] TreeBase<TThis> *Tree() const;
 
         public:
         [[nodiscard]] TreeBase<TThis> *Tree_NoRecursive() const; // NOLINT

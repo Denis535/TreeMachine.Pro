@@ -13,12 +13,12 @@ namespace TreeMachine {
     using namespace TreeMachine::Internal;
 
     template <typename TThis>
-    TreeBase<TThis> *NodeBase<TThis>::TreeRecursive() const {
+    TreeBase<TThis> *NodeBase<TThis>::Tree() const {
         if (auto *const *const tree = get_if<TreeBase<TThis> *>(&this->m_Owner)) {
             return *tree;
         }
         if (const auto *const *const node = get_if<TThis *>(&this->m_Owner)) {
-            return (*node)->TreeRecursive();
+            return (*node)->Tree();
         }
         return nullptr;
     }
