@@ -39,14 +39,14 @@ namespace TreeMachine {
         if (const auto *const parent = this->Parent()) {
             return parent->Root();
         }
-        return this;
+        return static_cast<const TThis *>(this);
     }
     template <typename TThis>
     TThis *NodeBase<TThis>::Root() {
         if (auto *const parent = this->Parent()) {
             return parent->Root();
         }
-        return this;
+        return static_cast<TThis *>(this);
     }
 
     template <typename TThis>
@@ -69,7 +69,7 @@ namespace TreeMachine {
     template <typename TThis>
     vector<const TThis *> NodeBase<TThis>::AncestorsAndSelf() const {
         auto result = vector<const TThis *>();
-        result.push_back(this);
+        result.push_back(static_cast<const TThis *>(this));
         auto ancestors = this->Ancestors();
         result.insert(result.end(), ancestors.begin(), ancestors.end());
         return result;
@@ -77,7 +77,7 @@ namespace TreeMachine {
     template <typename TThis>
     vector<TThis *> NodeBase<TThis>::AncestorsAndSelf() {
         auto result = vector<TThis *>();
-        result.push_back(this);
+        result.push_back(static_cast<TThis *>(this));
         auto ancestors = this->Ancestors();
         result.insert(result.end(), ancestors.begin(), ancestors.end());
         return result;
@@ -105,7 +105,7 @@ namespace TreeMachine {
     template <typename TThis>
     vector<const TThis *> NodeBase<TThis>::DescendantsAndSelf() const {
         auto result = vector<const TThis *>();
-        result.push_back(this);
+        result.push_back(static_cast<const TThis *>(this));
         auto descendants = this->Descendants();
         result.insert(result.end(), descendants.begin(), descendants.end());
         return result;
@@ -113,7 +113,7 @@ namespace TreeMachine {
     template <typename TThis>
     vector<TThis *> NodeBase<TThis>::DescendantsAndSelf() {
         auto result = vector<TThis *>();
-        result.push_back(this);
+        result.push_back(static_cast<TThis *>(this));
         auto descendants = this->Descendants();
         result.insert(result.end(), descendants.begin(), descendants.end());
         return result;

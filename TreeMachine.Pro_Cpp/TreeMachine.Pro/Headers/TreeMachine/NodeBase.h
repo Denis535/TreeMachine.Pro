@@ -46,7 +46,7 @@ namespace TreeMachine {
         public:
         [[nodiscard]] TreeBase<TThis> *Tree() const;
 
-        public:
+        private:
         [[nodiscard]] TreeBase<TThis> *Tree_NoRecursive() const; // NOLINT
 
         public:
