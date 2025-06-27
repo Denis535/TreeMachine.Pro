@@ -74,7 +74,6 @@ namespace TreeMachine {
         result.insert(result.end(), ancestors.begin(), ancestors.end());
         return result;
     }
-
     template <typename TThis>
     vector<TThis *> NodeBase<TThis>::AncestorsAndSelf() {
         auto result = vector<TThis *>();
@@ -83,15 +82,16 @@ namespace TreeMachine {
         result.insert(result.end(), ancestors.begin(), ancestors.end());
         return result;
     }
+
     template <typename TThis>
     typename NodeBase<TThis>::Activity_ NodeBase<TThis>::Activity() const {
         return this->m_Activity;
     }
+
     template <typename TThis>
     const list<TThis *> &NodeBase<TThis>::Children() const {
         return this->m_Children;
     }
-
     template <typename TThis>
     vector<TThis *> NodeBase<TThis>::Descendants() const {
         auto result = vector<TThis *>();
