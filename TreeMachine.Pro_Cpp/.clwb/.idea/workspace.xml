@@ -31,17 +31,11 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="3ba905a7-ea50-4506-9756-feebbc8a6ed4" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/../README.md" beforeDir="false" afterPath="$PROJECT_DIR$/../README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_00.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_00.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_01.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_01.cpp" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_02.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_02.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_03.cpp" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_03.cpp" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tree.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tree.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Internal/NodeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Internal/NodeBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Internal/NodeBase2.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Internal/NodeBase2.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Internal/TreeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/Internal/TreeBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/NodeBase.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/NodeBase.h" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/NodeBase2.h" beforeDir="false" afterPath="$PROJECT_DIR$/../TreeMachine.Pro/Headers/TreeMachine/NodeBase2.h" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../TreeMachine.Pro.Tests/Sources/TreeMachine/Tests_03.cpp" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -151,7 +145,8 @@
       <workItem from="1750878662506" duration="1928000" />
       <workItem from="1750919079291" duration="3641000" />
       <workItem from="1750926853773" duration="160000" />
-      <workItem from="1751010696487" duration="16600000" />
+      <workItem from="1751010696487" duration="16692000" />
+      <workItem from="1751110617734" duration="5175000" />
     </task>
     <servers />
   </component>

@@ -18,26 +18,34 @@ namespace TreeMachine {
         });
 
         {
-            // AddRoot
+            // tree.AddRoot root
             tree->AddRoot(root, nullptr);
             EXPECT_NE(tree->Root(), nullptr);
             EXPECT_EQ(tree->Root()->Tree(), tree);
             EXPECT_EQ(tree->Root()->IsRoot(), true);
             EXPECT_EQ(tree->Root()->Root(), root);
             EXPECT_EQ(tree->Root()->Parent(), nullptr);
+            EXPECT_EQ(tree->Root()->Ancestors().size(), 0);
+            EXPECT_EQ(tree->Root()->AncestorsAndSelf().size(), 1);
             EXPECT_EQ(tree->Root()->Activity(), Node::Activity_::Active);
             EXPECT_EQ(tree->Root()->Children().size(), 2);
+            EXPECT_EQ(tree->Root()->Descendants().size(), 2);
+            EXPECT_EQ(tree->Root()->DescendantsAndSelf().size(), 3);
             for (const auto *const child : tree->Root()->Children()) {
                 EXPECT_EQ(child->Tree(), tree);
                 EXPECT_EQ(child->IsRoot(), false);
                 EXPECT_EQ(child->Root(), root);
                 EXPECT_EQ(child->Parent(), tree->Root());
+                EXPECT_EQ(child->Ancestors().size(), 1);
+                EXPECT_EQ(child->AncestorsAndSelf().size(), 2);
                 EXPECT_EQ(child->Activity(), Node::Activity_::Active);
                 EXPECT_EQ(child->Children().size(), 0);
+                EXPECT_EQ(child->Descendants().size(), 0);
+                EXPECT_EQ(child->DescendantsAndSelf().size(), 1);
             }
         }
         {
-            // RemoveRoot
+            // tree.RemoveRoot
             tree->RemoveRoot(nullptr, [](auto *const root, [[maybe_unused]] const auto arg) { delete root; }); // NOLINT
             EXPECT_EQ(tree->Root(), nullptr);
         }
@@ -59,26 +67,34 @@ namespace TreeMachine {
         });
 
         {
-            // AddRoot
+            // tree.AddRoot root
             tree->AddRoot(root, nullptr);
             EXPECT_NE(tree->Root(), nullptr);
             EXPECT_EQ(tree->Root()->Tree(), tree);
             EXPECT_EQ(tree->Root()->IsRoot(), true);
             EXPECT_EQ(tree->Root()->Root(), root);
             EXPECT_EQ(tree->Root()->Parent(), nullptr);
+            EXPECT_EQ(tree->Root()->Ancestors().size(), 0);
+            EXPECT_EQ(tree->Root()->AncestorsAndSelf().size(), 1);
             EXPECT_EQ(tree->Root()->Activity(), Node::Activity_::Active);
             EXPECT_EQ(tree->Root()->Children().size(), 2);
+            EXPECT_EQ(tree->Root()->Descendants().size(), 2);
+            EXPECT_EQ(tree->Root()->DescendantsAndSelf().size(), 3);
             for (const auto *const child : tree->Root()->Children()) {
                 EXPECT_EQ(child->Tree(), tree);
                 EXPECT_EQ(child->IsRoot(), false);
                 EXPECT_EQ(child->Root(), root);
                 EXPECT_EQ(child->Parent(), tree->Root());
+                EXPECT_EQ(child->Ancestors().size(), 1);
+                EXPECT_EQ(child->AncestorsAndSelf().size(), 2);
                 EXPECT_EQ(child->Activity(), Node::Activity_::Active);
                 EXPECT_EQ(child->Children().size(), 0);
+                EXPECT_EQ(child->Descendants().size(), 0);
+                EXPECT_EQ(child->DescendantsAndSelf().size(), 1);
             }
         }
         {
-            // RemoveRoot
+            // tree.RemoveRoot
             tree->RemoveRoot(nullptr, [](auto *const root, [[maybe_unused]] const auto arg) { delete root; }); // NOLINT
             EXPECT_EQ(tree->Root(), nullptr);
         }
