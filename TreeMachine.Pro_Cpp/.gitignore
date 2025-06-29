@@ -1,5 +1,0 @@
-# Bazel
-bazel-bin/
-bazel-out/
-bazel-testlogs/
-bazel-treemachine.pro_cpp/

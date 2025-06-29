@@ -1,4 +1,0 @@
-module(name = "tree_machine_pro", version = "1.0.0")
-
-bazel_dep(name = "platforms",   version = "1.0.0")
-bazel_dep(name = "googletest",  version = "1.17.0")

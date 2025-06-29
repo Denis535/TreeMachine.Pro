@@ -1,8 +1,0 @@
-view_project_root: true
-derive_targets_from_directories: false
-directories:
-  TreeMachine.Pro
-  TreeMachine.Pro.Tests
-targets:
-  //TreeMachine.Pro:tree_machine_pro
-  //TreeMachine.Pro.Tests:tree_machine_pro_tests
